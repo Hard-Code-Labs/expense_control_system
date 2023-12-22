@@ -1,10 +1,12 @@
 import React from 'react';
+import {Button} from '@nextui-org/button'; 
 
 const Dashboard = () => {
     return (
-        <h1>
-            Dashboard
-        </h1>
+        <div>
+            <Button>Dashboard</Button>
+            <Button>Click</Button>
+        </div>
     );
 };
 
