@@ -9,13 +9,13 @@ export default function RootLayout(
   return (
     <html lang="en">
       <Providers>
-        <body className={`${montserrat.className} flax-col flex h-screen antialiased md:flex-row md:overflow-hidden`} >
-          <div className="w-full flex-none md:w-64">
+        <body className={`dark text-foreground bg-background ${montserrat.className} flax-col flex h-screen antialiased md:flex-row md:overflow-hidden`} >
+          <header>
             <SideNav />
-          </div>
-          <div className="flex-grow p-6 md:overflow-y-auto md:p-12">
+          </header>
+          <main className="flex-grow p-6 md:overflow-y-auto md:p-12">
             {children}
-          </div>
+          </main>
         </body>
       </Providers>
     </html>
