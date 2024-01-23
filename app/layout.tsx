@@ -1,6 +1,7 @@
 import {Providers} from "./providers";
-import SideNav from '../src/menu';
-import { montserrat } from '../src/ui/fonts';
+import SideMenu from '@/src/sideMenu';
+import TitleBar from "@/src/TitleBar";
+import { roboto } from '../src/global/fonts';
 import '../src/global.css';
 
 export default function RootLayout(
@@ -8,16 +9,13 @@ export default function RootLayout(
 ) {
   return (
     <html lang="en">
-      <Providers>
-        <body className={`dark text-foreground bg-background ${montserrat.className} flax-col flex h-screen antialiased md:flex-row md:overflow-hidden`} >
-          <header>
-            <SideNav />
-          </header>
-          <main className="flex-grow p-6 md:overflow-y-auto md:p-12">
-            {children}
-          </main>
+        <body className={`dark text-foreground bg-background ${roboto.className} flex `} >
+            <SideMenu />
+            <main className="bg-[#5000eb] w-screen" >
+              <TitleBar />
+              <Providers>{children}</Providers>
+            </main>
         </body>
-      </Providers>
     </html>
   );
 }
