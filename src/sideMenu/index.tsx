@@ -42,7 +42,7 @@ export default function SideMenu() {
   const pathname = usePathname();
   
   return (
-    <nav className=" sticky top-0 w-80 h-screen | flex flex-col items-center gap-5 " >
+    <nav className=" sticky top-0 w-80 h-screen | flex flex-col items-center gap-5 border-r border-[#CDFEEC]" >
       {links.map((link) => {
         const LinkIcon = link.icon;
         
