@@ -12,7 +12,7 @@ export default function RootLayout(
         <body className={`dark text-foreground bg-background ${roboto.className} flex `} >
             <SideMenu />
             <main className="w-screen" >
-              <TitleBar />
+              {/* <TitleBar /> */}
               <Providers>{children}</Providers>
             </main>
         </body>
