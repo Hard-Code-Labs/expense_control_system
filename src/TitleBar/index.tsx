@@ -3,7 +3,6 @@ import React from 'react';
 import {Avatar, Chip} from "@nextui-org/react";
 import { usePathname } from 'next/navigation';
 import { links } from '../sideMenu';
-import TitleCategory from './components/TitleCategory';
 import TitleData from './components/TitleData';
 
 const TitleBar = () => {
@@ -12,7 +11,6 @@ const TitleBar = () => {
     return (
         <header className="sticky top-0 w-full h-20 z-10 flex items-center justify-center border-b border-[#CDFEEC]">
             <article className="w-full">
-                {pathname === links[2].href && <TitleCategory />}
                 {pathname === links[3].href && <TitleData />}
             </article>
             <article className="w-20">
