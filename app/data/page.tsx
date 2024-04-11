@@ -1,11 +1,10 @@
+import Data from '@/src/data';
 import React from 'react';
 
-const Data = () => {
+const page = () => {
     return (
-        <div>
-            DATA
-        </div>
+        <Data />
     );
 };
 
-export default Data;
+export default page;
