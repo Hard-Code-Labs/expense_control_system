@@ -9,9 +9,10 @@ import IconsSelect from './IconsSelect';
 
 interface Props {
     refresh?: () => void;
+    search: (value: string) => void;
 }
 
-const TitleCategory = ( { refresh }: Props ) => {
+const TitleCategory = ( { refresh, search }: Props ) => {
 
     const categories = {
         expenses : [
@@ -52,6 +53,10 @@ const TitleCategory = ( { refresh }: Props ) => {
         console.log(icon)
     }
 
+    const  handleSearch = (event: any) => {
+        search(event.target.value)
+    }
+
     return (
         <header className="bg-black sticky top-0 w-full h-20 z-10 flex items-center justify-between border-b border-[#CDFEEC]">
             <Popover
@@ -70,7 +75,7 @@ const TitleCategory = ( { refresh }: Props ) => {
                     </Button>
                 </PopoverTrigger>
                 <PopoverContent className="p-5 gap-5">
-                    <h1 className="text-xl font-bold" >Category</h1>
+                    <h1 className="text-xl font-bold" >Categorías</h1>
                     <Formik
                         initialValues={initialData}
                         onSubmit={(values) => handleAdd(values)}
@@ -126,9 +131,9 @@ const TitleCategory = ( { refresh }: Props ) => {
                 </PopoverContent>
             </Popover>
             <Input
-                placeholder="Type to search..."
+                placeholder="Buscar categorías"
                 radius="full"
-                isClearable
+                // isClearable
                 variant="bordered"
                 type="text"
                 startContent={
@@ -144,6 +149,7 @@ const TitleCategory = ( { refresh }: Props ) => {
                         "dark:hover:border-2",
                     ],
                 }}
+                onChange={handleSearch}
             />
             <Avatar className="mr-10" isBordered src="https://i.pravatar.cc/150?u=a04258a2462d826712d" />
         </header>

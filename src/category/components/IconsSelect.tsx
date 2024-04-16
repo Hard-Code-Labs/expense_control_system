@@ -14,7 +14,7 @@ const IconsSelect = ({ field, form, ...props }:any) => {
   const [ search, setSearch ] = useState('')
   const [ iconSelected, setIconSelected ] = useState('')
   
-  const iconsSearch = icons.filter(icon => icon.name.replace(/^tabler:|-/g, ' ').trim().includes(search))
+  const iconsSearch = icons.filter(icon => icon.cat_name.replace(/^tabler:|-/g, ' ').trim().includes(search))
   
   const iconsPagination = usePagination({items: iconsSearch, itemsPerPage: 30})
 
@@ -67,16 +67,16 @@ const IconsSelect = ({ field, form, ...props }:any) => {
             return (
               <Tooltip 
                 content={
-                    <p className="text-center">{icon.name.replace(/^tabler:|-/g, ' ').trim()}</p>
+                    <p className="text-center">{icon.cat_name.replace(/^tabler:|-/g, ' ').trim()}</p>
                 }
                 offset={-15}
               >
                 <Button className="rounded border flex flex-col justify-center content-center"
-                  onClick={() => handleOnClick(icon.svg || "")}
+                  onClick={() => handleOnClick(icon.cat_icon || "")}
                   isIconOnly
                 >
                   <div className="flex justify-center content-center">
-                    {icon.svg && <div dangerouslySetInnerHTML={{ __html: icon.svg }} />}
+                    {icon.cat_icon && <div dangerouslySetInnerHTML={{ __html: icon.cat_icon }} />}
                   </div>
                 </Button>
               </Tooltip>

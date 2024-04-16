@@ -10,19 +10,27 @@ import  { useCategories }  from './hooks/useCategories'
 
 const Category = () => {
 
-  const { getAll } = useCategories();
-  const [expenses, setExpenses] = useState();
-  const [income, setIncome] = useState();
-  const [refresh, setRefresh] = useState(false);
-
   const lg = useMediaQuery('(max-width: 1024px)')
   const itemsPerPage = lg ? 6 : 10
 
-  const expensesPagination = usePagination({items: expenses || [], itemsPerPage})
-  const incomePagination = usePagination({items: income || [], itemsPerPage })
+  const { expenses, income } = useCategories();
+  const [ searchValue, setSearchValue ] = useState("");
+  
+  // Revisar esta funcion para que se actualicen las categorias
+  const [refresh, setRefresh] = useState(false);
+
+  const expensesFiltered = expenses?.filter(item => item.cat_name.trim().toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()))
+  const incomeFiltered = income?.filter(item => item.cat_name.trim().toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()))
+
+  const expensesPagination = usePagination({items: expensesFiltered || [], itemsPerPage})
+  const incomePagination = usePagination({items: incomeFiltered || [], itemsPerPage })
 
   const handleRefresh = () => {
     setRefresh(!refresh)
+  }
+
+  const handleSearch = (event: string) => {
+    setSearchValue(event)
   }
 
   // const handleDel = (type: string, value: string) => {
@@ -33,18 +41,9 @@ const Category = () => {
   //   }
   // }
 
-  useEffect(() => {
-    getAll()
-      .then(response => response.json())
-      .then((data: any) => {
-        setIncome(data.filter((type: any) => type.cat_type === "I"))
-        setExpenses(data.filter((type: any) => type.cat_type === "E"))
-      })
-  }, [])
-
   return (
     <>
-      <TitleCategory refresh={handleRefresh}/>
+      <TitleCategory refresh={handleRefresh} search={handleSearch}/>
       <Tabs
         aria-label="Categories"
         radius="full"
