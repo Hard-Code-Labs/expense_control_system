@@ -1,7 +1,4 @@
-const url = "https://gfrishrogyzckgrqsivs.supabase.co/rest/v1/exp_category_person?select=*";
-const apiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdmcmlzaHJvZ3l6Y2tncnFzaXZzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTE5NDA2MDMsImV4cCI6MjAyNzUxNjYwM30.I5FoCBE9dVUa29RIC8F6GiOzD3Qq7yH8gXNh8sziQ24";
-const authorization = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdmcmlzaHJvZ3l6Y2tncnFzaXZzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTE5NDA2MDMsImV4cCI6MjAyNzUxNjYwM30.I5FoCBE9dVUa29RIC8F6GiOzD3Qq7yH8gXNh8sziQ24";
-
+import { urlGET, apiKey, authorization } from "../keys"
 
 export const getCategories = async () => {
 
@@ -14,7 +11,7 @@ export const getCategories = async () => {
     },
   }
 
-  const request = fetch(url, options)
+  const response = fetch(urlGET, options)
 
-  return request
+  return response
 }

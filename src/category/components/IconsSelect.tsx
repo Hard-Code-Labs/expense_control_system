@@ -16,7 +16,7 @@ const IconsSelect = ({ field, form, ...props }:any) => {
   
   const iconsSearch = icons.filter(icon => icon.cat_name.replace(/^tabler:|-/g, ' ').trim().includes(search))
   
-  const iconsPagination = usePagination({items: iconsSearch, itemsPerPage: 30})
+  const iconsPagination = usePagination({items: iconsSearch, itemsPerPage: 28})
 
   const handleOnClick = (icon: string) => {
     // iconSelected(icon || "")
@@ -30,7 +30,15 @@ const IconsSelect = ({ field, form, ...props }:any) => {
   
 
   return (
-      <>
+      <section>
+        <Input
+          isReadOnly
+          value={iconSelected}
+          className="hidden"
+        />
+        {/* <div className="flex justify-center content-center">
+          {iconSelected && <div dangerouslySetInnerHTML={{ __html: iconSelected }} />}
+        </div> */}
         <Input
           placeholder="Type to search..."
           radius="full"
@@ -40,7 +48,7 @@ const IconsSelect = ({ field, form, ...props }:any) => {
           startContent={
               <MagnifyingGlassIcon className="text-[#CDFEEC] w-6 " />
           }
-          className="w-6/12"
+          className="w-full"
           classNames={{
               inputWrapper: [
                   "bg-transparent",
@@ -52,28 +60,19 @@ const IconsSelect = ({ field, form, ...props }:any) => {
           }}
           onChange={handleSearch}
         />
-        <Input
-          // {...field}
-          // {...props}
-          isReadOnly
-          value={iconSelected}
-          // className="hidden"
-        />
-        <div className="flex justify-center content-center">
-          {iconSelected && <div dangerouslySetInnerHTML={{ __html: iconSelected }} />}
-        </div>
-        <article className=" w-72 flex flex-wrap justify-evenly items-center gap-1 bg-[#27272a] rounded-lg p-2">
+        <article className=" w-72 flex flex-wrap justify-evenly items-center">
           {iconsPagination.currentItems.map(icon => {
             return (
               <Tooltip 
-                content={
-                    <p className="text-center">{icon.cat_name.replace(/^tabler:|-/g, ' ').trim()}</p>
-                }
-                offset={-15}
+                key={icon.cat_name}
+                content={ <p className="text-center">{icon.cat_name.replace(/^tabler:|-/g, ' ').trim()}</p> }
+                offset={5}
+                delay={800}
               >
-                <Button className="rounded border flex flex-col justify-center content-center"
+                <Button className="flex flex-col justify-center content-center rounded"
                   onClick={() => handleOnClick(icon.cat_icon || "")}
                   isIconOnly
+                  variant="light"
                 >
                   <div className="flex justify-center content-center">
                     {icon.cat_icon && <div dangerouslySetInnerHTML={{ __html: icon.cat_icon }} />}
@@ -86,11 +85,12 @@ const IconsSelect = ({ field, form, ...props }:any) => {
         <Pagination
           radius="full"
           showShadow
+          size="sm"
           page={iconsPagination.currentPage}
           total={iconsPagination.totalPages}
           onChange={(page) => iconsPagination.setCurrentPage(page)}
         />
-      </>
+      </section>
   );
 };
 

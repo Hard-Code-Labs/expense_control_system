@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { getCategories } from "../services/getCategories"
+import { error } from "console";
 
 interface Categories {
   cat_id: string;
@@ -14,20 +15,27 @@ interface Categories {
 
 export const useCategories = () => {
 
-  const [expenses, setExpenses] = useState<Categories[] | undefined>();
-  const [income, setIncome] = useState<Categories[] | undefined>();
+  const [categories, setCategories] = useState<Categories[] | undefined>();
 
-  useEffect(() => {
+  const fetchCategories = () => {
     getCategories()
       .then(response => response.json())
       .then((data: any) => {
-        setIncome(data.filter((type: any) => type.cat_type === "I"))
-        setExpenses(data.filter((type: any) => type.cat_type === "E"))
+        setCategories(data)
       })
+      .catch(error => console.error("Error fetching categories:", error))
+  }
+
+  useEffect(() => {
+    fetchCategories()
   }, [])
+
+  const income = categories?.filter((type: any) => type.cat_type === "I")
+  const expenses = categories?.filter((type: any) => type.cat_type === "E")
 
   return {
     expenses,
-    income
+    income,
+    fetchCategories
   }
 }

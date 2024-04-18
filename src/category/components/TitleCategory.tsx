@@ -6,28 +6,14 @@ import { Input, Button, Avatar, Popover, PopoverTrigger, PopoverContent, Select,
 import CustomInput from './CustomInput';
 import CustomSelect from './CustomSelect';
 import IconsSelect from './IconsSelect';
+import { useAddCategories } from '../hooks/useAddCategories';
 
 interface Props {
-    refresh?: () => void;
+    refresh: () => void;
     search: (value: string) => void;
 }
 
 const TitleCategory = ( { refresh, search }: Props ) => {
-
-    const categories = {
-        expenses : [
-            {
-                name: "",
-                svg: ""
-            }
-        ],
-        income : [
-            {
-                name: "",
-                svg: ""
-            }
-        ]
-    }
 
     const [isOpen, setIsOpen] = React.useState(false);
 
@@ -35,22 +21,16 @@ const TitleCategory = ( { refresh, search }: Props ) => {
     const handleClose = () => setIsOpen(false);
 
     const handleAdd = (values: any) => {
-        console.log(values)
-        values.type === "expenses" 
-            ? categories.expenses.push({ name: values.name, svg: values.svg }) 
-            : categories.income.push({ name: values.name, svg:  values.svg })
-        refresh && refresh();
+        useAddCategories(values)
+        refresh();
         handleClose();
     }
 
     const initialData = {
-        name: "",
-        svg: "",
-        type: "",
-    }
-
-    const handleIcon = (icon: string) => {
-        console.log(icon)
+        cat_name: "",
+        cat_icon: "",
+        cat_type: "",
+        cat_editable: true,
     }
 
     const  handleSearch = (event: any) => {
@@ -83,7 +63,7 @@ const TitleCategory = ( { refresh, search }: Props ) => {
                         <Form className="flex flex-col gap-3">
                             <Field
                                 type="text"
-                                name="name"
+                                name="cat_name"
                                 label="Name"
                                 placeholder="Enter category name"
                                 labelPlacement="inside"
@@ -91,29 +71,27 @@ const TitleCategory = ( { refresh, search }: Props ) => {
                             />
                             <Field
                                 type="text"
-                                name="svg"
-                                label="Svg"
+                                name="cat_icon"
+                                label="Icon"
                                 placeholder="Choose your icon"
                                 labelPlacement="inside"
                                 component={IconsSelect}
                             />
-                            {/* <IconsSelect /> */}
                             <Field
-                                name="type"
+                                name="cat_type"
                                 label="Type"
                                 placeholder="Select type"
                                 component={CustomSelect}
                                 className="max-w-xs"
                                 options={[
-                                    { label: "Egresos", value: "expenses" },
-                                    { label: "Ingresos", value: "income" }
+                                    { label: "Egresos", value: "E" },
+                                    { label: "Ingresos", value: "I" }
                                 ]}
                             />
                             <div className="flex gap-4">
                                 <Button className="bg-[#15313B] font-bold rounded-3xl h-9 pl-3 pr-5 flex gap-3 justify-center text-[#EEFAF8] 
                                     hover:shadow-[0_0_10px_1px_#EEFAF8] hover:scale-105"
                                     type="submit"
-                                    // onClick={handleAdd}
                                     onSubmit={handleAdd}
                                 >
                                     <CheckCircleIcon className="w-6"/> Add
