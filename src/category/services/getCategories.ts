@@ -11,7 +11,7 @@ export const getCategories = async () => {
     },
   }
 
-  const response = fetch(urlGET, options)
+  const response = await fetch(urlGET, options)
 
   return response
 }

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { getCategories } from "../services/getCategories"
 import { error } from "console";
 
-interface Categories {
+export interface Categories {
   cat_id: string;
   cat_name: string;
   cat_type: string;
@@ -15,27 +15,32 @@ interface Categories {
 
 export const useCategories = () => {
 
-  const [categories, setCategories] = useState<Categories[] | undefined>();
+  const [income, setIncome] = useState<Categories[] | undefined>();
+  const [expenses, setExpenses] = useState<Categories[] | undefined>();
+  const [isLoading, setLoading] = useState(true)
 
   const fetchCategories = () => {
     getCategories()
       .then(response => response.json())
       .then((data: any) => {
-        setCategories(data)
+        setIncome(data?.filter((type: any) => type.cat_type === "I"))
+        setExpenses(data?.filter((type: any) => type.cat_type === "E"))
       })
       .catch(error => console.error("Error fetching categories:", error))
   }
 
   useEffect(() => {
+    income && expenses ? setLoading(false) : setLoading(true)
+  }, [income, expenses])
+
+  useEffect(() => {
     fetchCategories()
   }, [])
-
-  const income = categories?.filter((type: any) => type.cat_type === "I")
-  const expenses = categories?.filter((type: any) => type.cat_type === "E")
 
   return {
     expenses,
     income,
+    isLoading,
     fetchCategories
   }
 }
