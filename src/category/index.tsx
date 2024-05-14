@@ -13,7 +13,7 @@ const Category = () => {
   const lg = useMediaQuery('(max-width: 1024px)')
   const itemsPerPage = lg ? 6 : 10
 
-  const { expenses, income, fetchCategories } = useCategories();
+  const { expenses, income, isLoading, fetchCategories } = useCategories();
   const [ searchValue, setSearchValue ] = useState("");
   
   const expensesFiltered = expenses?.filter(item => item.cat_name.trim().toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()))
@@ -22,12 +22,12 @@ const Category = () => {
   const expensesPagination = usePagination({items: expensesFiltered || [], itemsPerPage})
   const incomePagination = usePagination({items: incomeFiltered || [], itemsPerPage })
 
-  const handleRefresh = () => {
-    fetchCategories()
-  }
-
   const handleSearch = (event: string) => {
     setSearchValue(event)
+  }
+
+  const handleRefresh = () => {
+    fetchCategories()
   }
 
   // const handleDel = (type: string, value: string) => {
@@ -55,7 +55,12 @@ const Category = () => {
           <section className="w-full h-[74vh] flex flex-col items-center justify-between">
             <article className="flex flex-wrap justify-center items-center gap-x-16 gap-y-8 mt-10">
               {expensesPagination.currentItems.map(card => {
-                return <CategoryCard key={`expenses${card.cat_name}`} name={card.cat_name} type="Egresos" icon={card.cat_icon} 
+                return <CategoryCard 
+                  key={`expenses${card.cat_name}`}
+                  name={card.cat_name}
+                  type="Egresos"
+                  icon={card.cat_icon} 
+                  refresh={handleRefresh}
                 // del={handleDel} 
                 />
               })}
@@ -79,7 +84,12 @@ const Category = () => {
           <section className="w-full h-[74vh] flex flex-col items-center justify-between">
           <article className="flex flex-wrap justify-center items-center gap-x-16 gap-y-8 mt-10">
             {incomePagination.currentItems.map(card => {
-              return <CategoryCard key={`income${card.cat_name}`} name={card.cat_name} type="Ingresos" icon={card.cat_icon} 
+              return <CategoryCard
+                key={`income${card.cat_name}`}
+                name={card.cat_name}
+                type="Ingresos"
+                icon={card.cat_icon}
+                refresh={handleRefresh}
               // del={handleDel} 
               />
             })}
