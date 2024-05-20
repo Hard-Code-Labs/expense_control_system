@@ -1,13 +1,9 @@
 import React from 'react';
+import { Categories } from './useGetCategories';
 
 interface Props {
-  items: items[];
+  items: Categories[];
   itemsPerPage: number;
-}
-
-interface items {
-  cat_name: string;
-  cat_icon?: string;
 }
 
 export const usePagination = ({items, itemsPerPage}:Props) => {

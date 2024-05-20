@@ -1,6 +1,7 @@
 import { urlPOST, apiKey, authorization } from "../keys"
 
 interface Category {
+  cat_id: number;
   cat_name: string;
   cat_type: string;
   cat_icon: string;

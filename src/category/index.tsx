@@ -6,15 +6,16 @@ import { AcademicCapIcon, ArrowTrendingUpIcon, ArrowRightIcon, CurrencyDollarIco
 import { Pagination, Tab, Tabs, card } from '@nextui-org/react';
 import { usePagination } from './hooks/usePagination';
 import { useMediaQuery } from '@react-hook/media-query';
-import  { useCategories }  from './hooks/useCategories'
+import  { useGetCategories }  from './hooks/useGetCategories'
 
 const Category = () => {
 
   const lg = useMediaQuery('(max-width: 1024px)')
   const itemsPerPage = lg ? 6 : 10
 
-  const { expenses, income, isLoading, fetchCategories } = useCategories();
+  const { expenses, income, fetchCategories } = useGetCategories();
   const [ searchValue, setSearchValue ] = useState("");
+  const [ selectedTab, setSelectedTab ] = useState();
   
   const expensesFiltered = expenses?.filter(item => item.cat_name.trim().toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()))
   const incomeFiltered = income?.filter(item => item.cat_name.trim().toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()))
@@ -30,17 +31,17 @@ const Category = () => {
     fetchCategories()
   }
 
-  // const handleDel = (type: string, value: string) => {
-  //   if (type === "Egresos") {
-  //     setItemsExpenses(itemsExpenses.filter(item => item.name !== value))
-  //   } else {
-  //     setItemsIncome(itemsIncome.filter(item => item.name !== value))
-  //   }
-  // }
+  const handleTab = (value: any) => {
+    setSelectedTab(value)
+  }
+
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
 
   return (
     <>
-      <TitleCategory refresh={handleRefresh} search={handleSearch}/>
+      <TitleCategory refresh={handleRefresh} search={handleSearch} selectedTab={selectedTab} />
       <Tabs
         aria-label="Categories"
         radius="full"
@@ -50,18 +51,16 @@ const Category = () => {
           tabList: "dark:bg-[#15313B] border-[#198ab3a2]",
           cursor: "dark:bg-[#198ab3a2]",
         }}
+        onSelectionChange={(value) => handleTab(value)}
       >
-        <Tab key="expenses" title="Egresos">
+        <Tab key="E" title="Egresos">
           <section className="w-full h-[74vh] flex flex-col items-center justify-between">
             <article className="flex flex-wrap justify-center items-center gap-x-16 gap-y-8 mt-10">
               {expensesPagination.currentItems.map(card => {
-                return <CategoryCard 
-                  key={`expenses${card.cat_name}`}
-                  name={card.cat_name}
-                  type="Egresos"
-                  icon={card.cat_icon} 
+                return <CategoryCard
+                  key={card.cat_id}
+                  data={card}
                   refresh={handleRefresh}
-                // del={handleDel} 
                 />
               })}
             </article>
@@ -80,17 +79,14 @@ const Category = () => {
           </section>
         </Tab>
 
-        <Tab key="income" title="Ingresos">
+        <Tab key="I" title="Ingresos">
           <section className="w-full h-[74vh] flex flex-col items-center justify-between">
           <article className="flex flex-wrap justify-center items-center gap-x-16 gap-y-8 mt-10">
             {incomePagination.currentItems.map(card => {
               return <CategoryCard
-                key={`income${card.cat_name}`}
-                name={card.cat_name}
-                type="Ingresos"
-                icon={card.cat_icon}
+                key={card.cat_id}
+                data={card}
                 refresh={handleRefresh}
-              // del={handleDel} 
               />
             })}
           </article>

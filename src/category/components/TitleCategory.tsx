@@ -1,20 +1,16 @@
 'use client'
-import React from 'react';
-import { Formik, Form, Field } from 'formik';
-import { MagnifyingGlassIcon, PlusCircleIcon, XCircleIcon, CheckCircleIcon } from '@heroicons/react/24/solid';
-import { Input, Button, Avatar, Popover, PopoverTrigger, PopoverContent, Select, SelectItem } from '@nextui-org/react';
-import CustomInput from './CustomInput';
-import CustomSelect from './CustomSelect';
-import IconsSelect from './IconsSelect';
-import { useAddCategories } from '../hooks/useAddCategories';
+import React from 'react';;
+import { MagnifyingGlassIcon, PlusCircleIcon } from '@heroicons/react/24/solid';
+import { Input, Button, Avatar } from '@nextui-org/react';
 import CategoryModal from './CategoryModal';
 
 interface Props {
     refresh: () => void;
     search: (value: string) => void;
+    selectedTab?: string;
 }
 
-const TitleCategory = ( { refresh, search }: Props ) => {
+const TitleCategory = ( { refresh, search, selectedTab }: Props ) => {
     
     const  handleSearch = (event: any) => {
         search(event.target.value)
@@ -24,15 +20,9 @@ const TitleCategory = ( { refresh, search }: Props ) => {
         <header className="bg-black sticky top-0 w-full h-20 z-10 flex items-center justify-between border-b border-[#CDFEEC]">
             <CategoryModal 
                 refresh={refresh}
-                nameButton='Add'
+                nameButton='Añadir'
                 icon={<PlusCircleIcon className="w-6"/>}
-                // elementTrigger={
-                //     <Button className="bg-[#15313B] font-bold rounded-3xl h-9 ml-5 pl-3 pr-5 flex gap-3 justify-center text-[#EEFAF8] 
-                //         hover:shadow-[0_0_10px_1px_#EEFAF8] hover:scale-105"
-                //     >
-                //         <PlusCircleIcon className="w-6"/> Add
-                //     </Button>
-                //}
+                selectedTab={selectedTab}
             />
             <Input
                 placeholder="Buscar categorías"

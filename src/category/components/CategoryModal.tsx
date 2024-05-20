@@ -1,179 +1,171 @@
-import React, { useState } from 'react';
-import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Popover, PopoverContent, PopoverTrigger, useDisclosure } from '@nextui-org/react';
-import { Formik, Form, Field } from 'formik';
-import { CheckCircleIcon, PencilSquareIcon, PlusCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
-import { useAddCategories } from '../hooks/useAddCategories';
+import React, { useEffect } from 'react';
+import { Button, Modal, ModalBody, ModalContent, ModalHeader, useDisclosure } from '@nextui-org/react';
+import { Field, useFormik, FormikProvider } from 'formik';
+import { XCircleIcon } from '@heroicons/react/24/solid';
+import { useAddCategory } from '../hooks/useAddCategories';
 import CustomInput from './CustomInput';
 import CustomSelect from './CustomSelect';
 import IconsSelect from './IconsSelect';
+import useUniqueID from '../hooks/useUniqueID'; 
+import { Categories } from '../hooks/useGetCategories';
+import { useUpdateCategory } from '../hooks/useUpdateCategories';
+import { categoriesSchema } from '../schema';
 
 interface Props {
-  refresh: () => void;
+  data?: Categories;
   nameButton: string;
   icon: React.ReactNode;
+  refresh: () => void;
+  selectedTab?: string;
 }
 
-const CategoryModal = ({refresh, nameButton, icon}:Props) => {
-  const {isOpen, onOpen, onOpenChange} = useDisclosure();
+const CategoryModal = ({ data, nameButton, icon, refresh, selectedTab }: Props) => {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const generateID = useUniqueID();
   
-  const handleOpen = () => "setIsOpen(true)";
-  const handleClose = () => "setIsOpen(false)";
-
-  const handleAdd = (values: any) => {
-    useAddCategories(values);
-    setTimeout(() => {
-        refresh();
-    }, 500);
-    handleClose();
-  }
-
   const initialData = {
+    cat_id: 0,
     cat_name: "",
     cat_icon: "",
     cat_type: "",
     cat_editable: true,
-}
+  };
+  
+  const categoriesSubmit = useFormik({
+    initialValues: data || initialData,
+    validationSchema: categoriesSchema,
+    onSubmit: (values: any) => {
+      if (nameButton === "Editar") {
+        handleEdit(values);
+      } else {
+        handleAdd(values);
+      }
+    },
+  });
+
+  useEffect(() => {
+    if (isOpen) {
+      categoriesSubmit.resetForm({ values: data || initialData });
+    }
+  }, [isOpen, data]);
+
+  const handleAdd = (values: any) => {
+    const newID = generateID();
+    const submitValues = {
+      ...values,
+      cat_id: newID,
+    };
+    
+    useAddCategory(submitValues);
+
+    setTimeout(() => {
+        refresh();
+    }, 500);
+    
+    onOpenChange();
+  };
+
+  const handleEdit = (values: any) => {
+    useUpdateCategory(values);
+
+    setTimeout(() => {
+      refresh();
+    }, 500);
+
+    onOpenChange();
+  };
 
   return (
     <>
-      <Button className="bg-[#15313B] font-bold rounded-3xl h-9 pl-3 pr-5 flex gap-3 justify-center text-[#EEFAF8] 
-        hover:shadow-[0_0_10px_1px_#EEFAF8] hover:scale-105"
+      <Button
+        className={`rounded-3xl bg-[#15313B] font-bold ${
+          nameButton.toLocaleLowerCase() === 'añadir' ? 'ml-5' : ''
+        } flex h-9 justify-center gap-3 pl-3 pr-5 text-[#EEFAF8] 
+        hover:scale-105 hover:shadow-[0_0_10px_1px_#EEFAF8]`}
         onPress={onOpen}
+        isDisabled={nameButton.toLocaleLowerCase() === 'añadir' ? false : !data?.cat_editable}
       >
-          {icon} {nameButton}
+        {icon} {nameButton}
       </Button>
       <Modal
-        // offset={10}
-        // backdrop="blur"
+        backdrop="blur"
         isOpen={isOpen}
         placement="auto"
         onOpenChange={onOpenChange}
+        className="z-50"
       >
-        <ModalContent className="p-5 gap-5">
-        {(onClose) => (
-              <>
-                <ModalHeader className="flex flex-col gap-1 text-xl font-bold">Categorías</ModalHeader>
-                <ModalBody>
-                  <Formik
-                    initialValues={initialData}
-                    onSubmit={(values) => handleAdd(values)}
+        <ModalContent className="flex w-fit flex-col items-center justify-center py-4">
+          {(onClose) => (
+            <>
+              <ModalHeader className="text-4xl font-bold">
+                Categorías
+              </ModalHeader>
+              <ModalBody>
+                <form className="flex flex-col items-center justify-center gap-0">
+                  <FormikProvider value={categoriesSubmit}>
+                    <Field
+                      type="text"
+                      name="cat_name"
+                      label="Categoría"
+                      placeholder="Ingresa el nombre de la categoría"
+                      component={CustomInput}
+                      isRequired
+                      isInvalid={
+                        categoriesSubmit.errors.cat_name &&
+                        categoriesSubmit.touched.cat_name
+                      }
+                      errorMessage={categoriesSubmit.errors.cat_name}
+                      color={categoriesSubmit.errors.cat_name ? "danger" : ""}
+                    />
+                    <Field
+                      type="text"
+                      name="cat_icon"
+                      label="Icon"
+                      placeholder="Choose your icon"
+                      component={IconsSelect}
+                      isRequired
+                      errorMessage={categoriesSubmit.errors.cat_icon}
+                    />
+                    <Field
+                      name="cat_type"
+                      label="Tipo de categoría"
+                      placeholder="Selecciona el tipo"
+                      defaultSelectedKeys={data?.cat_type || selectedTab}
+                      component={CustomSelect}
+                      options={[
+                        { label: 'Egresos', value: 'E' },
+                        { label: 'Ingresos', value: 'I' },
+                      ]}
+                      isRequired
+                      isInvalid={
+                        categoriesSubmit.errors.cat_type &&
+                        categoriesSubmit.touched.cat_type
+                      }
+                      errorMessage={categoriesSubmit.errors.cat_type}
+                    />
+                  </FormikProvider>
+                </form>
+                <div className="flex w-full justify-center gap-6">
+                  <Button
+                    className="flex h-9 justify-center gap-3 rounded-3xl bg-[#15313B] pl-3 pr-5 font-bold text-[#EEFAF8] 
+                          hover:scale-105 hover:shadow-[0_0_10px_1px_#EEFAF8]"
+                    type="submit"
+                    onClick={() => categoriesSubmit.handleSubmit()}
                   >
-                      <Form className="flex flex-col gap-3">
-                          <Field
-                              type="text"
-                              name="cat_name"
-                              label="Name"
-                              placeholder="Enter category name"
-                              labelPlacement="inside"
-                              component={CustomInput}
-                          />
-                          <Field
-                              type="text"
-                              name="cat_icon"
-                              label="Icon"
-                              placeholder="Choose your icon"
-                              labelPlacement="inside"
-                              component={IconsSelect}
-                          />
-                          <Field
-                              name="cat_type"
-                              label="Type"
-                              placeholder="Select type"
-                              component={CustomSelect}
-                              className="max-w-xs"
-                              options={[
-                                  { label: "Egresos", value: "E" },
-                                  { label: "Ingresos", value: "I" }
-                              ]}
-                          />
-                          <div className="flex gap-4">
-                              <Button className="bg-[#15313B] font-bold rounded-3xl h-9 pl-3 pr-5 flex gap-3 justify-center text-[#EEFAF8] 
-                                  hover:shadow-[0_0_10px_1px_#EEFAF8] hover:scale-105"
-                                  type="submit"
-                                  onSubmit={handleAdd}
-                                  onPress={onClose}
-                              >
-                                  <CheckCircleIcon className="w-6"/> Add
-                              </Button>
-                              <Button 
-                                  onClick={handleClose}
-                                  onPress={onClose}
-                                  className="bg-[#15313B] font-bold rounded-3xl h-9 pl-3 pr-5 flex gap-3 justify-center text-[#EEFAF8] 
-                                  hover:shadow-[0_0_10px_1px_#EEFAF8] hover:scale-105"
-                              >
-                                  <XCircleIcon className="w-6"/> Cancel
-                              </Button>
-                          </div>
-                      </Form>
-                  </Formik>
-                </ModalBody>
-                {/* <ModalFooter>
-                  <Button color="danger" variant="light" onPress={onClose}>
-                    Close
+                    {icon} {nameButton}
                   </Button>
-                  <Button color="primary" onPress={onClose}>
-                    Action
+                  <Button
+                    onClick={onClose}
+                    className="flex h-9 justify-center gap-3 rounded-3xl bg-[#15313B] pl-3 pr-5 font-bold text-[#EEFAF8] 
+                          hover:scale-105 hover:shadow-[0_0_10px_1px_#EEFAF8]"
+                  >
+                    <XCircleIcon className="w-6" /> Cancelar
                   </Button>
-                </ModalFooter> */}
-              </>
-            )}
+                </div>
+              </ModalBody>
+            </>
+          )}
         </ModalContent>
-        {/* <PopoverTrigger onClick={handleOpen}>
-            {elementTrigger}
-        </PopoverTrigger>
-        <PopoverContent className="p-5 gap-5">
-            <h1 className="text-xl font-bold" >Categorías</h1>
-            <Formik
-                initialValues={initialData}
-                onSubmit={(values) => handleAdd(values)}
-            >
-                <Form className="flex flex-col gap-3">
-                    <Field
-                        type="text"
-                        name="cat_name"
-                        label="Name"
-                        placeholder="Enter category name"
-                        labelPlacement="inside"
-                        component={CustomInput}
-                    />
-                    <Field
-                        type="text"
-                        name="cat_icon"
-                        label="Icon"
-                        placeholder="Choose your icon"
-                        labelPlacement="inside"
-                        component={IconsSelect}
-                    />
-                    <Field
-                        name="cat_type"
-                        label="Type"
-                        placeholder="Select type"
-                        component={CustomSelect}
-                        className="max-w-xs"
-                        options={[
-                            { label: "Egresos", value: "E" },
-                            { label: "Ingresos", value: "I" }
-                        ]}
-                    />
-                    <div className="flex gap-4">
-                        <Button className="bg-[#15313B] font-bold rounded-3xl h-9 pl-3 pr-5 flex gap-3 justify-center text-[#EEFAF8] 
-                            hover:shadow-[0_0_10px_1px_#EEFAF8] hover:scale-105"
-                            type="submit"
-                            onSubmit={handleAdd}
-                        >
-                            <CheckCircleIcon className="w-6"/> Add
-                        </Button>
-                        <Button 
-                            onClick={handleClose}
-                            className="bg-[#15313B] font-bold rounded-3xl h-9 pl-3 pr-5 flex gap-3 justify-center text-[#EEFAF8] 
-                            hover:shadow-[0_0_10px_1px_#EEFAF8] hover:scale-105"
-                        >
-                            <XCircleIcon className="w-6"/> Cancel
-                        </Button>
-                    </div>
-                </Form>
-            </Formik>
-        </PopoverContent> */}
       </Modal>
     </>
   );
