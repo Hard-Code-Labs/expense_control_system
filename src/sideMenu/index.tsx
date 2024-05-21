@@ -42,7 +42,7 @@ export default function SideMenu() {
   const pathname = usePathname();
   
   return (
-    <nav className=" sticky top-0 w-80 h-screen | flex flex-col items-center gap-5 border-r border-[#CDFEEC]" >
+    <nav className=" sticky top-0 w-20 sm:w-80 h-screen | flex flex-col items-center gap-5 border-r border-[#CDFEEC]" >
       {links.map((link) => {
         const LinkIcon = link.icon;
         
@@ -50,7 +50,7 @@ export default function SideMenu() {
           return (
             <div key={link.name} className={` w-full flex justify-start items-center gap-4 my-6 px-4 py-2 rounded-xl font-semibold `} style={{textShadow: "0 0 20px #00ffcc"}}>
                 <LinkIcon className="w-14 text-[#1f7a73]" />
-                <p className="text-2xl font-bold" >{link.name}</p>
+                <p className="hidden sm:flex text-2xl font-bold" >{link.name}</p>
             </div>
           )
         } else {
@@ -59,12 +59,12 @@ export default function SideMenu() {
               key={link.name}
               href={link.href}
               className={`
-                w-52 flex justify-start items-center gap-4 px-4 py-2 rounded-xl font-semibold hover:text-[#00BE99] hover:shadow-[0_0_10px_0.5px_#00BE9980] 
+                w-18 sm:w-48 flex justify-start items-center gap-4 px-4 py-2 rounded-xl font-semibold hover:text-[#00BE99] hover:shadow-[0_0_10px_0.5px_#00BE9980] 
                 ${pathname === link.href ? 'bg-[#090909af] text-[#00BE99] shadow-[0_0_18px_1px_#00BE99] hover:shadow-[0_0_18px_2px_#00BE99]' : ''}
               `}
             >
               <LinkIcon className="w-8" />
-              <p>{link.name}</p>
+              <p className="hidden sm:flex" >{link.name}</p>
             </Link>
           );  
         }
