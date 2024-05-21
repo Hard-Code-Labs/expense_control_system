@@ -24,7 +24,7 @@ const CategoryModal = ({ data, nameButton, icon, refresh, selectedTab }: Props) 
   const generateID = useUniqueID();
   
   const initialData = {
-    cat_id: 0,
+    // cat_id: 0,
     cat_name: "",
     cat_icon: "",
     cat_type: "",
@@ -56,7 +56,7 @@ const CategoryModal = ({ data, nameButton, icon, refresh, selectedTab }: Props) 
       cat_id: newID,
     };
     
-    useAddCategory(submitValues);
+    useAddCategory(values);
 
     setTimeout(() => {
         refresh();

@@ -11,7 +11,8 @@ import  { useGetCategories }  from './hooks/useGetCategories'
 const Category = () => {
 
   const lg = useMediaQuery('(max-width: 1024px)')
-  const itemsPerPage = lg ? 6 : 10
+  const sm = useMediaQuery('(max-width: 640px)')
+  const itemsPerPage = sm ? 4 : lg ? 6 : 10
 
   const { expenses, income, fetchCategories } = useGetCategories();
   const [ searchValue, setSearchValue ] = useState("");
@@ -35,10 +36,6 @@ const Category = () => {
     setSelectedTab(value)
   }
 
-  useEffect(() => {
-    fetchCategories();
-  }, [fetchCategories]);
-
   return (
     <>
       <TitleCategory refresh={handleRefresh} search={handleSearch} selectedTab={selectedTab} />
@@ -54,8 +51,8 @@ const Category = () => {
         onSelectionChange={(value) => handleTab(value)}
       >
         <Tab key="E" title="Egresos">
-          <section className="w-full h-[74vh] flex flex-col items-center justify-between">
-            <article className="flex flex-wrap justify-center items-center gap-x-16 gap-y-8 mt-10">
+          <section className="w-full min-h-[74vh] flex flex-col items-center justify-between">
+            <article className="flex flex-wrap justify-center items-center gap-x-[5vw] gap-y-8 mt-10 px-5">
               {expensesPagination.currentItems.map(card => {
                 return <CategoryCard
                   key={card.cat_id}
@@ -70,7 +67,7 @@ const Category = () => {
               page={expensesPagination.currentPage}
               total={expensesPagination.totalPages}
               onChange={(page) => expensesPagination.setCurrentPage(page)}
-              className="flex items-center justify-center"
+              className="flex items-center justify-center mt-5"
               classNames={{
                 cursor: "w-3 h-3 bg-[#00BE99] text-[transparent]",
                 item: "w-3 h-3 text-[transparent]",
@@ -80,28 +77,28 @@ const Category = () => {
         </Tab>
 
         <Tab key="I" title="Ingresos">
-          <section className="w-full h-[74vh] flex flex-col items-center justify-between">
-          <article className="flex flex-wrap justify-center items-center gap-x-16 gap-y-8 mt-10">
-            {incomePagination.currentItems.map(card => {
-              return <CategoryCard
-                key={card.cat_id}
-                data={card}
-                refresh={handleRefresh}
-              />
-            })}
-          </article>
-          <Pagination
-            radius="full"
-            showShadow
-            page={incomePagination.currentPage}
-            total={incomePagination.totalPages}
-            onChange={(page) => incomePagination.setCurrentPage(page)}
-            className="flex items-center justify-center"
-            classNames={{
-              cursor: "w-3 h-3 bg-[#00BE99] text-[transparent]",
-              item: "w-3 h-3 text-[transparent]",
-            }}
-          />
+          <section className="w-full min-h-[74vh] flex flex-col items-center justify-between">
+            <article className="flex flex-wrap justify-center items-center gap-x-[5vw] gap-y-8 mt-10 px-5">
+              {incomePagination.currentItems.map(card => {
+                return <CategoryCard
+                  key={card.cat_id}
+                  data={card}
+                  refresh={handleRefresh}
+                />
+              })}
+            </article>
+            <Pagination
+              radius="full"
+              showShadow
+              page={incomePagination.currentPage}
+              total={incomePagination.totalPages}
+              onChange={(page) => incomePagination.setCurrentPage(page)}
+              className="flex items-center justify-center mt-5"
+              classNames={{
+                cursor: "w-3 h-3 bg-[#00BE99] text-[transparent]",
+                item: "w-3 h-3 text-[transparent]",
+              }}
+            />
           </section>
         </Tab>
 

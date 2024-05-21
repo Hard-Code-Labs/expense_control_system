@@ -51,14 +51,14 @@ const CategoryCard = ({data, del, refresh}: Props) => {
   return (
     <>
     <Card
-      className="bg-black w-44 h-56 flex flex-col justify-center items-center rounded-[40px] border border-[#00BE99]"
+      className="bg-black max-w-[40vw] w-44 h-56 max-h-[50vw] flex flex-col justify-center items-center rounded-[40px] border border-[#00BE99]"
     >
       <Button
-        className="bg-transparent w-2 self-end p-1 absolute top-2 right-3"
+        className="bg-transparent absolute top-2 right-3"
         isIconOnly
         onClick={handleClick}
       > 
-        <EllipsisHorizontalIcon />
+        <EllipsisHorizontalIcon className=" max-w-[7vw] w-8" />
       </Button>
 
       <div 
@@ -81,11 +81,11 @@ const CategoryCard = ({data, del, refresh}: Props) => {
       </div>
 
       <div className="flex justify-center content-center">
-        {data.cat_icon && <div dangerouslySetInnerHTML={{ __html: data.cat_icon.replace(/25px/g, '70px') }} />}
+        {data.cat_icon && <div dangerouslySetInnerHTML={{ __html: data.cat_icon.replace(/25px/g, 'min(13vw, 70px)') }} />}
       </div>
-      <CardFooter className="flex flex-col mt-2 gap-1">
-        <h1 className="text-2xl font-bold">{data.cat_name}</h1>
-        <p className="text-sm">{data.cat_type === "E" ? "Egresos" : "Ingresos"}</p>
+      <CardFooter className="flex flex-col mt-2 gap-1 text-center">
+        <h1 className="text-[4.2vw] sm:text-2xl font-bold">{data.cat_name}</h1>
+        <p className="text-[3.2vw] sm:text-sm">{data.cat_type === "E" ? "Egresos" : "Ingresos"}</p>
       </CardFooter>
     </Card>
     </>
