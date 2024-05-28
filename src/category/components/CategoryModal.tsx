@@ -1,41 +1,40 @@
 import React, { useEffect } from 'react';
-import { Button, Modal, ModalBody, ModalContent, ModalHeader, useDisclosure } from '@nextui-org/react';
+import { Button, Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
 import { Field, useFormik, FormikProvider } from 'formik';
-import { XCircleIcon } from '@heroicons/react/24/solid';
+import { PencilSquareIcon, PlusCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { useAddCategory } from '../hooks/useAddCategories';
 import CustomInput from './CustomInput';
 import CustomSelect from './CustomSelect';
 import IconsSelect from './IconsSelect';
-import useUniqueID from '../hooks/useUniqueID'; 
 import { Categories } from '../hooks/useGetCategories';
 import { useUpdateCategory } from '../hooks/useUpdateCategories';
 import { categoriesSchema } from '../schema';
 
 interface Props {
   data?: Categories;
-  nameButton: string;
-  icon: React.ReactNode;
-  refresh: () => void;
+  isEdit?: boolean;
   selectedTab?: string;
+  refresh: () => void;
+  isOpen: boolean;
+  onOpen: () => void;
+  onOpenChange: () => void;
 }
 
-const CategoryModal = ({ data, nameButton, icon, refresh, selectedTab }: Props) => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const generateID = useUniqueID();
-  
+const CategoryModal = ({ data, isEdit = false, selectedTab, refresh, isOpen, onOpen, onOpenChange }: Props) => {
+  const { result, loading, error, addCategory } = useAddCategory();
+
   const initialData = {
-    // cat_id: 0,
-    cat_name: "",
-    cat_icon: "",
-    cat_type: "",
+    cat_name: '',
+    cat_icon: '',
+    cat_type: selectedTab,
     cat_editable: true,
   };
-  
+
   const categoriesSubmit = useFormik({
     initialValues: data || initialData,
     validationSchema: categoriesSchema,
     onSubmit: (values: any) => {
-      if (nameButton === "Editar") {
+      if (isEdit) {
         handleEdit(values);
       } else {
         handleAdd(values);
@@ -50,43 +49,31 @@ const CategoryModal = ({ data, nameButton, icon, refresh, selectedTab }: Props) 
   }, [isOpen, data]);
 
   const handleAdd = (values: any) => {
-    const newID = generateID();
-    const submitValues = {
-      ...values,
-      cat_id: newID,
-    };
-    
-    useAddCategory(values);
+    addCategory(values);
 
     setTimeout(() => {
-        refresh();
-    }, 500);
-    
+      refresh();
+    }, 1000);
+
     onOpenChange();
   };
+
+  if (!loading && result) {
+    console.log('Categoría que se agrego correctamente', result);
+  }
 
   const handleEdit = (values: any) => {
     useUpdateCategory(values);
 
     setTimeout(() => {
       refresh();
-    }, 500);
+    }, 1000);
 
     onOpenChange();
   };
 
   return (
     <>
-      <Button
-        className={`rounded-3xl bg-[#15313B] font-bold ${
-          nameButton.toLocaleLowerCase() === 'añadir' ? 'ml-5' : ''
-        } flex h-9 justify-center gap-3 pl-3 pr-5 text-[#EEFAF8] 
-        hover:scale-105 hover:shadow-[0_0_10px_1px_#EEFAF8]`}
-        onPress={onOpen}
-        isDisabled={nameButton.toLocaleLowerCase() === 'añadir' ? false : !data?.cat_editable}
-      >
-        {icon} {nameButton}
-      </Button>
       <Modal
         backdrop="blur"
         isOpen={isOpen}
@@ -115,7 +102,7 @@ const CategoryModal = ({ data, nameButton, icon, refresh, selectedTab }: Props) 
                         categoriesSubmit.touched.cat_name
                       }
                       errorMessage={categoriesSubmit.errors.cat_name}
-                      color={categoriesSubmit.errors.cat_name ? "danger" : ""}
+                      color={categoriesSubmit.errors.cat_name ? 'danger' : ''}
                     />
                     <Field
                       type="text"
@@ -147,19 +134,27 @@ const CategoryModal = ({ data, nameButton, icon, refresh, selectedTab }: Props) 
                 </form>
                 <div className="flex w-full justify-center gap-6">
                   <Button
-                    className="flex h-9 justify-center gap-3 rounded-3xl bg-[#15313B] pl-3 pr-5 font-bold text-[#EEFAF8] 
+                    className="flex h-9 justify-center rounded-3xl bg-[#15313B] pl-3 pr-5 font-bold text-[#EEFAF8] 
                           hover:scale-105 hover:shadow-[0_0_10px_1px_#EEFAF8]"
                     type="submit"
                     onClick={() => categoriesSubmit.handleSubmit()}
+                    startContent={
+                      isEdit ? (
+                        <PencilSquareIcon className="w-6" />
+                      ) : (
+                        <PlusCircleIcon className="w-6" />
+                      )
+                    }
                   >
-                    {icon} {nameButton}
+                    {isEdit ? 'Editar' : 'Añadir'}
                   </Button>
                   <Button
                     onClick={onClose}
-                    className="flex h-9 justify-center gap-3 rounded-3xl bg-[#15313B] pl-3 pr-5 font-bold text-[#EEFAF8] 
+                    className="flex h-9 justify-center rounded-3xl bg-[#15313B] pl-3 pr-5 font-bold text-[#EEFAF8] 
                           hover:scale-105 hover:shadow-[0_0_10px_1px_#EEFAF8]"
+                    startContent={<XCircleIcon className="w-6" />}
                   >
-                    <XCircleIcon className="w-6" /> Cancelar
+                    Cancelar
                   </Button>
                 </div>
               </ModalBody>

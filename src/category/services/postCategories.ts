@@ -1,14 +1,7 @@
 import { urlPOST, apiKey, authorization } from "../keys"
+import { newCategory } from "../types"
 
-interface Category {
-  cat_id: number;
-  cat_name: string;
-  cat_type: string;
-  cat_icon: string;
-  cat_editable: boolean;
-}
-
-export const postCategories = async (newCategory: Category) => {
+export const postCategories = async (newCategory: newCategory) => {
 
   const options = {
     method: "POST",
@@ -16,17 +9,19 @@ export const postCategories = async (newCategory: Category) => {
       'Content-Type': 'application/json',
       'apikey': apiKey,
       'Authorization': authorization,
+      'Prefer': 'return=representation',
     },
     body: JSON.stringify(newCategory),
   }
 
-  const response = fetch(urlPOST, options)
-
-  if (!response) {
-    throw new Error(`Error al agregar categoría: ${response}`);
-  }
-
-  const data = (await response).json;
+  const data = await fetch(urlPOST, options)
+    .then(res => res.json())
+    .catch(error => {
+      throw new Error(`Error al agregar categoría: ${error.message}`)
+    })
+    .then(response => {
+      return response
+    })
 
   return data;
 }

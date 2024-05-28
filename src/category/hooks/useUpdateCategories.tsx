@@ -1,5 +1,5 @@
 import { updateCategories } from "../services/updateCategories";
-import { newCategory } from "./useAddCategories";
+import { newCategory } from "../types";
 
 export const useUpdateCategory = (category: newCategory) => {
   try {

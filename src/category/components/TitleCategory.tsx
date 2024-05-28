@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';;
 import { MagnifyingGlassIcon, PlusCircleIcon } from '@heroicons/react/24/solid';
-import { Input, Button, Avatar } from '@nextui-org/react';
+import { Input, Button, Avatar, useDisclosure } from '@nextui-org/react';
 import CategoryModal from './CategoryModal';
 
 interface Props {
@@ -11,6 +11,8 @@ interface Props {
 }
 
 const TitleCategory = ( { refresh, search, selectedTab }: Props ) => {
+
+    const {isOpen, onOpen, onOpenChange} = useDisclosure();
     
     const  handleSearch = (event: any) => {
         search(event.target.value)
@@ -18,11 +20,20 @@ const TitleCategory = ( { refresh, search, selectedTab }: Props ) => {
 
     return (
         <header className="bg-black sticky top-0 w-full h-20 z-10 flex items-center justify-between border-b border-[#CDFEEC]">
-            <CategoryModal 
-                refresh={refresh}
-                nameButton='Añadir'
-                icon={<PlusCircleIcon className="w-6"/>}
+            <Button
+                className={`rounded-3xl bg-[#15313B] font-bold ml-5 flex h-9 justify-center pl-3 pr-5 text-[#EEFAF8] 
+                hover:scale-105 hover:shadow-[0_0_10px_1px_#EEFAF8]`}
+                onPress={onOpen}
+                startContent={<PlusCircleIcon className="w-6"/>}
+            >
+                Añadir
+            </Button> 
+            <CategoryModal
                 selectedTab={selectedTab}
+                refresh= {refresh}
+                isOpen={isOpen}
+                onOpen={onOpen}
+                onOpenChange={onOpenChange}
             />
             <Input
                 placeholder="Buscar categorías"

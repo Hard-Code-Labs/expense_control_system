@@ -1,19 +1,35 @@
+import { useCallback, useState } from "react";
 import { postCategories } from "../services/postCategories"
+import { newCategory } from "../types";
 
-export interface newCategory {
-  cat_id: number;
-  cat_name: string;
-  cat_type: string;
-  cat_icon: string;
-  cat_editable: boolean;
+interface UseAddCategoryResult {
+  result: any;
+  error: Error | null;
+  loading: boolean;
+  addCategory: (newCategory: newCategory) => Promise<void>;
 }
 
-export const useAddCategory = (newCategory: newCategory) => {
-  try {
-    const result = postCategories(newCategory);
-    console.log("Categoría agregada correctamente:", result);
-  } catch (error) {
-    console.error("Error al agregar categoría:", error);
-  }
+export const useAddCategory = (): UseAddCategoryResult => {
+  const [result, setResult] = useState<any>(null);
+  const [error, setError] = useState<Error | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
+  const addCategory = useCallback(async (newCategory: newCategory) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await postCategories(newCategory);
+      setResult(response);
+      console.log("Categoría agregada correctamente:", response);
+      return response;
+    } catch (error) {
+      setError(error as Error)
+      console.error("Error al agregar categoría:", error);
+      throw error;
+    } finally {
+      setLoading(false)
+    }
+  },[])
+
+  return {result, loading, error, addCategory}
 }
