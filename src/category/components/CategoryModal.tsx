@@ -4,7 +4,7 @@ import { Field, useFormik, FormikProvider } from 'formik';
 import { PencilSquareIcon, PlusCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { useAddCategory } from '../hooks/useAddCategories';
 import CustomInput from '../../sharedComponents/form/CustomInput';
-import CustomSelect from './CustomSelect';
+import CustomSelect from '../../sharedComponents/form/CustomSelect';
 import IconsSelect from './IconsSelect';
 import { Categories } from '../hooks/useGetCategories';
 import { useUpdateCategory } from '../hooks/useUpdateCategories';
