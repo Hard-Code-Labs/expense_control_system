@@ -19,5 +19,9 @@ export const registerSchema = object().shape({
   country: string().required("Este campo es requerido"),
   password: string()
     .required("Este campo es requerido")
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[_\-!@#$%&+=])[A-Za-z\d_\-!@#$%&+=]{12,32}$/, "La contraseña no cumple con los requisitos de seguridad"),
+  password2: string()
+    .required("Este campo es requerido")
     .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[_\-!@#$%&+=])[A-Za-z\d_\-!@#$%&+=]{12,32}$/, "La contraseña no cumple con los requisitos de seguridad")
+
 })
