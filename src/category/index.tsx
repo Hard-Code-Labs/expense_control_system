@@ -37,7 +37,7 @@ const Category = () => {
   }
 
   return (
-    <>
+    <main className='w-screen'>
       <TitleCategory refresh={handleRefresh} search={handleSearch} selectedTab={selectedTab} />
       <Tabs
         aria-label="Categories"
@@ -103,7 +103,7 @@ const Category = () => {
         </Tab>
 
       </Tabs>
-    </>
+    </main>
   );
 };
 

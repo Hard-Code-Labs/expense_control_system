@@ -1,6 +1,4 @@
 import {Providers} from "./providers";
-import SideMenu from '@/src/sideMenu';
-import TitleBar from "@/src/TitleBar";
 import { roboto } from '../src/global/fonts';
 import '../src/global.css';
 
@@ -9,13 +7,9 @@ export default function RootLayout(
 ) {
   return (
     <html lang="en">
-        <body className={`dark text-foreground bg-background ${roboto.className} flex `} >
-            <SideMenu />
-            <main className="w-screen bg-[#040F10] overflow-scroll " >
-              {/* <TitleBar /> */}
-              <Providers>{children}</Providers>
-            </main>
-        </body>
+      <body className={`dark text-foreground bg-background ${roboto.className}`} >
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
