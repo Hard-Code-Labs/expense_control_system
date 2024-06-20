@@ -18,7 +18,7 @@ export const links = [
   },
   {
     name: 'Dashboard',
-    href: '/',
+    href: '/dashboard',
     icon: ChartPieIcon,
   },
   {

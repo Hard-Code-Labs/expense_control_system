@@ -1,7 +1,7 @@
-import Dashboard from '@/src/dashboard';
+import Login from '@/src/Login';
 
 export default function Page() {
   return (
-      <Dashboard />
+      <Login />
   );
 }
