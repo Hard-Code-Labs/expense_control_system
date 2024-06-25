@@ -20,7 +20,7 @@ const Register = () => {
       email: "",
       country: "",
       password: "",
-      password2: "",
+      confirmPassword: "",
     },
     validationSchema: registerSchema,
     onSubmit: (values) => {
@@ -39,7 +39,6 @@ const Register = () => {
             <Field
               name="name"
               type="text"
-              // label="Nombre"
               placeholder="Nombre"
               isRequired
               component={CustomInput}
@@ -60,7 +59,6 @@ const Register = () => {
             <Field
               name="lastName"
               type="text"
-              // label="Apellido"
               placeholder="Apellido"
               isRequired
               component={CustomInput}
@@ -82,7 +80,6 @@ const Register = () => {
           <Field
             name="email"
             type="email"
-            // label="Email"
             placeholder="Email"
             isRequired
             component={CustomInput}
@@ -102,7 +99,6 @@ const Register = () => {
 
           <Field
             name="country"
-            // label="País"
             placeholder="País"
             isRequired
             radius="full"
@@ -127,7 +123,6 @@ const Register = () => {
           <Field
             name="password"
             type={isVisible ? "text" : "password"}
-            // label="Contraseña"
             placeholder="Contraseña"
             isRequired
             component={CustomInput}
@@ -155,10 +150,9 @@ const Register = () => {
           />
 
           <Field
-            name="password2"
+            name="confirmPassword"
             type={isVisible ? "text" : "password"}
-            // label="Contraseña"
-            placeholder="Contraseña"
+            placeholder="Confirma tu contraseña"
             isRequired
             component={CustomInput}
             radius="full"
@@ -177,11 +171,11 @@ const Register = () => {
               </button>
             }
             isInvalid={
-              registerSubmit.errors.password2 &&
-              registerSubmit.touched.password2
+              registerSubmit.errors.confirmPassword &&
+              registerSubmit.touched.confirmPassword
             }
-            errorMessage={registerSubmit.errors.password2}
-            color={registerSubmit.errors.password2 ? 'danger' : ''}
+            errorMessage={registerSubmit.errors.confirmPassword}
+            color={registerSubmit.errors.confirmPassword ? 'danger' : ''}
           />
 
           <Button
