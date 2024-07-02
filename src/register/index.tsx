@@ -7,24 +7,42 @@ import { registerSchema } from './schema';
 import { Button } from '@nextui-org/react';
 import CustomSelect from '../sharedComponents/form/CustomSelect';
 import { BanknotesIcon } from '@heroicons/react/24/outline';
+import { encryptWithPublicKey } from './encoder';
 
 const Register = () => {
 
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
+  const [encryptedPassword, setEncryptedPassword] = useState("");
+
+  const handlePasswordChange = (password: string) => {
+    const encrypted = encryptWithPublicKey(password);
+    setEncryptedPassword(encrypted);
+  }
 
   const registerSubmit = useFormik({
     initialValues: {
-      name: "",
-      lastName: "",
-      email: "",
-      country: "",
-      password: "",
+      perName: "",
+      perLastName: "",
+      perMail: "",
+      countryId: "",
+      perPassword: "",
       confirmPassword: "",
     },
     validationSchema: registerSchema,
     onSubmit: (values) => {
-      console.log("submit", values)
+
+      const {perName, perLastName, perMail, countryId} = values;
+
+      const valuesToSend = {
+        perName,
+        perLastName,
+        perMail,
+        countryId,
+        perPassword: encryptedPassword,
+      };
+
+      console.log("submit", valuesToSend)
     }
   })
 
@@ -37,7 +55,7 @@ const Register = () => {
         <FormikProvider value={registerSubmit} >
           <div className=' w-full flex gap-3 sm:flex-row flex-col'>
             <Field
-              name="name"
+              name="perName"
               type="text"
               placeholder="Nombre"
               isRequired
@@ -49,15 +67,15 @@ const Register = () => {
                 <UserCircleIcon className="w-8"/>
               }
               isInvalid={
-                registerSubmit.errors.name &&
-                registerSubmit.touched.name
+                registerSubmit.errors.perName &&
+                registerSubmit.touched.perName
               }
-              errorMessage={registerSubmit.errors.name}
-              color={registerSubmit.errors.name ? 'danger' : ''}
+              errorMessage={registerSubmit.errors.perName}
+              color={registerSubmit.errors.perName ? 'danger' : ''}
             />
 
             <Field
-              name="lastName"
+              name="perLastName"
               type="text"
               placeholder="Apellido"
               isRequired
@@ -69,16 +87,16 @@ const Register = () => {
                 <UserCircleIcon className="w-8"/>
               }
               isInvalid={
-                registerSubmit.errors.lastName &&
-                registerSubmit.touched.lastName
+                registerSubmit.errors.perLastName &&
+                registerSubmit.touched.perLastName
               }
-              errorMessage={registerSubmit.errors.lastName}
-              color={registerSubmit.errors.lastName ? 'danger' : ''}
+              errorMessage={registerSubmit.errors.perLastName}
+              color={registerSubmit.errors.perLastName ? 'danger' : ''}
             />
           </div>
 
           <Field
-            name="email"
+            name="perMail"
             type="email"
             placeholder="Email"
             isRequired
@@ -90,15 +108,15 @@ const Register = () => {
               <AtSymbolIcon className="w-6"/>
             }
             isInvalid={
-              registerSubmit.errors.email &&
-              registerSubmit.touched.email
+              registerSubmit.errors.perMail &&
+              registerSubmit.touched.perMail
             }
-            errorMessage={registerSubmit.errors.email}
-            color={registerSubmit.errors.email ? 'danger' : ''}
+            errorMessage={registerSubmit.errors.perMail}
+            color={registerSubmit.errors.perMail ? 'danger' : ''}
           />
 
           <Field
-            name="country"
+            name="countryId"
             placeholder="País"
             isRequired
             radius="full"
@@ -113,15 +131,15 @@ const Register = () => {
               <GlobeAmericasIcon className="w-6"/>
             }
             isInvalid={
-              registerSubmit.errors.country &&
-              registerSubmit.touched.country
+              registerSubmit.errors.countryId &&
+              registerSubmit.touched.countryId
             }
-            errorMessage={registerSubmit.errors.country}
-            color={registerSubmit.errors.country ? 'danger' : ''}
+            errorMessage={registerSubmit.errors.countryId}
+            color={registerSubmit.errors.countryId ? 'danger' : ''}
           />
 
           <Field
-            name="password"
+            name="perPassword"
             type={isVisible ? "text" : "password"}
             placeholder="Contraseña"
             isRequired
@@ -142,11 +160,12 @@ const Register = () => {
               </button>
             }
             isInvalid={
-              registerSubmit.errors.password &&
-              registerSubmit.touched.password
+              registerSubmit.errors.perPassword &&
+              registerSubmit.touched.perPassword
             }
-            errorMessage={registerSubmit.errors.password}
-            color={registerSubmit.errors.password ? 'danger' : ''}
+            errorMessage={registerSubmit.errors.perPassword}
+            color={registerSubmit.errors.perPassword ? 'danger' : ''}
+            onPasswordChange={handlePasswordChange}
           />
 
           <Field
