@@ -8,12 +8,14 @@ import { Button } from '@nextui-org/react';
 import CustomSelect from '../sharedComponents/form/CustomSelect';
 import { BanknotesIcon } from '@heroicons/react/24/outline';
 import { encryptWithPublicKey } from './encoder';
+import { useGetUsers } from './hooks/useGetUsers';
 
 const Register = () => {
 
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
   const [encryptedPassword, setEncryptedPassword] = useState("");
+  const { users } = useGetUsers()
 
   const handlePasswordChange = (password: string) => {
     const encrypted = encryptWithPublicKey(password);
@@ -41,6 +43,8 @@ const Register = () => {
         countryId,
         perPassword: encryptedPassword,
       };
+
+      console.log({users})
 
       console.log("submit", valuesToSend)
     }
