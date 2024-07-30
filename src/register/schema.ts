@@ -6,7 +6,7 @@ export const registerSchema = object().shape({
     .matches(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/, {
       message: "El nombre solo puede contener letras, espacios y tildes",
     }),
-  perLastName: string()
+  perLastname: string()
     .required("Este campo es requerido")
     .matches(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/, {
       message: "El apellido solo puede contener letras, espacios y tildes",

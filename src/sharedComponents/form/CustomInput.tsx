@@ -17,6 +17,25 @@ const CustomInput = ({ field, form, onPasswordChange, ...props }: any) => {
       onBlur={(e) => {
         form.setFieldTouched(field.name, true);
       }}
+      variant="faded"
+      isRequired
+      radius="full"
+      labelPlacement="outside"
+      classNames={{
+        input: [
+          "text-[#cdfeec]",
+          "placeholder:text-[#cdfeec90]",
+        ],
+        inputWrapper: [
+          "bg-[#040F10EE]",
+          "border",
+          "border-[#cdfeec]",
+        ],
+        helperWrapper: [
+          "absolute",
+          "top-[90%]"
+        ]
+      }}
     />
   );
 };

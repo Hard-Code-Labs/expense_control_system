@@ -10,10 +10,10 @@ export const postUsers = async (newUser: Users) => {
     body: JSON.stringify(newUser),
   }
 
-  const data = await fetch("https://inquisitive-sarita-hardcodelabs-7e4c08e2.koyeb.app/xis/person/registration", options)
+  const data = await fetch(process.env.NEXT_PUBLIC_URL_POST_USERS!, options)
     .then(res => res.json())
     .catch(error => {
-      throw new Error(`Error al agregar categoría: ${error.message}`)
+      throw new Error(`Error al crear un usuario: ${error.message}`)
     })
     .then(response => {
       return response

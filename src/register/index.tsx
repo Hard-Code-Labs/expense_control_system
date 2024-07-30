@@ -4,18 +4,17 @@ import React, { useState } from 'react';
 import CustomInput from '../sharedComponents/form/CustomInput';
 import { AtSymbolIcon, EyeIcon, EyeSlashIcon, GlobeAmericasIcon, LockClosedIcon, UserCircleIcon } from '@heroicons/react/24/solid';
 import { registerSchema } from './schema';
-import { Button } from '@nextui-org/react';
+import { Button, Image } from '@nextui-org/react';
 import CustomSelect from '../sharedComponents/form/CustomSelect';
-import { BanknotesIcon } from '@heroicons/react/24/outline';
 import { encryptWithPublicKey } from './encoder';
-import { useGetUsers } from './hooks/useGetUsers';
+import { useAddUsers } from './hooks/useAddUsers';
 
 const Register = () => {
 
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
   const [encryptedPassword, setEncryptedPassword] = useState("");
-  const { users } = useGetUsers()
+  const { result, loading, error, addUsers } = useAddUsers();
 
   const handlePasswordChange = (password: string) => {
     const encrypted = encryptWithPublicKey(password);
@@ -25,7 +24,7 @@ const Register = () => {
   const registerSubmit = useFormik({
     initialValues: {
       perName: "",
-      perLastName: "",
+      perLastname: "",
       perMail: "",
       countryId: "",
       perPassword: "",
@@ -34,182 +33,179 @@ const Register = () => {
     validationSchema: registerSchema,
     onSubmit: (values) => {
 
-      const {perName, perLastName, perMail, countryId} = values;
+      const {perName, perLastname, perMail, countryId} = values;
 
       const valuesToSend = {
         perName,
-        perLastName,
+        perLastname,
         perMail,
-        countryId,
+        countryId: Number(countryId),
         perPassword: encryptedPassword,
       };
 
-      console.log({users})
+      addUsers(valuesToSend)
 
-      console.log("submit", valuesToSend)
     }
   })
 
   return (
-    <main className='w-screen h-screen flex justify-center content-center'>
-      <form className='bg-black w-96 flex flex-col justify-center items-center gap-3 p-8 border border-[#00BE99] rounded-3xl'>
-        <div className="w-40 bg-[#00BE99] text-[black] rounded-[50%] p-3 mb-7">
-          <BanknotesIcon />
+    <main
+      className='w-screen min-h-[1000px] sm:min-h-[700px] h-screen flex flex-col sm:flex-row justify-center items-center p-[40px] gap-[8.125vw] text-[#cdfeec]'
+      style={{background: "linear-gradient(63.36deg, #0C1314 9.43%, #11594E 75.57%, #00BE99 99.87%)"}}
+    >
+      <Image
+        src='/register.png'
+        className='sm:w-[35.156vw] sm:h-[35.156vw] w-[50vw] h-[50vw]'
+      />
+      <section className='flex flex-col justify-center items-center gap-8'>
+        <div className='w-full flex flex-col items-center sm:items-start'>
+          <p className='font-extrabold'>
+            Crea tu cuenta
+          </p>
+          <p className='font-thin'>
+            Y administra tu dinero
+          </p>
         </div>
-        <FormikProvider value={registerSubmit} >
-          <div className=' w-full flex gap-3 sm:flex-row flex-col'>
+        <form className='w-[60vw] min-w-[225px] sm:w-[38vw] sm: max-w-[350px] h-fit flex flex-col justify-center items-center gap-6'>
+          <FormikProvider value={registerSubmit} >
+            <div className={`w-full flex gap-3 sm:flex-row flex-col ${registerSubmit.errors.perName?.includes("contener") || registerSubmit.errors.perLastname?.includes("contener") ? "mb-[30px]" : ""}`}>
+              <Field
+                name="perName"
+                type="text"
+                placeholder="Nombre"
+                component={CustomInput}
+                startContent={
+                  <UserCircleIcon className="w-8 text-[#cdfeec]"/>
+                }
+                isInvalid={
+                  registerSubmit.errors.perName &&
+                  registerSubmit.touched.perName
+                }
+                errorMessage={registerSubmit.errors.perName}
+                color={registerSubmit.errors.perName ? 'danger' : 'success'}
+              />
+
+              <Field
+                name="perLastname"
+                type="text"
+                placeholder="Apellido"
+                component={CustomInput}
+                startContent={
+                  <UserCircleIcon className="w-8 text-[#cdfeec]"/>
+                }
+                isInvalid={
+                  registerSubmit.errors.perLastname &&
+                  registerSubmit.touched.perLastname
+                }
+                errorMessage={registerSubmit.errors.perLastname}
+                color={registerSubmit.errors.perLastname ? 'danger' : 'success'}
+              />
+            </div>
+
             <Field
-              name="perName"
-              type="text"
-              placeholder="Nombre"
-              isRequired
+              name="perMail"
+              type="email"
+              placeholder="Email"
               component={CustomInput}
-              radius="full"
-              variant="bordered"
-              labelPlacement="outside"
               startContent={
-                <UserCircleIcon className="w-8"/>
+                <AtSymbolIcon className="w-6 text-[#cdfeec]"/>
               }
               isInvalid={
-                registerSubmit.errors.perName &&
-                registerSubmit.touched.perName
+                registerSubmit.errors.perMail &&
+                registerSubmit.touched.perMail
               }
-              errorMessage={registerSubmit.errors.perName}
-              color={registerSubmit.errors.perName ? 'danger' : ''}
+              errorMessage={registerSubmit.errors.perMail}
+              color={registerSubmit.errors.perMail ? 'danger' : 'success'}
             />
 
             <Field
-              name="perLastName"
-              type="text"
-              placeholder="Apellido"
+              name="countryId"
+              placeholder="País"
               isRequired
-              component={CustomInput}
               radius="full"
-              variant="bordered"
               labelPlacement="outside"
+              component={CustomSelect}
+              options={[
+                { label: 'Ecuador', value: '1' },
+                { label: 'Colombia', value: '2' },
+              ]}
               startContent={
-                <UserCircleIcon className="w-8"/>
+                <GlobeAmericasIcon className="w-6 text-[#cdfeec]"/>
               }
               isInvalid={
-                registerSubmit.errors.perLastName &&
-                registerSubmit.touched.perLastName
+                registerSubmit.errors.countryId &&
+                registerSubmit.touched.countryId
               }
-              errorMessage={registerSubmit.errors.perLastName}
-              color={registerSubmit.errors.perLastName ? 'danger' : ''}
+              errorMessage={registerSubmit.errors.countryId}
+              color={registerSubmit.errors.countryId ? 'danger' : 'success'}
             />
-          </div>
 
-          <Field
-            name="perMail"
-            type="email"
-            placeholder="Email"
-            isRequired
-            component={CustomInput}
-            radius="full"
-            variant="bordered"
-            labelPlacement="outside"
-            startContent={
-              <AtSymbolIcon className="w-6"/>
-            }
-            isInvalid={
-              registerSubmit.errors.perMail &&
-              registerSubmit.touched.perMail
-            }
-            errorMessage={registerSubmit.errors.perMail}
-            color={registerSubmit.errors.perMail ? 'danger' : ''}
-          />
+            <Field
+              name="perPassword"
+              type={isVisible ? "text" : "password"}
+              placeholder="Contraseña"
+              component={CustomInput}
+              startContent={
+                <LockClosedIcon className="w-6 text-[#cdfeec]"/>
+              }
+              endContent={
+                <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
+                  {isVisible ? (
+                    <EyeSlashIcon className="w-6 text-[#cdfeec]" />
+                  ) : (
+                    <EyeIcon className="w-6 text-[#cdfeec]" />
+                  )}
+                </button>
+              }
+              isInvalid={
+                registerSubmit.errors.perPassword &&
+                registerSubmit.touched.perPassword
+              }
+              errorMessage={registerSubmit.errors.perPassword}
+              color={registerSubmit.errors.perPassword ? 'danger' : 'success'}
+              onPasswordChange={handlePasswordChange}
+            />
 
-          <Field
-            name="countryId"
-            placeholder="País"
-            isRequired
-            radius="full"
-            variant="bordered"
-            labelPlacement="outside"
-            component={CustomSelect}
-            options={[
-              { label: 'Ecuador', value: 'ec' },
-              { label: 'Colombia', value: 'co' },
-            ]}
-            startContent={
-              <GlobeAmericasIcon className="w-6"/>
-            }
-            isInvalid={
-              registerSubmit.errors.countryId &&
-              registerSubmit.touched.countryId
-            }
-            errorMessage={registerSubmit.errors.countryId}
-            color={registerSubmit.errors.countryId ? 'danger' : ''}
-          />
+            <Field
+              name="confirmPassword"
+              type={isVisible ? "text" : "password"}
+              placeholder="Confirma tu contraseña"
+              component={CustomInput}
+              startContent={
+                <LockClosedIcon className="w-6 text-[#cdfeec]"/>
+              }
+              endContent={
+                <button className="focus:outline-none " type="button" onClick={toggleVisibility}>
+                  {isVisible ? (
+                    <EyeSlashIcon className="w-6 text-[#cdfeec]" />
+                  ) : (
+                    <EyeIcon className="w-6 text-[#cdfeec]" />
+                  )}
+                </button>
+              }
+              isInvalid={
+                registerSubmit.errors.confirmPassword &&
+                registerSubmit.touched.confirmPassword
+              }
+              errorMessage={registerSubmit.errors.confirmPassword}
+              color={registerSubmit.errors.confirmPassword ? 'danger' : 'success'}
+            />
 
-          <Field
-            name="perPassword"
-            type={isVisible ? "text" : "password"}
-            placeholder="Contraseña"
-            isRequired
-            component={CustomInput}
-            radius="full"
-            variant="bordered"
-            labelPlacement="outside"
-            startContent={
-              <LockClosedIcon className="w-6"/>
-            }
-            endContent={
-              <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
-                {isVisible ? (
-                  <EyeSlashIcon className="w-6" />
-                ) : (
-                  <EyeIcon className="w-6" />
-                )}
-              </button>
-            }
-            isInvalid={
-              registerSubmit.errors.perPassword &&
-              registerSubmit.touched.perPassword
-            }
-            errorMessage={registerSubmit.errors.perPassword}
-            color={registerSubmit.errors.perPassword ? 'danger' : ''}
-            onPasswordChange={handlePasswordChange}
-          />
-
-          <Field
-            name="confirmPassword"
-            type={isVisible ? "text" : "password"}
-            placeholder="Confirma tu contraseña"
-            isRequired
-            component={CustomInput}
-            radius="full"
-            variant="bordered"
-            labelPlacement="outside"
-            startContent={
-              <LockClosedIcon className="w-6"/>
-            }
-            endContent={
-              <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
-                {isVisible ? (
-                  <EyeSlashIcon className="w-6" />
-                ) : (
-                  <EyeIcon className="w-6" />
-                )}
-              </button>
-            }
-            isInvalid={
-              registerSubmit.errors.confirmPassword &&
-              registerSubmit.touched.confirmPassword
-            }
-            errorMessage={registerSubmit.errors.confirmPassword}
-            color={registerSubmit.errors.confirmPassword ? 'danger' : ''}
-          />
-
-          <Button
-            size="lg"
-            className="my-5 bg-[#00BE99]"
-            onClick={() => registerSubmit.handleSubmit()}
-          >
-            Crear cuenta
-          </Button>
-        </FormikProvider>
-      </form>
+            <Button
+              size="lg"
+              radius="full"
+              className="w-full mt-10 bg-[#00BE99] font-bold"
+              onClick={() => registerSubmit.handleSubmit()}
+            >
+              Crear mi cuenta
+            </Button>
+          </FormikProvider>
+        </form>
+        <p className='font-thin text-sm'>
+          No tienes una cuenta aun?
+          <a href="/login" className='font-extrabold decoration-solid hover:underline'> Regístrate</a>
+        </p>
+      </section>
     </main>
   );
 };

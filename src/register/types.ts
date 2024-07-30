@@ -1,7 +1,7 @@
 export interface Users {
   perName: string,
-  perLastName: string,
+  perLastname: string,
   perMail: string,
-  countryId: string,
+  countryId: number,
   perPassword: string,
 }

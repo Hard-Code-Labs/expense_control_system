@@ -11,11 +11,11 @@ export const useAddUsers = () => {
     try {
       const response = await postUsers(newUser);
       setResult(response);
-      console.log("Categoría agregada correctamente:", response);
+      console.log("Usuario creado correctamente", response);
       return response;
     } catch (error) {
       setError(error as Error)
-      console.error("Error al agregar categoría:", error);
+      console.error("Error al crear un usuario:", error);
       throw error;
     } finally {
       setLoading(false)
