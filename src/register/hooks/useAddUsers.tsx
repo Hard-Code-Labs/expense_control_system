@@ -1,8 +1,10 @@
 import { useCallback, useState } from "react"
 import { postUsers } from "../services/postUsers"
 import { Users } from "../types";
+import { useSnack } from "@/src/hooks/useSnack";
 
 export const useAddUsers = () => {
+  const { enqueueSnack } = useSnack();
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -15,7 +17,7 @@ export const useAddUsers = () => {
       return response;
     } catch (error) {
       setError(error as Error)
-      console.error("Error al crear un usuario:", error);
+      enqueueSnack(`${error}`, "error")
       throw error;
     } finally {
       setLoading(false)
