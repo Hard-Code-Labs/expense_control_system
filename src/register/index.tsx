@@ -1,6 +1,6 @@
 'use client'
-import { Field, Form, Formik, FormikProvider, useFormik } from 'formik';
-import React, { useState } from 'react';
+import { Field, FormikProvider, useFormik } from 'formik';
+import React, { useEffect, useState } from 'react';
 import CustomInput from '../sharedComponents/form/CustomInput';
 import { AtSymbolIcon, EyeIcon, EyeSlashIcon, GlobeAmericasIcon, LockClosedIcon, UserCircleIcon } from '@heroicons/react/24/solid';
 import { registerSchema } from './schema';
@@ -8,13 +8,15 @@ import { Button, Image } from '@nextui-org/react';
 import CustomSelect from '../sharedComponents/form/CustomSelect';
 import { encryptWithPublicKey } from './encoder';
 import { useAddUsers } from './hooks/useAddUsers';
+import { useRouter } from 'next/navigation';
 
 const Register = () => {
 
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
   const [encryptedPassword, setEncryptedPassword] = useState("");
-  const { result, loading, error, addUsers } = useAddUsers();
+  const { result, error, addUsers } = useAddUsers();
+  const router = useRouter()
 
   const handlePasswordChange = (password: string) => {
     const encrypted = encryptWithPublicKey(password);
@@ -31,8 +33,9 @@ const Register = () => {
       confirmPassword: "",
     },
     validationSchema: registerSchema,
+    validateOnBlur: true,
+    validateOnChange: true,
     onSubmit: (values) => {
-
       const {perName, perLastname, perMail, countryId} = values;
 
       const valuesToSend = {
@@ -44,10 +47,15 @@ const Register = () => {
       };
 
       addUsers(valuesToSend)
-
     }
   })
 
+  useEffect(() => {
+    if(result) {
+      router.push('/');
+    }
+  }, [result, error])
+    
   return (
     <main
       className='w-screen min-h-[1000px] sm:min-h-[700px] h-screen flex flex-col sm:flex-row justify-center items-center p-[40px] gap-[8.125vw] text-[#cdfeec]'
@@ -66,7 +74,7 @@ const Register = () => {
             Y administra tu dinero
           </p>
         </div>
-        <form className='w-[60vw] min-w-[225px] sm:w-[38vw] sm: max-w-[350px] h-fit flex flex-col justify-center items-center gap-6'>
+        <form className='w-[60vw] min-w-[225px] sm:w-[38vw] sm: max-w-[350px] h-fit flex flex-col justify-center items-center gap-6' onSubmit={registerSubmit.handleSubmit}>
           <FormikProvider value={registerSubmit} >
             <div className={`w-full flex gap-3 sm:flex-row flex-col ${registerSubmit.errors.perName?.includes("contener") || registerSubmit.errors.perLastname?.includes("contener") ? "mb-[30px]" : ""}`}>
               <Field
@@ -81,7 +89,10 @@ const Register = () => {
                   registerSubmit.errors.perName &&
                   registerSubmit.touched.perName
                 }
-                errorMessage={registerSubmit.errors.perName}
+                errorMessage={
+                  (registerSubmit.errors.perName?.includes("Este campo es requerido") && registerSubmit.submitCount === 0)
+                    ? "" 
+                    : registerSubmit.errors.perName}
                 color={registerSubmit.errors.perName ? 'danger' : 'success'}
               />
 
@@ -97,7 +108,10 @@ const Register = () => {
                   registerSubmit.errors.perLastname &&
                   registerSubmit.touched.perLastname
                 }
-                errorMessage={registerSubmit.errors.perLastname}
+                errorMessage={
+                  (registerSubmit.errors.perLastname?.includes("Este campo es requerido") && registerSubmit.submitCount === 0)
+                    ? "" 
+                    : registerSubmit.errors.perLastname}
                 color={registerSubmit.errors.perLastname ? 'danger' : 'success'}
               />
             </div>
@@ -114,7 +128,10 @@ const Register = () => {
                 registerSubmit.errors.perMail &&
                 registerSubmit.touched.perMail
               }
-              errorMessage={registerSubmit.errors.perMail}
+              errorMessage={
+                  (registerSubmit.errors.perMail?.includes("Este campo es requerido") && registerSubmit.submitCount === 0)
+                    ? "" 
+                    : registerSubmit.errors.perMail}
               color={registerSubmit.errors.perMail ? 'danger' : 'success'}
             />
 
@@ -136,7 +153,10 @@ const Register = () => {
                 registerSubmit.errors.countryId &&
                 registerSubmit.touched.countryId
               }
-              errorMessage={registerSubmit.errors.countryId}
+              errorMessage={
+                  (registerSubmit.errors.countryId?.includes("Este campo es requerido") && registerSubmit.submitCount === 0)
+                    ? "" 
+                    : registerSubmit.errors.countryId}
               color={registerSubmit.errors.countryId ? 'danger' : 'success'}
             />
 
@@ -161,7 +181,10 @@ const Register = () => {
                 registerSubmit.errors.perPassword &&
                 registerSubmit.touched.perPassword
               }
-              errorMessage={registerSubmit.errors.perPassword}
+              errorMessage={
+                  (registerSubmit.errors.perPassword?.includes("Este campo es requerido") && registerSubmit.submitCount === 0)
+                    ? "" 
+                    : registerSubmit.errors.perPassword}
               color={registerSubmit.errors.perPassword ? 'danger' : 'success'}
               onPasswordChange={handlePasswordChange}
             />
@@ -187,7 +210,10 @@ const Register = () => {
                 registerSubmit.errors.confirmPassword &&
                 registerSubmit.touched.confirmPassword
               }
-              errorMessage={registerSubmit.errors.confirmPassword}
+              errorMessage={
+                  (registerSubmit.errors.confirmPassword?.includes("La confirmación de la contraseña es obligatoria") && registerSubmit.submitCount === 0)
+                    ? "" 
+                    : registerSubmit.errors.confirmPassword}
               color={registerSubmit.errors.confirmPassword ? 'danger' : 'success'}
             />
 
@@ -202,8 +228,8 @@ const Register = () => {
           </FormikProvider>
         </form>
         <p className='font-thin text-sm'>
-          No tienes una cuenta aun?
-          <a href="/login" className='font-extrabold decoration-solid hover:underline'> Regístrate</a>
+          Ya tienes una cuenta?
+          <a href="/" className='font-extrabold decoration-solid hover:underline'> Inicia session</a>
         </p>
       </section>
     </main>

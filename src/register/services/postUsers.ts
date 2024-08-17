@@ -1,23 +1,33 @@
-import { Users } from "../types"
+import { Users } from "../types";
 
 export const postUsers = async (newUser: Users) => {
-  
   const options = {
     method: "POST",
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(newUser),
+  };
+
+  try {
+    const response = await fetch(process.env.NEXT_PUBLIC_URL_POST_USERS!, options);
+
+    if (!response.ok) {
+      let errorResponse;
+      try {
+        errorResponse = await response.json();
+      } catch (e) {
+        errorResponse = { message: response.statusText }; 
+      }
+
+      throw new Error(`Error ${response.status}: ${errorResponse.message || response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data;
+
+  } catch (error: any) {
+    console.error(`Error al crear un usuario: ${error.message}`);
+    throw new Error(`Request failed with status ${error.message}`);
   }
-
-  const data = await fetch(process.env.NEXT_PUBLIC_URL_POST_USERS!, options)
-    .then(res => res.json())
-    .catch(error => {
-      throw new Error(`Error al crear un usuario: ${error.message}`)
-    })
-    .then(response => {
-      return response
-    })
-
-    return data
-}
+};
