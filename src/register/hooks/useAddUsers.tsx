@@ -14,10 +14,16 @@ export const useAddUsers = () => {
       const response = await postUsers(newUser);
       setResult(response);
       console.log("Usuario creado correctamente", response);
+      enqueueSnack(`Registro exitoso, Bienvenido ${response.perName}! 🎉`, "success");
       return response;
-    } catch (error) {
+    } catch (error: any) {
       setError(error as Error)
-      enqueueSnack(`${error}`, "error")
+      if(error.message.includes("400")) {
+        enqueueSnack("Este correo electrónico ya está registrado.", "error")
+        enqueueSnack("Por favor, usa uno diferente o intenta iniciar sesión.", "error")
+        return
+      }
+      enqueueSnack(`${error.message}`, "error")
       throw error;
     } finally {
       setLoading(false)
