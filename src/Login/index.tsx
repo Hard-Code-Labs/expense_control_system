@@ -4,45 +4,32 @@ import { Button, Image } from '@nextui-org/react';
 import { Field, FormikProvider, useFormik } from 'formik';
 import React, { useState } from 'react';
 import CustomInput from '../sharedComponents/form/CustomInput';
-import CustomSelect from '../sharedComponents/form/CustomSelect';
-import { useAddUsers } from '../register/hooks/useAddUsers';
+import { encryptWithPublicKey } from '../register/encoder';
 
 const Login = () => {
 
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
   const [encryptedPassword, setEncryptedPassword] = useState("");
-  const { result, loading, error, addUsers } = useAddUsers();
 
   const handlePasswordChange = (password: string) => {
-    // const encrypted = encryptWithPublicKey(password);
-    // setEncryptedPassword(encrypted);
+    const encrypted = encryptWithPublicKey(password);
+    setEncryptedPassword(encrypted);
   }
 
   const registerSubmit = useFormik({
     initialValues: {
-      perName: "",
-      perLastname: "",
       perMail: "",
-      countryId: "",
       perPassword: "",
-      confirmPassword: "",
     },
     // validationSchema: registerSchema,
     onSubmit: (values) => {
-
-      const {perName, perLastname, perMail, countryId} = values;
-
+      const { perMail } = values;
       const valuesToSend = {
-        perName,
-        perLastname,
         perMail,
-        countryId: Number(countryId),
-        perPassword: "encryptedPassword",
+        perPassword: encryptedPassword,
       };
-
-      // addUsers(valuesToSend)
-
+      console.log(valuesToSend)
     }
   })
 
