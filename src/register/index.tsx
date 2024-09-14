@@ -229,7 +229,7 @@ const Register = () => {
         </form>
         <p className='font-thin text-sm'>
           Ya tienes una cuenta?
-          <a href="/" className='font-extrabold decoration-solid hover:underline'> Inicia session</a>
+          <a href="/login" className='font-extrabold decoration-solid hover:underline'> Inicia session</a>
         </p>
       </section>
     </main>
