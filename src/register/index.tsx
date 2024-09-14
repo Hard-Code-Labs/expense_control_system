@@ -41,7 +41,7 @@ const Register = () => {
       const valuesToSend = {
         perName,
         perLastname,
-        perMail,
+        perMail: perMail.toLowerCase(),
         countryId: Number(countryId),
         perPassword: encryptedPassword,
       };
