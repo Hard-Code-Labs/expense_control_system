@@ -15,6 +15,7 @@ export const useAddUsers = () => {
       setResult(response);
       console.log("Usuario creado correctamente", response);
       enqueueSnack(`Registro exitoso, Bienvenido ${response.perName}! 🎉`, "success");
+      enqueueSnack(`Verifica tu correo para activar tu cuenta y acceder.`, "info");
       return response;
     } catch (error: any) {
       setError(error as Error)
