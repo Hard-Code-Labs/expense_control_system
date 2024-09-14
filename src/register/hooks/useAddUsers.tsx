@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react"
 import { postUsers } from "../services/postUsers"
-import { Users } from "../types";
+import { NewUser } from "../../global/types/Users";
 import { useSnack } from "@/src/hooks/useSnack";
 
 export const useAddUsers = () => {
@@ -9,7 +9,7 @@ export const useAddUsers = () => {
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const addUsers = useCallback(async (newUser: Users) => {
+  const addUsers = useCallback(async (newUser: NewUser) => {
     try {
       const response = await postUsers(newUser);
       setResult(response);

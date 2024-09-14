@@ -3,7 +3,7 @@ import { AtSymbolIcon, EyeIcon, EyeSlashIcon, GlobeAmericasIcon, LockClosedIcon,
 import { Button, Image } from '@nextui-org/react';
 import { Field, FormikProvider, useFormik } from 'formik';
 import React, { useState } from 'react';
-import CustomInput from '../sharedComponents/form/CustomInput';
+import CustomInput from '../global/components/form/CustomInput';
 import { encryptWithPublicKey } from '../register/encoder';
 
 const Login = () => {

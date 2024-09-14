@@ -1,6 +1,6 @@
-import { Users } from "../types";
+import { NewUser } from "../../global/types/Users";
 
-export const postUsers = async (newUser: Users) => {
+export const postUsers = async (newUser: NewUser) => {
   const options = {
     method: "POST",
     headers: {
