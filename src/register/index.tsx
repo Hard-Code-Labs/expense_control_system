@@ -1,11 +1,11 @@
 'use client'
 import { Field, FormikProvider, useFormik } from 'formik';
 import React, { useEffect, useState } from 'react';
-import CustomInput from '../sharedComponents/form/CustomInput';
+import CustomInput from '../global/components/form/CustomInput';
 import { AtSymbolIcon, EyeIcon, EyeSlashIcon, GlobeAmericasIcon, LockClosedIcon, UserCircleIcon } from '@heroicons/react/24/solid';
 import { registerSchema } from './schema';
 import { Button, Image } from '@nextui-org/react';
-import CustomSelect from '../sharedComponents/form/CustomSelect';
+import CustomSelect from '../global/components/form/CustomSelect';
 import { encryptWithPublicKey } from './encoder';
 import { useAddUsers } from './hooks/useAddUsers';
 import { useRouter } from 'next/navigation';
