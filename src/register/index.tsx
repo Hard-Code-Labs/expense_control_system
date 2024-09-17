@@ -52,7 +52,7 @@ const Register = () => {
 
   if(isSuccess) {
     setTimeout(() => {
-      router.push('/');
+      router.push('/login');
     }, 2000);
   }
   
