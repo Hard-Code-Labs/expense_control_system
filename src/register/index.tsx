@@ -1,23 +1,23 @@
 'use client'
 import { Field, FormikProvider, useFormik } from 'formik';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import CustomInput from '../global/components/form/CustomInput';
 import { AtSymbolIcon, EyeIcon, EyeSlashIcon, GlobeAmericasIcon, LockClosedIcon, UserCircleIcon } from '@heroicons/react/24/solid';
 import { registerSchema } from './schema';
 import { Button, Image } from '@nextui-org/react';
 import CustomSelect from '../global/components/form/CustomSelect';
 import { encryptWithPublicKey } from './encoder';
-import { useAddUsers } from './hooks/useAddUsers';
-import { useRouter } from 'next/navigation';
+import { useAddUser } from './hooks/useAddUsers';
+import { useRouter } from 'next/navigation';;
 
 const Register = () => {
-
-  const [isVisible, setIsVisible] = useState(false);
-  const toggleVisibility = () => setIsVisible(!isVisible);
-  const [encryptedPassword, setEncryptedPassword] = useState("");
-  const { result, error, addUsers } = useAddUsers();
   const router = useRouter()
+  const [isVisible, setIsVisible] = useState(false);
+  const [encryptedPassword, setEncryptedPassword] = useState("");
+  const { addUser, isSuccess } = useAddUser();
 
+  const toggleVisibility = () => setIsVisible(!isVisible);
+  
   const handlePasswordChange = (password: string) => {
     const encrypted = encryptWithPublicKey(password);
     setEncryptedPassword(encrypted);
@@ -46,16 +46,16 @@ const Register = () => {
         perPassword: encryptedPassword,
       };
 
-      addUsers(valuesToSend)
+      addUser(valuesToSend)
     }
   })
 
-  useEffect(() => {
-    if(result) {
+  if(isSuccess) {
+    setTimeout(() => {
       router.push('/');
-    }
-  }, [result, error])
-    
+    }, 2000);
+  }
+  
   return (
     <main
       className='w-screen min-h-[1000px] sm:min-h-[700px] h-screen flex flex-col sm:flex-row justify-center items-center p-[40px] gap-[8.125vw] text-[#cdfeec]'
