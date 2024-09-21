@@ -1,6 +1,6 @@
 'use client'
 import { AtSymbolIcon, EyeIcon, EyeSlashIcon, GlobeAmericasIcon, LockClosedIcon, UserCircleIcon } from '@heroicons/react/24/solid';
-import { Button, Image } from '@nextui-org/react';
+import { Button, Checkbox, cn, Image, Link } from '@nextui-org/react';
 import { Field, FormikProvider, useFormik } from 'formik';
 import React, { useState } from 'react';
 import CustomInput from '../global/components/form/CustomInput';
@@ -11,6 +11,7 @@ const Login = () => {
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
   const [encryptedPassword, setEncryptedPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
 
   const handlePasswordChange = (password: string) => {
     const encrypted = encryptWithPublicKey(password);
@@ -91,14 +92,31 @@ const Login = () => {
               onPasswordChange={handlePasswordChange}
             />
             <div className='w-full flex justify-between font-thin text-sm'>
-              <p>Recuérdame</p>
-              <p>Olvidaste la contraseña</p>
+              <Checkbox
+                size="md"
+                color="success"
+                isSelected={rememberMe}
+                onValueChange={() => setRememberMe(!rememberMe)}
+                classNames={{ label: "hover:text-[#cdfeec]" }}
+              >
+                Recuérdame
+              </Checkbox>
+              <Link
+                href="/passwordRecovery"
+                size="md"
+                color="foreground"
+                underline="hover"
+                className='hover:text-[#cdfeec]'
+              >
+                Olvidaste la contraseña
+              </Link>
             </div>
 
             <Button
               size="lg"
               radius="full"
-              className="w-full mt-10 bg-[#00BE99] font-bold"
+              color='success'
+              className="w-full mt-10 font-bold"
               onClick={() => registerSubmit.handleSubmit()}
             >
               Iniciar session
@@ -106,8 +124,16 @@ const Login = () => {
           </FormikProvider>
         </form>
         <p className='font-thin text-sm'>
-          No tienes una cuenta aun?
-          <a href="/register" className='font-extrabold decoration-solid hover:underline'> Regístrate</a>
+          No tienes una cuenta aun? &nbsp;
+          <Link
+            href="/register"
+            size="sm"
+            color="foreground"
+            underline="hover"
+            className='font-extrabold text-[#cdfeec]'
+          >
+            Regístrate
+          </Link>
         </p>
       </section>
       <Image
