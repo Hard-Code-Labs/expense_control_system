@@ -1,12 +1,17 @@
 'use client'
-import { AtSymbolIcon, EyeIcon, EyeSlashIcon, GlobeAmericasIcon, LockClosedIcon, UserCircleIcon } from '@heroicons/react/24/solid';
+import { AtSymbolIcon, EyeIcon, EyeSlashIcon, LockClosedIcon } from '@heroicons/react/24/solid';
 import { Button, Image } from '@nextui-org/react';
 import { Field, FormikProvider, useFormik } from 'formik';
 import React, { useState } from 'react';
 import CustomInput from '../global/components/form/CustomInput';
 import { encryptWithPublicKey } from '../register/encoder';
+import { useSearchParams } from 'next/navigation';
+import EmailConfirm from './components/EmailConfirm';
 
 const Login = () => {
+
+  const searchParams = useSearchParams();
+  const token = searchParams.get('token') ?? "";
 
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
@@ -114,6 +119,8 @@ const Login = () => {
         src='/login.png'
         className='sm:w-[35.156vw] sm:h-[35.156vw] w-[50vw] h-[50vw]'
       />
+
+      <EmailConfirm token={token} />
     </main>
   );
 };
