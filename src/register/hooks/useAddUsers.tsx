@@ -12,17 +12,14 @@ export const useAddUser = () => {
     onSuccess: (response) => {
       enqueueSnack(`Registro exitoso, Bienvenido ${response.perName}! 🎉`, "success");
       enqueueSnack(`Verifica tu correo para activar tu cuenta y acceder.`, "info");
-    }
-  })
-
-  useEffect(() => {
-    if (error) {
+    },
+    onError: (error) => {
       enqueueSnack(error.message, "error")
       if (error.message.includes("Este correo electrónico ya está registrado.")) {
         enqueueSnack("Por favor, usa uno diferente o intenta iniciar sesión.", "info")
       }
     }
-  }, [error])
+  })
 
   return {
     addUser,
