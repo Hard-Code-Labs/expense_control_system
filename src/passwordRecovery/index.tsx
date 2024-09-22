@@ -1,5 +1,5 @@
 'use client'
-import { AtSymbolIcon } from '@heroicons/react/24/solid';
+import { AtSymbolIcon, PaperAirplaneIcon } from '@heroicons/react/24/solid';
 import { Button, Image } from '@nextui-org/react';
 import { Field, FormikProvider, useFormik } from 'formik';
 import React from 'react';
@@ -66,6 +66,9 @@ const PasswordRecovery = () => {
               className="w-full mt-10 font-bold"
               onClick={() => emailSubmit.handleSubmit()}
             >
+              <PaperAirplaneIcon 
+              // className={`${isLoading ? "animation" : ""} send`} 
+              />
               Enviar
             </Button>
           </FormikProvider>

@@ -133,7 +133,6 @@ const ResetPassword = ({token}: Props) => {
                 </form>
               </section>
             </ModalBody>
-            {/* <PaperAirplaneIcon className={`${isLoading ? "animation" : ""} send`} /> */}
           </>
         )}
       </ModalContent>
