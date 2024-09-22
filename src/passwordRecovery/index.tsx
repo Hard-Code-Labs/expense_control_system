@@ -4,20 +4,22 @@ import { Button, Image } from '@nextui-org/react';
 import { Field, FormikProvider, useFormik } from 'formik';
 import React from 'react';
 import CustomInput from '../global/components/form/CustomInput';
+import { useSearchParams } from 'next/navigation';
+import ResetPassword from './components/ResetPassword';
+import { passwordRecoverySchema } from './utils/schema';
 
 const PasswordRecovery = () => {
 
-  const registerSubmit = useFormik({
+  const searchParams = useSearchParams();
+  const token = searchParams.get('token') ?? "";
+
+  const emailSubmit = useFormik({
     initialValues: {
       perMail: "",
     },
-    // validationSchema: registerSchema,
+    validationSchema: passwordRecoverySchema,
     onSubmit: (values) => {
-      const { perMail } = values;
-      const valuesToSend = {
-        perMail,
-      };
-      console.log(valuesToSend)
+      console.log(values)
     }
   })
 
@@ -40,7 +42,7 @@ const PasswordRecovery = () => {
           </p>
         </div>
         <form className='w-[60vw] min-w-[225px] sm:w-[38vw] sm: max-w-[350px] h-fit flex flex-col justify-center items-center gap-6'>
-          <FormikProvider value={registerSubmit} >
+          <FormikProvider value={emailSubmit} >
             <Field
               name="perMail"
               type="email"
@@ -50,11 +52,11 @@ const PasswordRecovery = () => {
                 <AtSymbolIcon className="w-6 text-[#cdfeec]"/>
               }
               isInvalid={
-                registerSubmit.errors.perMail &&
-                registerSubmit.touched.perMail
+                emailSubmit.errors.perMail &&
+                emailSubmit.touched.perMail
               }
-              errorMessage={registerSubmit.errors.perMail}
-              color={registerSubmit.errors.perMail ? 'danger' : 'success'}
+              errorMessage={emailSubmit.errors.perMail}
+              color={emailSubmit.errors.perMail ? 'danger' : 'success'}
             />
 
             <Button
@@ -62,12 +64,14 @@ const PasswordRecovery = () => {
               radius="full"
               color='success'
               className="w-full mt-10 font-bold"
-              onClick={() => registerSubmit.handleSubmit()}
+              onClick={() => emailSubmit.handleSubmit()}
             >
               Enviar
             </Button>
           </FormikProvider>
         </form>
+
+        <ResetPassword token={token} />
       </section>
     </main>
   );
