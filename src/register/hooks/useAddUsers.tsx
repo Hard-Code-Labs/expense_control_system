@@ -7,10 +7,10 @@ import { useMutation } from '@tanstack/react-query'
 export const useAddUser = () => {
   const { enqueueSnack } = useSnack();
 
-  const { mutate: addUser, isSuccess, error,} = useMutation({
+  const { mutate: addUser, isSuccess, isPending, error} = useMutation({
     mutationFn: createUser,
-    onSuccess: (response) => {
-      enqueueSnack(`Registro exitoso, Bienvenido ${response.perName}! 🎉`, "success");
+    onSuccess: () => {
+      enqueueSnack(`Registro exitoso, Bienvenido a la app! 🎉`, "success");
       enqueueSnack(`Verifica tu correo para activar tu cuenta y acceder.`, "info");
     },
     onError: (error) => {
@@ -24,6 +24,7 @@ export const useAddUser = () => {
   return {
     addUser,
     isSuccess,
+    isPending,
     error
   }
 }

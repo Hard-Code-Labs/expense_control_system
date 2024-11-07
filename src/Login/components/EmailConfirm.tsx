@@ -1,10 +1,10 @@
-import React, { use, useEffect } from 'react';
+import React, { use, useEffect, useRef } from 'react';
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 import { useEmailConfirm } from '../hooks/useEmailConfirm';
 import { useSnack } from '@/src/hooks/useSnack';
-import '../styles.css';
+import '../styles/styles.css';
 
 interface Props {
   token: string;
@@ -13,52 +13,46 @@ interface Props {
 const EmailConfirm = ({token}:Props) => {
   const router = useRouter();
   const { enqueueSnack } = useSnack();
-  const { onClose, onOpenChange } = useDisclosure();
-  const {emailConfirmMutation, isSuccess, isLoading} = useEmailConfirm();
+  const {emailConfirmMutation, isSuccess, isError} = useEmailConfirm();
 
-  const handleConfirm = () => {
-    emailConfirmMutation(token);
-  }
+  const hasExecuted = useRef(false);
 
-  const handleClose = () => {
-    onClose();
-    router.push('/login');
-  }
+  useEffect(() => {
+    if (token && !hasExecuted.current) {
+      emailConfirmMutation(token);
+      hasExecuted.current = true;
+    }
+  }, [token]);
   
   useEffect(() => {
     if (isSuccess) {
       setTimeout(() => {
+        enqueueSnack("Ahora puedes iniciar sesión.", "success");
         router.push('/login');
-      }, 1000);
-      enqueueSnack("Ahora puedes iniciar sesión.", "success");
+      }, 2000);
+    } else {
+      setTimeout(() => {
+        enqueueSnack("Ha ocurrido un error", "error");
+        router.push('/login');
+      }, 2000);
     }
-  }, [isSuccess]);
+  }, [isSuccess, isError]);
   
   return (
     <Modal 
-      isOpen={token ? true : false}
-      onOpenChange={onOpenChange}
+      isOpen={!!token}
       backdrop="blur"
-      onClose={handleClose}
+      onClose={() => {
+        router.push('/login');
+      }}
       isDismissable={false}
     >
       <ModalContent className='bg-[#040F10] border border-[#cdfeec]'>
         {() => (
           <>
-            <ModalHeader className="flex justify-center">Confirma tu correo</ModalHeader>
-            <ModalBody>
-              <p className="flex justify-center">Para confirmar tu correo, haz click en el botón</p>
-            </ModalBody>
+            <ModalHeader className="flex justify-center">Confirmando tu correo</ModalHeader>
             <ModalFooter className='flex justify-center'>
-              <Button
-                size="lg"
-                radius="full"
-                isDisabled={isLoading}
-                className="w-1/2 bg-[#00BE99] sendHover"
-                onPress={handleConfirm}
-              >
-                <PaperAirplaneIcon className={`${isLoading ? "animation" : ""} send`} />
-              </Button>
+              <PaperAirplaneIcon className="animation send w-8 h-8" /> 
             </ModalFooter>
           </>
         )}

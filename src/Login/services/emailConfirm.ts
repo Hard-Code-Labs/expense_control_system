@@ -6,18 +6,15 @@ export const emailConfirm = async (token: string) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ token }),
+    body: JSON.stringify({ "verificationCode": token }),
   })
 
+  const responseData = await response.json();
+
   if (!response.ok) {
-    if (response.status === 400) {
-      throw new Error('Token inválido o expirado.')
-    } else {
-      throw new Error(`Error al confirmar el correo: ${response.status}`)
-    }
+    console.error(`Error code ${responseData.code}: ${responseData.customMessage}`);
+    throw new Error(responseData.customMessage);
   }
 
-  const data = response.json()
-
-  return data
+  return responseData
 };

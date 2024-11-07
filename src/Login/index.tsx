@@ -4,7 +4,7 @@ import { Button, Image } from '@nextui-org/react';
 import { Field, FormikProvider, useFormik } from 'formik';
 import React, { useState } from 'react';
 import CustomInput from '../global/components/form/CustomInput';
-import { encryptWithPublicKey } from '../register/encoder';
+import { encryptWithPublicKey } from '../register/utils/encoder';
 import { useSearchParams } from 'next/navigation';
 import EmailConfirm from './components/EmailConfirm';
 
