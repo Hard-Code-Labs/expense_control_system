@@ -3,7 +3,7 @@ import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDi
 import { useRouter } from 'next/navigation';
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 import { useEmailConfirm } from '../hooks/useEmailConfirm';
-import { useSnack } from '@/src/hooks/useSnack';
+import { useSnack } from '@/src/shared/hooks/useSnack';
 import '../styles/styles.css';
 
 interface Props {

@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import { createUser } from '../services/createUser';
-import { useSnack } from "@/src/hooks/useSnack";
+import { useSnack } from "@/src/shared/hooks/useSnack";
 import { useMutation } from '@tanstack/react-query'
 
 

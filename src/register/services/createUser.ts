@@ -1,4 +1,4 @@
-import { NewUser } from "../../global/types/Users";
+import { NewUser } from "../../shared/types/Users";
 
 export const createUser = async (newUser: NewUser) => {
 

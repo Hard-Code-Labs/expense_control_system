@@ -1,5 +1,5 @@
 import { emailConfirm } from '../services/emailConfirm';
-import { useSnack } from "@/src/hooks/useSnack";
+import { useSnack } from "@/src/shared/hooks/useSnack";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from 'react';
 
