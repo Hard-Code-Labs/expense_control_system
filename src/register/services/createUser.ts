@@ -1,4 +1,5 @@
 import { NewUser } from "../../shared/types/Users";
+import { ServiceError } from "../../shared/errors/ServiceError";
 
 export const createUser = async (newUser: NewUser) => {
 
@@ -10,15 +11,12 @@ export const createUser = async (newUser: NewUser) => {
     body: JSON.stringify(newUser),
   })
 
+  const responseData = await response.json();
+
   if (!response.ok) {
-    if (response.status === 400) {
-      throw new Error('Este correo electrónico ya está registrado.')
-    } else {
-      throw new Error(`Error al crear un usuario: ${response.status}`)
-    }
+    console.error(`Error ${responseData.code}: ${responseData.customMessage}`);
+    throw new ServiceError(responseData, "es");
   }
 
-  const data = response.json()
-
-  return data
+  return responseData
 };
