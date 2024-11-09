@@ -12,7 +12,6 @@ interface Props {
 
 const EmailConfirm = ({token}:Props) => {
   const router = useRouter();
-  const { enqueueSnack } = useSnack();
   const {emailConfirmMutation, isSuccess, isError} = useEmailConfirm();
 
   const hasExecuted = useRef(false);
@@ -27,14 +26,13 @@ const EmailConfirm = ({token}:Props) => {
   useEffect(() => {
     if (isSuccess) {
       setTimeout(() => {
-        enqueueSnack("Ahora puedes iniciar sesión.", "success");
         router.push('/login');
-      }, 2000);
-    } else {
+      }, 3500);
+    } 
+    if (isError) {
       setTimeout(() => {
-        enqueueSnack("Ha ocurrido un error", "error");
         router.push('/login');
-      }, 2000);
+      }, 3500);
     }
   }, [isSuccess, isError]);
   

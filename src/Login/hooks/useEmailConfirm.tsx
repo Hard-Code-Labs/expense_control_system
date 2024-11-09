@@ -6,17 +6,20 @@ import { useState } from 'react';
 export const useEmailConfirm = () => {
   const { enqueueSnack } = useSnack();
   const [ isSuccess, setIsSuccess ] = useState(false)
+  const [ isError, setIsError ] = useState(false)
 
-  const { mutate: emailConfirmMutation, isPending: isLoading, isError } = useMutation({
+  const { mutate: emailConfirmMutation, isPending: isLoading } = useMutation({
     mutationFn: emailConfirm,
-    onSuccess: (values) => {
-      console.log(`Code: ${values.code}`, values.customMessage);
-      enqueueSnack(values.customMessage, "success");
+    onSuccess: () => {
+      enqueueSnack("Ahora puedes iniciar sesión. 🎉", "success");
       setIsSuccess(true)
+      setIsError(false)
     },
     onError: (error) => {
-      enqueueSnack(error.message, "error");
+      const message = error.message.split('.').filter(parte => parte.trim() !== '');
+      message.map(m => enqueueSnack(m.trim(), "error"))
       setIsSuccess(false)
+      setIsError(true)
     },
   });
 

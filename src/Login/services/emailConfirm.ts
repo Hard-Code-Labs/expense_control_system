@@ -1,3 +1,4 @@
+import { ServiceError } from "@/src/shared/errors/ServiceError";
 
 export const emailConfirm = async (token: string) => {
   
@@ -12,8 +13,8 @@ export const emailConfirm = async (token: string) => {
   const responseData = await response.json();
 
   if (!response.ok) {
-    console.error(`Error code ${responseData.code}: ${responseData.customMessage}`);
-    throw new Error(responseData.customMessage);
+    console.error(`Error ${responseData.code}: ${responseData.customMessage}`);
+    throw new ServiceError(responseData, "es");
   }
 
   return responseData
