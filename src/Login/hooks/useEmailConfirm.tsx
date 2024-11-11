@@ -11,7 +11,8 @@ export const useEmailConfirm = () => {
   const { mutate: emailConfirmMutation, isPending: isLoading } = useMutation({
     mutationFn: emailConfirm,
     onSuccess: () => {
-      enqueueSnack("Ahora puedes iniciar sesión. 🎉", "success");
+      enqueueSnack("Email confirmado correctamente. 🎉", "success");
+      enqueueSnack("Ahora puedes iniciar sesión. ", "success");
       setIsSuccess(true)
       setIsError(false)
     },
