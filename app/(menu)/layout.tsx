@@ -1,6 +1,6 @@
 import {Providers} from "../providers";
 import SideMenu from '@/src/sideMenu';
-import { roboto } from '../../src/shared/fonts';
+import { roboto } from '../../src/shared/styles/fonts';
 import '../../src/global.css';
 
 export default function Layout(

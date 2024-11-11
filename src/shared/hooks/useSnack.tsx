@@ -10,7 +10,7 @@ export const useSnack = () => {
         vertical: "top",
         horizontal: "right",
       },
-      autoHideDuration: 3000,
+      autoHideDuration: 5000,
     });
 
   return { enqueueSnack, closeSnack: closeSnackbar };

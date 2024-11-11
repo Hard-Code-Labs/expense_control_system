@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@emotion/styled": "^11.13.0",
     "@heroicons/react": "^2.0.18",
     "@nextui-org/react": "^2.2.9",
     "@react-hook/media-query": "^1.1.1",
