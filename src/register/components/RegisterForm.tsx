@@ -49,9 +49,7 @@ const RegisterForm = () => {
 
   useEffect(() => {
     if(isSuccess) {
-      setTimeout(() => {
-        router.push('/login');
-      }, 1000);
+      router.push('/login');
     }
   }, [isSuccess]);
 
