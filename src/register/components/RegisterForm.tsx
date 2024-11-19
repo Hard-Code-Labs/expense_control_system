@@ -36,8 +36,8 @@ const RegisterForm = () => {
       const {perName, perLastname, perMail, countryId} = values;
 
       const valuesToSend = {
-        perName,
-        perLastname,
+        perName: perName.trim(),
+        perLastname: perLastname.trim(),
         perMail: perMail.toLowerCase(),
         countryId: Number(countryId),
         perPassword: encryptedPassword,
