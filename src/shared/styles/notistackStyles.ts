@@ -1,5 +1,5 @@
 import { MaterialDesignContent } from 'notistack'
-import styled from '@emotion/styled'
+import styled, { CSSObject } from '@emotion/styled'
 
 const StyledMaterialDesignContent = styled(MaterialDesignContent)(() => ({
   '&.notistack-MuiContent-success': {
@@ -13,6 +13,7 @@ const StyledMaterialDesignContent = styled(MaterialDesignContent)(() => ({
   },
   '&.notistack-MuiContent-error': {
       borderRadius: '20px',
+      whiteSpace: 'break-spaces' as CSSObject['whiteSpace'],
   },
 }));
 

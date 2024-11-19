@@ -2,7 +2,10 @@
   "es": {
     "Email already exists.": "El correo ya existe",
     "User already registered. Please redirect to login page": "Usuario ya registrado. Redireccionando a la página de inicio de sesión.",
-    "Verification code not found. User has been removed from the database. Please register again": "Código de verificación no encontrado. El usuario pudo haber sido eliminado de la base de datos. Por favor, regístrese de nuevo.",
-    "Token has expired. Please register again": "El token ha expirado. Por favor, regístrese de nuevo."
+    "Verification code not found. User has been removed from the database. Please register again": "Código de verificación no encontrado.\n El usuario pudo haber sido eliminado de la base de datos.\n Por favor, regístrese de nuevo.",
+    "Token has expired. Please register again": "El token ha expirado. Por favor, regístrese de nuevo.",
+    "Country not found by id": "País no encontrado",
+    "Name cannot be empty": "El nombre no puede estar vacío",
+    "Last name cannot be empty": "El apellido no puede estar vacío"
   }
 }

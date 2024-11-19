@@ -8,17 +8,30 @@ export class ServiceError extends Error {
   code: number;
   customMessage: string;
   path: string;
+  details?: Record<string, string>;
 
   constructor(
-    { timestamp, code, customMessage, path }: { timestamp: string; code: number; customMessage: ErrorMessages; path: string },
+    { timestamp, code, customMessage, path, details }:
+    { timestamp: string; code: number; customMessage: ErrorMessages; path: string, details?: Record<string, ErrorMessages> },
     language?: Language
   ) {
-    const translatedCustomMessage = (language && errorsTranslations[language]?.[customMessage]) || customMessage;
+    let finalMessage: string;
+    
+    if (details && Object.keys(details).length > 0) {
+      const translatedDetails = Object.values(details).map((message) => {
+        const translatedMessage = (language && errorsTranslations[language]?.[message]) || message;
+        return translatedMessage;
+      });
+      // translatedDetails.unshift((language && errorsTranslations[language]?.[customMessage]) || customMessage); 
+      finalMessage = translatedDetails.join("\n");
+    } else {
+      finalMessage = (language && errorsTranslations[language]?.[customMessage]) || customMessage;
+    }
 
-    super(translatedCustomMessage);
+    super(finalMessage);
     this.timestamp = timestamp;
     this.code = code;
-    this.customMessage = translatedCustomMessage;
+    this.customMessage = finalMessage;
     this.path = path;
   }
 }

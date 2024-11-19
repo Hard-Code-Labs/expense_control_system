@@ -17,8 +17,7 @@ export const useEmailConfirm = () => {
       setIsError(false)
     },
     onError: (error) => {
-      const message = error.message.split('.').filter(parte => parte.trim() !== '');
-      message.map(m => enqueueSnack(m.trim(), "error"))
+      enqueueSnack(error.message, "error")
       setIsSuccess(false)
       setIsError(true)
     },
