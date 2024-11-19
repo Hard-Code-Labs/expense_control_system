@@ -1,5 +1,5 @@
 import {Providers} from "./providers";
-import { roboto } from '../src/shared/styles/fonts';
+import { roboto } from '../src/shared/fonts';
 import '../src/global.css';
 
 export default function RootLayout(
