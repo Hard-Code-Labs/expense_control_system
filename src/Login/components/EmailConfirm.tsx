@@ -27,12 +27,10 @@ const EmailConfirm = ({token}:Props) => {
     if (isSuccess) {
       setTimeout(() => {
         router.push('/login');
-      }, 3500);
+      }, 2000);
     } 
     if (isError) {
-      setTimeout(() => {
-        router.push('/login');
-      }, 3500);
+      router.push('/login');
     }
   }, [isSuccess, isError]);
   
