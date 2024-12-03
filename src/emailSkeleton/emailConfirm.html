@@ -4,94 +4,76 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Email Confirm</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      background: linear-gradient(63.36deg, #0C1314 9.43%, #11594E 75.57%, #00BE99 99.87%);
-      width: 100vw;
-      height: 100vh;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: 'Roboto Flex', sans-serif;
-    }
-    main {
+</head>
+<body
+  style="
+    width: 100vw;
+    height: 100vh;
+    /* color: white; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Roboto Flex', sans-serif;
+  "
+>
+  <main
+    style="
       width: 550px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      gap: 20px;
-      background-color: #040f10b0;
-      backdrop-filter: blur(10px);
-      box-shadow: 0px 0px 10px #cdfeec;
-      border: 1px solid white;
-      border-radius: 50px;
+      gap: 10px;
+      /* background: linear-gradient(63.36deg, #0C1314 9.43%, #11594E 75.57%, #00BE99 99.87%); */
+      background: #638e8cbe;
+      /* background-color: #62788450; */
+      border: 1px solid 07ab8a;
+      border-radius: 25px;
       padding: 50px;
-    }
-    h1 {
-      margin: 1px 0;
-    } 
-    section {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    .button {
-      width: 70%;
-      padding: 15px;
-      border-radius: 50px;
-      border: none;
-      background-color: #00BE99;
-      color: white;
-      font-size: large;
-      font-weight: bold;
-      text-decoration: none;
-      opacity: 1;
-      transition: opacity 0.5s;
-    }
-    .button:hover, .link:hover {
-      opacity: 0.8;
-      transition: 0.5s;
-    }
-    .link{
-      color: #cdfeec; 
-      white-space: wrap;
-    }
-  </style>
-</head>
-<body>
-  <main>
+    "
+  >
     <h2>Hola [Nombre]</h2>
     <h1>¡Bienvenido a [Nombre de la app]! </h1>
-    <h4>Para activar tu cuenta y empezar a disfrutar de nuestros servicios, solo necesitas confirmar tu dirección de correo electrónico. Haz clic en el siguiente botón para verificar tu email:</h4> 
-
-    <section >
+    <p>Para activar tu cuenta y empezar a disfrutar de nuestros servicios, solo necesitas confirmar tu dirección de correo electrónico. Haz clic en el siguiente botón para verificar tu email:</p>
+    <a
+      href="http://localhost:3000/login?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJnZW5lcmFkbyIsImlzcyI6Im1vbmV5YXRpYyIsImlhdCI6MTcyNjU0NzU5NCwiZXhwIjoxNzI2NzIwMzk0fQ.S-Keyu9IYEUTH--ieVUsuFnhlPINk_jKYKIV0sKiECM"
+      target="_blank"
+      style="
+        width: 70%;
+        padding: 15px;
+        border-radius: 50px;
+        border: none;
+        background-color: #00BE99;
+        color: white;
+        font-size: large;
+        font-weight: bold;
+        text-decoration: none;
+        opacity: 1;
+        transition: opacity 0.5s;
+      "
+    >
+      Confirmar mi email
+    </a>
+    <p>Si el botón no funciona copia y pega este link en el browser:</p>
+    <p style="margin: -5px 0;">
       <a
-        href="http://localhost:3000/login?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJnZW5lcmFkbyIsImlzcyI6Im1vbmV5YXRpYyIsImlhdCI6MTcyNjU0NzU5NCwiZXhwIjoxNzI2NzIwMzk0fQ.S-Keyu9IYEUTH--ieVUsuFnhlPINk_jKYKIV0sKiECM" 
+        href="http://localhost:3000/login?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJnZW5lcmFkbyIsImlzcyI6Im1vbmV5YXRpYyIsImlhdCI6MTcyNjU0NzU5NCwiZXhwIjoxNzI2NzIwMzk0fQ.S-Keyu9IYEUTH--ieVUsuFnhlPINk_jKYKIV0sKiECM"
         target="_blank"
-        class="button"
+        style="
+          color: #16efc4;
+          white-space: wrap;
+          text-decoration: none;
+          font-family: monospace;
+        "
       >
-        Confirmar mi email
+        http://localhost:3000/login?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+        eyJzdWIiOiJnZW5lcmFkbyIsImlzcyI6Im1vbmV5YXRpYyIsImlhdCI6MTcyNjU0NzU5NCw
+        iZXhwIjoxNzI2NzIwMzk0fQ.S-Keyu9IYEUTH--ieVUsuFnhlPINk_jKYKIV0sKiECM
       </a>
-      <p>O copia y pega este enlace en tu navegador: 
-        <a
-          href="http://localhost:3000/login?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJnZW5lcmFkbyIsImlzcyI6Im1vbmV5YXRpYyIsImlhdCI6MTcyNjU0NzU5NCwiZXhwIjoxNzI2NzIwMzk0fQ.S-Keyu9IYEUTH--ieVUsuFnhlPINk_jKYKIV0sKiECM" 
-          target="_blank"
-          class="link"
-        >
-          http://localhost:3000/login?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
-          eyJzdWIiOiJnZW5lcmFkbyIsImlzcyI6Im1vbmV5YXRpYyIsImlhdCI6MTcyNjU0NzU5NCw
-          iZXhwIjoxNzI2NzIwMzk0fQ.S-Keyu9IYEUTH--ieVUsuFnhlPINk_jKYKIV0sKiECM
-        </a>
-      </p>
-    </section>
+    </p>
 
-    <p>¡Gracias por unirte a [Nombre de la app]!
-    Si tienes alguna pregunta, no dudes en contactarnos.</p>
+    <p>Si no has pedido esto, simplemente ignora este correo y nada pasará. Este link expirará en 15 minutos.</p>
   </main>
 </body>
 </html>
