@@ -56,7 +56,7 @@ const RegisterForm = () => {
   return (
     <form className='w-[60vw] min-w-[225px] sm:w-[38vw] sm: max-w-[350px] h-fit flex flex-col justify-center items-center gap-6' onSubmit={registerSubmit.handleSubmit}>
       <FormikProvider value={registerSubmit} >
-        <div className={`w-full flex gap-3 sm:flex-row flex-col ${registerSubmit.errors.perName?.includes("contener") || registerSubmit.errors.perLastname?.includes("contener") ? "mb-[30px]" : ""}`}>
+        <div className='w-full flex gap-3 sm:flex-row flex-col'>
           <Field
             name="perName"
             type="text"
