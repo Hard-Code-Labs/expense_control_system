@@ -48,7 +48,7 @@ const CustomSelect = ({ field, form, options, ...props }: any) => {
       }}
     >
       {options.map((option:any) => (
-        <SelectItem key={option.value} value={option.value}>
+        <SelectItem startContent={option.icon} key={option.value} value={option.value}>
           {option.label}
         </SelectItem>
       ))}

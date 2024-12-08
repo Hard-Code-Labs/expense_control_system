@@ -8,12 +8,15 @@ import { registerSchema } from '../utils/schema';
 import { encryptWithPublicKey } from '../utils/encoder';
 import { useRouter } from 'next/navigation';
 import { useAddUser } from '../hooks/useAddUsers';
+import { useCountry } from '../hooks/useCountry';
+import { Country } from '../types/Countries';
 
 const RegisterForm = () => {
   const router = useRouter();
   const { addUser, isSuccess, isPending } = useAddUser();
   const [isVisible, setIsVisible] = useState(false);
   const [encryptedPassword, setEncryptedPassword] = useState("");
+  const { countries } = useCountry();
 
   const handlePasswordChange = (password: string) => {
     const encrypted = encryptWithPublicKey(password);
@@ -122,12 +125,20 @@ const RegisterForm = () => {
           radius="full"
           labelPlacement="outside"
           component={CustomSelect}
-          options={[
-            { label: 'Ecuador', value: '1' },
-            { label: 'Colombia', value: '2' },
-          ]}
+          options={ 
+            countries 
+              ? countries.map((country: Country) => {
+                return { label: country.ctrName, value: country.ctrId, icon: country.ctrIcon}
+              }) 
+              : [{ label: 'Cargando...', value: '-1', icon: '⌛' }]
+          }
           startContent={
-            <GlobeAmericasIcon className="w-6 text-[#cdfeec]"/>
+            countries && registerSubmit.values.countryId
+              ? (
+                countries.find((country: Country) => country.ctrId === parseInt(registerSubmit.values.countryId))?.ctrIcon
+                || <GlobeAmericasIcon className="w-6 text-[#cdfeec]" />
+              )
+              : <GlobeAmericasIcon className="w-6 text-[#cdfeec]" />
           }
           isInvalid={
             registerSubmit.errors.countryId &&
