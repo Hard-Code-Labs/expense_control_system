@@ -23,7 +23,7 @@ export const registerSchema = object().shape({
   perPassword: string()
     .required("Este campo es requerido")
     .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[_\-!@#$%&+=])[A-Za-z\d_\-!@#$%&+=]{12,60}$/, 
-      "La contraseña debe tener entre 12 y 60 caracteres, incluir al menos una letra mayúscula, una letra minúscula, un número y un carácter especial (_-!@#$%&+=)"
+      "La contraseña debe tener más de 12 caracteres, incluir al menos una letra mayúscula, una letra minúscula, un número y un carácter especial (_-!@#$%&+=)"
     )
     .max(60, "Este campo no puede tener más de 60 caracteres"),
   confirmPassword: string()
