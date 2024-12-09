@@ -128,3 +128,26 @@ Actuar como punto de entrada para inicializar cualquier lógica específica del 
   - Visualización de estadísticas: Ve gráficos interactivos de tus finanzas.
   - Filtros avanzados: Filtra gastos por categoría, fecha, y más.
   - Responsivo: Diseñado para funcionar en dispositivos móviles y de escritorio
+
+## 🔗 Recursos y Enlaces Útiles
+
+Esta sección incluye enlaces a herramientas y recursos importantes relacionados con el proyecto.
+
+### 🌐 **Repositorios**
+- **Frontend (Este proyecto)**: [control_gastos (frontend)](https://github.com/Freddyz5/control_gastos)
+- **Backend**: [expsys (backend)](https://github.com/Tebanes/expsys)
+
+### 📋 **Gestión de Tareas y notas**
+- **GitHub Projects**: [Tareas en GitHub](https://github.com/users/Tebanes/projects/1)
+- **Notion**: [Tablero de tareas](URL_DE_NOTION)
+
+### 🎨 **Diseño y Prototipos**
+- **Figma**: [Prototipo del diseño](https://www.figma.com/design/5cJ2ZnNU2ji40PRuy3bwZn/AppGastos?node-id=0-1&t=McID9MhJ93YPRz4p-1)
+
+### 📊 **Documentación Técnica**
+- **Diagramas de flujo**: [Diagrama de funcionalidades](https://www.figma.com/board/a9JDqY2zPLuE2g61nm7lRH/App-Gastos?node-id=0-1&t=GJW0QYZuDRXoHv3I-1)
+<!-- - **Especificaciones funcionales**: [Documento técnico](URL_DE_ESPECIFICACIONES) -->
+
+### 💬 **Comunicación**
+- **Discord**: [Canal del equipo](https://discord.com/channels/1149165210565886013/1151688796941848637)
+- **Email de contacto**: [hardcode.labs.v1@gmail.com](mailto:hardcode.labs.v1@gmail.com)
