@@ -1,34 +1,26 @@
-import { useCallback, useState } from "react"
-import { postUsers } from "../services/postUsers"
-import { NewUser } from "../../global/types/Users";
-import { useSnack } from "@/src/hooks/useSnack";
+import { createUser } from '../services/createUser';
+import { useSnack } from "@/src/shared/hooks/useSnack";
+import { useMutation } from '@tanstack/react-query'
+import { ServiceError } from "../../shared/errors/ServiceError";
 
-export const useAddUsers = () => {
+export const useAddUser = () => {
   const { enqueueSnack } = useSnack();
-  const [result, setResult] = useState<any>(null);
-  const [error, setError] = useState<Error | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
 
-  const addUsers = useCallback(async (newUser: NewUser) => {
-    try {
-      const response = await postUsers(newUser);
-      setResult(response);
-      console.log("Usuario creado correctamente", response);
-      enqueueSnack(`Registro exitoso, Bienvenido ${response.perName}! 🎉`, "success");
-      return response;
-    } catch (error: any) {
-      setError(error as Error)
-      if(error.message.includes("400")) {
-        enqueueSnack("Este correo electrónico ya está registrado.", "error")
-        enqueueSnack("Por favor, usa uno diferente o intenta iniciar sesión.", "error")
-        return
-      }
-      enqueueSnack(`${error.message}`, "error")
-      throw error;
-    } finally {
-      setLoading(false)
+  const { mutate: addUser, isSuccess, isPending, error} = useMutation({
+    mutationFn: createUser,
+    onSuccess: () => {
+      enqueueSnack(`Registro exitoso, Bienvenido a la app! 🎉`, "success");
+      enqueueSnack(`Verifica tu correo para activar tu cuenta y acceder.`, "info");
+    },
+    onError: (error: ServiceError) => {
+      enqueueSnack(error.customMessage, "error")
     }
-  }, [])
+  })
 
-  return {result, loading, error, addUsers}
+  return {
+    addUser,
+    isSuccess,
+    isPending,
+    error
+  }
 }

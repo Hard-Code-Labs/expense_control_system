@@ -32,8 +32,7 @@ const CustomInput = ({ field, form, onPasswordChange, ...props }: any) => {
           "border-[#cdfeec]",
         ],
         helperWrapper: [
-          "absolute",
-          "top-[90%]"
+          "mb-[-20px]",
         ]
       }}
     />
