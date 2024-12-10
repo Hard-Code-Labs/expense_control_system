@@ -1,6 +1,6 @@
-import CustomInput from '@/src/global/components/form/CustomInput';
-import { useSnack } from '@/src/hooks/useSnack';
-import { encryptWithPublicKey } from '@/src/register/encoder';
+import CustomInput from '@/src/shared/components/form/CustomInput';
+import { useSnack } from '@/src/shared/hooks/useSnack';
+import { encryptWithPublicKey } from '../../register/utils/encoder';
 import { AtSymbolIcon, EyeIcon, EyeSlashIcon, LockClosedIcon, PaperAirplaneIcon } from '@heroicons/react/24/solid';
 import { Button, Image, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from '@nextui-org/react';
 import { Field, FormikProvider, useFormik } from 'formik';

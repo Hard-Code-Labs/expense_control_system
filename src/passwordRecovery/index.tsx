@@ -3,7 +3,7 @@ import { AtSymbolIcon, PaperAirplaneIcon } from '@heroicons/react/24/solid';
 import { Button, Image } from '@nextui-org/react';
 import { Field, FormikProvider, useFormik } from 'formik';
 import React from 'react';
-import CustomInput from '../global/components/form/CustomInput';
+import CustomInput from '../shared/components/form/CustomInput';
 import { useSearchParams } from 'next/navigation';
 import ResetPassword from './components/ResetPassword';
 import { passwordRecoverySchema } from './utils/schema';
