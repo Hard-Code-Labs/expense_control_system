@@ -1,0 +1,32 @@
+import { emailConfirm } from '../services/emailConfirm';
+import { useSnack } from "@/src/shared/hooks/useSnack";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from 'react';
+
+export const useEmailConfirm = () => {
+  const { enqueueSnack } = useSnack();
+  const [ isSuccess, setIsSuccess ] = useState(false)
+  const [ isError, setIsError ] = useState(false)
+
+  const { mutate: emailConfirmMutation, isPending: isLoading } = useMutation({
+    mutationFn: emailConfirm,
+    onSuccess: () => {
+      enqueueSnack("Email confirmado correctamente. 🎉", "success");
+      enqueueSnack("Ahora puedes iniciar sesión. ", "success");
+      setIsSuccess(true)
+      setIsError(false)
+    },
+    onError: (error) => {
+      enqueueSnack(error.message, "error")
+      setIsSuccess(false)
+      setIsError(true)
+    },
+  });
+
+  return {
+    emailConfirmMutation,
+    isSuccess,
+    isLoading,
+    isError
+  };
+};
