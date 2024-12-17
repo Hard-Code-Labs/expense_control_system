@@ -7,8 +7,8 @@ export interface NewUser {
 }
 
 export interface UserLogin {
-  perMail: string,
-  perPassword: string,
+  username: string,
+  password: string,
 }
 
 export interface UserProfile {

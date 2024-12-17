@@ -1,43 +1,55 @@
 'use client'
 import { AtSymbolIcon, EyeIcon, EyeSlashIcon, LockClosedIcon } from '@heroicons/react/24/solid';
-import { Button, Image } from '@nextui-org/react';
+import { Button, Checkbox, Image, Link } from '@nextui-org/react';
 import { Field, FormikProvider, useFormik } from 'formik';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CustomInput from '../shared/components/form/CustomInput';
 import { encryptWithPublicKey } from '../register/utils/encoder';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import EmailConfirm from './components/EmailConfirm';
+import { loginSchema } from './utils/schema';
+import { useLogin } from './hooks/useLogin';
 
 const Login = () => {
-
+  const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get('token') ?? "";
 
-  const [isVisible, setIsVisible] = useState(false);
-  const toggleVisibility = () => setIsVisible(!isVisible);
   const [encryptedPassword, setEncryptedPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const toggleVisibility = () => setIsVisible(!isVisible);
 
-  const handlePasswordChange = (password: string) => {
-    const encrypted = encryptWithPublicKey(password);
-    setEncryptedPassword(encrypted);
-  }
+  const { userLogin, isSuccess, isPending } = useLogin();
+
+  // const handlePasswordChange = (password: string) => {
+  //   const encrypted = encryptWithPublicKey(password.trim());
+  //   setEncryptedPassword(encrypted);
+  // }
 
   const registerSubmit = useFormik({
     initialValues: {
-      perMail: "",
-      perPassword: "",
+      username: "",
+      password: "",
     },
-    // validationSchema: registerSchema,
+    validationSchema: loginSchema,
     onSubmit: (values) => {
-      const { perMail } = values;
+      const { username, password } = values;
       const valuesToSend = {
-        perMail,
-        perPassword: encryptedPassword,
+        username: username.trim(),
+        password
+        // password: encryptedPassword,
       };
-      console.log(valuesToSend)
+
+      userLogin(valuesToSend)
     }
   })
+
+  useEffect(() => {
+    if(isSuccess) {
+      router.push('/dashboard');
+    }
+  }, [isSuccess]);
 
   return (
     <main
@@ -56,7 +68,7 @@ const Login = () => {
         <form className='w-[60vw] min-w-[225px] sm:w-[38vw] sm: max-w-[350px] h-fit flex flex-col justify-center items-center gap-6'>
           <FormikProvider value={registerSubmit} >
             <Field
-              name="perMail"
+              name="username"
               type="email"
               placeholder="Email"
               component={CustomInput}
@@ -64,15 +76,15 @@ const Login = () => {
                 <AtSymbolIcon className="w-6 text-[#cdfeec]"/>
               }
               isInvalid={
-                registerSubmit.errors.perMail &&
-                registerSubmit.touched.perMail
+                registerSubmit.errors.username &&
+                registerSubmit.touched.username
               }
-              errorMessage={registerSubmit.errors.perMail}
-              color={registerSubmit.errors.perMail ? 'danger' : 'success'}
+              errorMessage={registerSubmit.errors.username}
+              color={registerSubmit.errors.username ? 'danger' : 'success'}
             />
 
             <Field
-              name="perPassword"
+              name="password"
               type={isVisible ? "text" : "password"}
               placeholder="Contraseña"
               component={CustomInput}
@@ -89,12 +101,12 @@ const Login = () => {
                 </button>
               }
               isInvalid={
-                registerSubmit.errors.perPassword &&
-                registerSubmit.touched.perPassword
+                registerSubmit.errors.password &&
+                registerSubmit.touched.password
               }
-              errorMessage={registerSubmit.errors.perPassword}
-              color={registerSubmit.errors.perPassword ? 'danger' : 'success'}
-              onPasswordChange={handlePasswordChange}
+              errorMessage={registerSubmit.errors.password}
+              color={registerSubmit.errors.password ? 'danger' : 'success'}
+              // onPasswordChange={handlePasswordChange}
             />
             <div className='w-full flex justify-between font-thin text-sm'>
               <Checkbox
@@ -123,6 +135,7 @@ const Login = () => {
               color='success'
               className="w-full mt-10 font-bold"
               onClick={() => registerSubmit.handleSubmit()}
+              isDisabled={isPending}
             >
               Iniciar session
             </Button>
