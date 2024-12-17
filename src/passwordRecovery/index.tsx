@@ -2,16 +2,20 @@
 import { AtSymbolIcon, PaperAirplaneIcon } from '@heroicons/react/24/solid';
 import { Button, Image } from '@nextui-org/react';
 import { Field, FormikProvider, useFormik } from 'formik';
-import React from 'react';
+import React, { useEffect } from 'react';
 import CustomInput from '../shared/components/form/CustomInput';
-import { useSearchParams } from 'next/navigation';
 import ResetPassword from './components/ResetPassword';
 import { passwordRecoverySchema } from './utils/schema';
+import { usePasswordRecovery } from './hooks/usePasswordRecovery';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const PasswordRecovery = () => {
 
+  const router = useRouter();
+  const { passwordRecovery, isSuccess, isPending } = usePasswordRecovery();
+
   const searchParams = useSearchParams();
-  const token = searchParams.get('token') ?? "";
+  const token = searchParams.get('token') ?? "";  
 
   const emailSubmit = useFormik({
     initialValues: {
@@ -20,8 +24,15 @@ const PasswordRecovery = () => {
     validationSchema: passwordRecoverySchema,
     onSubmit: (values) => {
       console.log(values)
+      passwordRecovery(values.perMail.trim());
     }
   })
+
+  useEffect(() => {
+    if(isSuccess) {
+      router.push('/login');
+    }
+  }, [isSuccess]);
 
   return (
     <main

@@ -7,6 +7,7 @@ import { Field, FormikProvider, useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { resetPasswordSchema } from '../utils/schema';
+import { usePasswordRecovery } from '../hooks/useChangePassword';
 
 interface Props {
   token: string;
@@ -16,6 +17,7 @@ const ResetPassword = ({token}: Props) => {
   const router = useRouter();
   const { enqueueSnack } = useSnack();
   const { onOpenChange } = useDisclosure();
+  const { changePassword, isSuccess, isPending } = usePasswordRecovery();
 
   const [isVisible, setIsVisible] = useState(false);
   const [encryptedPassword, setEncryptedPassword] = useState("");
@@ -37,8 +39,15 @@ const ResetPassword = ({token}: Props) => {
         perPassword: encryptedPassword,
       };
       console.log(valuesToSend)
+      changePassword(valuesToSend.perPassword);
     }
   })
+
+  useEffect(() => {
+    if(isSuccess) {
+      router.push('/login');
+    }
+  }, [isSuccess]);
   
   return (
     <Modal 
