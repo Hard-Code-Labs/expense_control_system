@@ -7,7 +7,7 @@ export const emailConfirm = async (token: string) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ "verificationCode": token }),
+    body: JSON.stringify({ "token": token }),
   })
 
   const responseData = await response.json();
