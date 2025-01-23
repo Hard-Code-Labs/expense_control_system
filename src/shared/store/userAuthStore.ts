@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { customSessionStorage } from "./sessionStorage";
+// import { customSessionStorage } from "./sessionStorage";
 import jwt from "jsonwebtoken";
 import { getRefreshToken } from "../services/getRefreshToken";
 
@@ -143,7 +143,7 @@ export const useUserAuthStore = create(
     }),
     {
       name: "auth",
-      // storage: createJSONStorage(() => customSessionStorage),
+      // // storage: createJSONStorage(() => customSessionStorage),
       // hacer que en el sessionStorage se guarde solamente la info del usuario
     }
   )
