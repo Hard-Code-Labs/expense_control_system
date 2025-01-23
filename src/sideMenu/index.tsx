@@ -8,6 +8,7 @@ import {
 } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import LogoutButton from '../shared/components/LogoutButton';
 
 export const links = [
   {
@@ -69,6 +70,7 @@ export default function SideMenu() {
           );  
         }
       })}
+      <LogoutButton />
     </nav>
   );
 }
