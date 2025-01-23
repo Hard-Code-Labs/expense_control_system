@@ -1,0 +1,20 @@
+.loader {
+  width: 275px; /* 55px * 5 */
+  aspect-ratio: 1;
+  --g1:conic-gradient(from 90deg at top 15px left 15px, #0000 90deg, #fff 0); /* 3px * 5 */
+  --g2:conic-gradient(from -90deg at bottom 15px right 15px, #0000 90deg, #fff 0); /* 3px * 5 */
+  background:
+    var(--g1), var(--g1), var(--g1), var(--g1),
+    var(--g2), var(--g2), var(--g2), var(--g2);
+  background-position: 0 0, 100% 0, 100% 100%, 0 100%;
+  background-size: 125px 125px; /* 25px * 5 */
+  background-repeat: no-repeat;
+  animation: l11 1.5s infinite;
+}
+@keyframes l11 {
+  0%   {background-size:175px 75px, 75px 75px, 75px 175px, 175px 175px;} /* 35px * 5 y 15px * 5 */
+  25%  {background-size:175px 175px, 75px 175px, 75px 75px, 175px 75px;} /* 35px * 5 y 15px * 5 */
+  50%  {background-size:75px 175px, 175px 175px, 175px 75px, 75px 75px;} /* 35px * 5 y 15px * 5 */
+  75%  {background-size:75px 75px, 175px 75px, 175px 175px, 75px 175px;} /* 35px * 5 y 15px * 5 */
+  100% {background-size:175px 75px, 75px 75px, 75px 175px, 175px 175px;} /* 35px * 5 y 15px * 5 */
+}
