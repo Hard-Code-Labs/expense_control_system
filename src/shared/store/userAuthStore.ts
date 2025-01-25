@@ -77,8 +77,6 @@ export const useUserAuthStore = create(
       clearTokens: () => {
         get().automaticRenewToken(false);
 
-        console.log("clearTokens > Tokens borrados");
-
         Cookies.remove("token");
         sessionStorage.removeItem("token");
     
@@ -95,7 +93,6 @@ export const useUserAuthStore = create(
 
         get().clearTokens();
 
-        console.log("renewToken > Nuevos tokens:", newTokens);
         get().setAccessToken(newTokens.accessToken)
         get().setRefreshToken(newTokens.refreshToken)
       },
@@ -114,8 +111,6 @@ export const useUserAuthStore = create(
         
             const timeLeft = expiryTime - currentTime;
   
-            console.log("setupTokenExpiryCheck > Tiempo restante para expirar token:", timeLeft);
-        
             if (timeLeft > 0) {
               const existingTimeout = get().tokenExpiryTimeout;
               if (existingTimeout) {
@@ -125,11 +120,8 @@ export const useUserAuthStore = create(
               // Configura un timeout para renovar el token antes de que expire
               const timeToRenewToken = 30 // tiempo en segundos
               const renewTime = Math.max(timeLeft - timeToRenewToken * 1000, 0);
-  
-              console.log("setupTokenExpiryCheck > Tiempo para renovar token:", renewTime);
-      
+
               const timeout = setTimeout(() => {
-                console.log("setupTokenExpiryCheck > Renovando token...");
                 get().renewToken();
               }, renewTime);
         
@@ -137,17 +129,14 @@ export const useUserAuthStore = create(
             }
       
           } catch (error) {
-            console.error("Error al decodificar el token:", error);
           }
         } else {
           const existingTimeout = get().tokenExpiryTimeout;
-          console.log("setupTokenExpiryCheck > Cancelando el timeout de token", existingTimeout);
           if (existingTimeout) {
             clearTimeout(existingTimeout);
             set({ tokenExpiryTimeout: null });
           }
         }
-      
       },
 
       // Información del usuario
