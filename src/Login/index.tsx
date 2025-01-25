@@ -15,17 +15,11 @@ const Login = () => {
   const searchParams = useSearchParams();
   const token = searchParams.get('token') ?? "";
 
-  const [encryptedPassword, setEncryptedPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
+  // const [rememberMe, setRememberMe] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   const { userLogin, isSuccess, isPending } = useLogin();
-
-  // const handlePasswordChange = (password: string) => {
-  //   const encrypted = encryptWithPublicKey(password.trim());
-  //   setEncryptedPassword(encrypted);
-  // }
 
   const registerSubmit = useFormik({
     initialValues: {
@@ -38,7 +32,6 @@ const Login = () => {
       const valuesToSend = {
         username: username.trim(),
         password
-        // password: encryptedPassword,
       };
 
       userLogin(valuesToSend)
@@ -108,8 +101,8 @@ const Login = () => {
               color={registerSubmit.errors.password ? 'danger' : 'success'}
               // onPasswordChange={handlePasswordChange}
             />
-            <div className='w-full flex justify-between font-thin text-sm'>
-              <Checkbox
+            <div className='w-full flex justify-center font-thin text-sm'>
+              {/* <Checkbox
                 size="md"
                 color="success"
                 isSelected={rememberMe}
@@ -117,7 +110,7 @@ const Login = () => {
                 classNames={{ label: "hover:text-[#cdfeec]" }}
               >
                 Recuérdame
-              </Checkbox>
+              </Checkbox> */}
               <Link
                 href="/passwordRecovery"
                 size="md"

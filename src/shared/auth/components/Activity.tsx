@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ActivityModal from "./ActivityModal";
 import { usePathname, useRouter } from 'next/navigation';
 import { useUserAuthStore } from "../../store/userAuthStore";
+import { useSnack } from "../../hooks/useSnack";
 
 const noWatch = ['/', '/login', '/register', '/passwordRecovery'];
 
@@ -9,11 +10,9 @@ const Activity = () => {
 
   const router = useRouter();
   const pathname = usePathname();
+  const { enqueueSnackProps } = useSnack();
 
-  // Modal
   const [showModal , setShowModal] = useState(false);
-  
-  // Tokens
   const clearTokens = useUserAuthStore((state) => state.clearTokens);
   const renewToken = useUserAuthStore((state) => state.renewToken);
 
@@ -36,53 +35,60 @@ const Activity = () => {
     router.push('/login');
   };
 
+
   useEffect(() => {
-    let activityTimeout: NodeJS.Timeout;
-    let modalTimeout: NodeJS.Timeout;
 
     if (noWatch.includes(pathname)) {
       return;
     }
 
-    const resetInactivity = debounce(() => {
-      // 1. Reiniciar estado de inactividad
-      // console.log("🔄 Reset de inactividad iniciado");
-      // console.log("✅ Usuario marcado como activo y modal ocultado (si estaba visible)");
-    
-      // 2. Limpiar temporizador anterior
-      // console.log("🧹 Temporizador de inactividad anterior limpiado");
+    let activityTimeout: NodeJS.Timeout;
+    let modalTimeout: NodeJS.Timeout;
+
+    const inactivityTracker = debounce(() => {
+      console.log("resetInactivity");
+
       clearTimeout(activityTimeout);
+      clearTimeout(modalTimeout);
     
-      // 3. Configurar nuevo temporizador de inactividad
-      const inactivityTime = 1 // tiempo en minutos
+      // Timer: sin actividad del usuario ⬇️
+      const inactivityTime = 0.2 // tiempo de inactividad en minutos
       activityTimeout = setTimeout(() => {
-         // Marca al usuario como inactivo y muestra el modal de inactividad
-        // console.log("⏳ Usuario inactivo detectado (1 minuto sin actividad)");
-        // console.log("⚠️ Modal de inactividad mostrado");
+
         setShowModal(true);
     
-        // Configurar temporizador para cerrar sesión si el modal permanece visible
-        const closeModalTime = 2 // tiempo en minutos
+        // Timer: sin actividad en el modal abierto ⬇️
+        const closeModalTime = 0.1 // tiempo de inactividad en minutos
         modalTimeout = setTimeout(() => {
-          clearTokens(); // Cierra sesión
-          router.push('/login');
+          clearTokens();
           setShowModal(false);
+          router.push('/login');
+          enqueueSnackProps({
+            message: `Se ha detectado inactividad por un largo periodo de tiempo.`,
+            type: "warning",
+            duration: 10000,
+          }); 
+          enqueueSnackProps({
+            message: `Por tu seguridad hemos cerrado session`,
+            type: "warning",
+            duration: 10000,
+          });
         }, closeModalTime * 60 * 1000);
+        // Timer: sin actividad en el modal abierto ⬆️
 
       }, inactivityTime * 60 * 1000);
-    }, 400);
+      // Timer: sin actividad del usuario ⬆️
 
-    // const events = ["mousemove", "keydown", "scroll", "touchstart"];
-    const events = ["mousemove", "touchstart"];
-    events.forEach((event) => window.addEventListener(event, resetInactivity));
+    }, 300);
 
-    resetInactivity();
+    const events = ["mousemove", "keydown", "touchstart"];
+    events.forEach((event) => window.addEventListener(event, inactivityTracker));
 
     return () => {
       clearTimeout(activityTimeout);
       clearTimeout(modalTimeout);
       events.forEach((event) =>
-        window.removeEventListener(event, resetInactivity)
+        window.removeEventListener(event, inactivityTracker)
       );
     };
   }, [setShowModal, clearTokens, pathname]);
