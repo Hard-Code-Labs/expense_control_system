@@ -16,6 +16,6 @@ export const config = {
     '/category/:path*',
     '/data/:path*',
     '/preferences/:path*',
-    '/accessDenied/:path*',
+    '/users/:path*',
   ],
 }
