@@ -8,7 +8,7 @@ const noWatch = ['/', '/login', '/register', '/passwordRecovery'];
 
 const Activity = () => {
   const inactivityTime = 30; // Tiempo de inactividad en minutos
-  const closeModalTime = 10; // Tiempo de inactividad en el modal abierto en minutos
+  const closeModalTime = 2; // Tiempo de inactividad en el modal abierto en minutos
 
   const router = useRouter();
   const pathname = usePathname();

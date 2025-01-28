@@ -118,7 +118,7 @@ export const useUserAuthStore = create(
               }
         
               // Configura un timeout para renovar el token antes de que expire
-              const timeToRenewToken = 30 // tiempo en segundos
+              const timeToRenewToken = 60 // tiempo en segundos
               const renewTime = Math.max(timeLeft - timeToRenewToken * 1000, 0);
 
               const timeout = setTimeout(() => {
