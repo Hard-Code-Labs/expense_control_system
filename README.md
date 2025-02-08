@@ -131,4 +131,4 @@ CEach module in the project (e.g., register, login, dashboard, etc.) should foll
 
 ## License
 
-This project is **private and proprietary**. Unauthorized copying, modification, or distribution of the code is strictly prohibited. All rights reserved © 2025 [Tu Nombre o Empresa].
+This project is **private and proprietary**. Unauthorized copying, modification, or distribution of the code is strictly prohibited. All rights reserved © 2025 HardCode Labs.
