@@ -129,25 +129,6 @@ CEach module in the project (e.g., register, login, dashboard, etc.) should foll
   - Advanced filters: Filter expenses by category, date, and more.
   - Responsive design: Designed to work on both mobile and desktop devices.
 
-## 🔗 Resources and Useful Links
+## License
 
-This section includes links to important tools and resources related to the project.
-
-### 🌐 **Repositories**
-- **Frontend (This project)**: [control_gastos (frontend)](https://github.com/Freddyz5/control_gastos)
-- **Backend**: [expsys (backend)](https://github.com/Tebanes/expsys)
-
-### 📋 **Task and Note Management**
-- **GitHub Projects**: [Tareas en GitHub](https://github.com/users/Tebanes/projects/1)
-- **Notion**: [Tablero de tareas](URL_DE_NOTION)
-
-### 🎨 **Design and Prototypes**
-- **Figma**: [Prototipo del diseño](https://www.figma.com/design/5cJ2ZnNU2ji40PRuy3bwZn/AppGastos?node-id=0-1&t=McID9MhJ93YPRz4p-1)
-
-### 📊 **Technical Documentation**
-- **Flowcharts**: [Diagrama de funcionalidades](https://www.figma.com/board/a9JDqY2zPLuE2g61nm7lRH/App-Gastos?node-id=0-1&t=GJW0QYZuDRXoHv3I-1)
-<!-- - **Especificaciones funcionales**: [Documento técnico](URL_DE_ESPECIFICACIONES) -->
-
-### 💬 **Communication**
-- **Discord**: [Canal del equipo](https://discord.com/channels/1149165210565886013/1151688796941848637)
-- **Contact email**: [hardcode.labs.v1@gmail.com](mailto:hardcode.labs.v1@gmail.com)
+This project is **private and proprietary**. Unauthorized copying, modification, or distribution of the code is strictly prohibited. All rights reserved © 2025 [Tu Nombre o Empresa].
