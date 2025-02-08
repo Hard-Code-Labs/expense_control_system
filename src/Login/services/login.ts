@@ -1,13 +1,14 @@
 import { ServiceError } from "@/src/shared/errors/ServiceError";
+import { UserLogin } from "@/src/shared/types/Users";
 
-export const emailConfirm = async (token: string) => {
+export const login = async (user: UserLogin) => {
   
-  const response = await fetch (process.env.NEXT_PUBLIC_URL_POST_EMAIL_CONFIRM!, {
+  const response = await fetch (process.env.NEXT_PUBLIC_URL_POST_LOGIN!, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ "token": token }),
+    body: JSON.stringify(user),
   })
 
   const responseData = await response.json();

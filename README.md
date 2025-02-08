@@ -1,153 +1,153 @@
-# Control de Gastos
+# Expense Control System
 
-Una aplicación web para administrar tus finanzas personales de manera sencilla, registrando y monitoreando tus ingresos y gastos. Construido con **Next.js**, **React**, **Tailwind CSS**, y **TypeScript** para ofrecer una experiencia rápida y moderna.
+A web application to manage your personal finances easily, recording and monitoring your income and expenses. Built with **Next.js**, **React**, **Tailwind CSS**, and **TypeScript**  to offer a fast and modern experience.
 
-## 🚀 Tecnologías Utilizadas
+## 🚀 Technologies Used
 
-- **React**: Biblioteca para construir interfaces de usuario.
-- **Next.js**: Framework para renderizado del lado del servidor y optimización.
-- **TypeScript**: Superconjunto de JavaScript con tipado estático.
-- **Tailwind CSS**: Framework de utilidades CSS para diseño rápido y eficiente.
+- **React**: A library for building user interfaces.
+- **Next.js**: Framework for server-side rendering and optimization.
+- **TypeScript**: JavaScript superset with static typing.
+- **Tailwind CSS**: CSS utility framework for rapid and efficient design.
 
-## ⚙️ Instalación y Configuración
+## ⚙️ Installation and Setup
 
-Sigue estos pasos para instalar y ejecutar el proyecto en tu máquina local:
+Follow these steps to install and run the project on your local machine:
 
-1. **Clona el repositorio**:
+1. **Clone the repository**:
    ```bash
    git clone https://github.com/Freddyz5/control_gastos.git
 
-2. **Accede al directorio del proyecto**:
+2. **Navigate to the project directory**:
     ```bash
     cd control_gastos
 
-3. **Instala las dependencias**:
+3. **Install dependencies**:
     ```bash
     npm install
 
-4. **Ejecuta el servidor de desarrollo:**:
+4. **Run the development server:**:
     ```bash
     npm run dev
 
-5. **Abre el navegador en http://localhost:3000 para ver la aplicación.**:
+5. **Open your browser and go to http://localhost:3000 o see the application.**:
 
-> Nota: Asegúrate de tener instalados Node.js >=18.17.0 y npm.
+> Nota: Make sure you have Node.js >=18.17.0 and npm installed.
 
-## 🛠️ Estructura del Proyecto
+## 🛠️ Project Structure
  
-El proyecto está organizado de la siguiente manera:
+The project is organized as follows:
 
     .
-    ├── app/                    # Carpetas de rutas con el modelo App Router de Next.js
-    │   ├── (menu)/             # Grupo de rutas (layout compartido para la sección)
-    │   │   ├── category/       # Página de categorías
-    │   │   ├── dashboard/      # Página de panel de control
-    │   │   ├── data/           # Página que muestra datos del usuario
-    │   │   └── preferences/    # Página de información de preferencias del usuario
-    │   │   └── layout.tsx      # Proveedor de contexto o lógica compartida
-    │   ├── login/              # Página de inicio de sesión
-    │   └── register/           # Página de registro
-    ├── public/                 # Archivos públicos accesibles (imágenes, fuentes)
-    ├── src/                    # Fuente del proyecto
-    │   ├── category/           # Funcionalidades relacionadas con categorías
-    │   ├── dashboard/          # Funcionalidades del panel de control
-    │   ├── data/               # Datos estáticos o modelos compartidos
-    │   ├── login/              # Lógica o componentes específicos para login
-    │   ├── preferences/        # Funcionalidades relacionadas con preferencias del usuario
-    │   ├── register/           # Funcionalidades específicas del registro
-    │   ├── shared/             # Código compartido entre diferentes módulos
-    │   ├── sideMenu/           # Lógica o componentes para el menú lateral
-    │   └── titleBar/           # Lógica o componentes para la barra de título
-    └── .vscode/                # Configuración para el entorno de desarrollo
+    ├── app/                    # Route folders with Next.js App Router model
+    │   ├── (menu)/             # Route group (shared layout for the section)
+    │   │   ├── category/       # Categories page
+    │   │   ├── dashboard/      # Dashboard page
+    │   │   ├── data/           # User data page
+    │   │   └── preferences/    # User preferences information page
+    │   │   └── layout.tsx      # Shared context or logic provider
+    │   ├── login/              # Login page
+    │   └── register/           # Registration page
+    ├── public/                 # Publicly accessible files (images, fonts)
+    ├── src/                    # Source of the project
+    │   ├── category/           # Category-related functionalities
+    │   ├── dashboard/          # Dashboard functionalities
+    │   ├── data/               # Static data or shared models
+    │   ├── login/              # Login-specific logic or components
+    │   ├── preferences/        # User preferences functionalities
+    │   ├── register/           # Registration-specific functionalities
+    │   ├── shared/             # Shared code across different modules
+    │   ├── sideMenu/           # Logic or components for the side menu
+    │   └── titleBar/           # Logic or components for the title bar
+    └── .vscode/                # Development environment configuration
 
-## 📂 Estructura de Carpetas para Módulos
+## 📂 Folder Structure for Modules
 
-Cada módulo en el proyecto (por ejemplo, register, login, dashboard, etc.) debe seguir esta estructura básica. Esta organización asegura consistencia, escalabilidad y claridad en el código.
+CEach module in the project (e.g., register, login, dashboard, etc.) should follow this basic structure. This organization ensures consistency, scalability, and clarity in the code.
 
-    📂 [Nombre del módulo]/
-    ├── 📂 components/    # Componentes específicos del módulo
-    ├── 📂 hooks/         # Hooks personalizados para lógica del módulo
-    ├── 📂 services/      # Funciones para manejo de datos o comunicación con APIs
-    ├── 📂 types/         # Definiciones de tipos y estructuras TypeScript
-    ├── 📂 utils/         # Funciones utilitarias específicas del módulo
-    └── index.tsx         # Archivo principal que exporta o inicializa el módulo
+    📂 [Module Name]/
+    ├── 📂 components/    # Module-specific React components
+    ├── 📂 hooks/         # Custom hooks for module logic
+    ├── 📂 services/      # Functions for data handling or API communication
+    ├── 📂 types/         # TypeScript interfaces and types definitions
+    ├── 📂 utils/         # Module-specific utility functions
+    └── index.tsx         # Main file exporting or initializing the module
 
 ### components/ 
-- Contiene los componentes React específicos para este módulo.
-- Los componentes deben ser pequeños, reutilizables y de una única responsabilidad.
-- Ejemplo:
+- Contains the React components specific to this module.
+- Components should be small, reusable, and follow the single-responsibility principle.
+- Example:
     ```
     📂 components/
-    ├── Form.tsx       # Componente principal del formulario
-    ├── InputField.tsx # Input reutilizable para el módulo
-    └── Header.tsx     # Encabezado para la página del módulo
+    ├── Form.tsx       # Main form component  
+    ├── InputField.tsx # Reusable input field for the module  
+    └── Header.tsx     # Header for the module's page  
 
 ### hooks/
-- Almacena hooks personalizados relacionados con este módulo.
-- Estos hooks encapsulan lógica reutilizable, como manejo de estados, efectos o interacciones con datos.
-- Ejemplo:
+- Stores custom hooks related to this module.
+- These hooks encapsulate reusable logic, such as state management, effects, or data interactions.
+- Example:
     ```
     📂 hooks/
-    ├── useRegisterForm.ts  # Hook para manejar lógica del formulario de registro
-    └── useAuthStatus.ts    # Hook para manejar el estado de autenticación
+    ├── useRegisterForm.ts  # Hook to manage registration form logic  
+    └── useAuthStatus.ts    # Hook to handle authentication status  
 
 ### services/
-- Incluye funciones para interactuar con APIs u otras fuentes de datos.
-- Aquí van las solicitudes HTTP o funciones que abstraen la lógica del backend.
-- Ejemplo:
+- Includes functions for interacting with APIs or other data sources.
+- This is where HTTP requests or functions that abstract backend logic go.
+- Example:
     ```
     📂 services/
-    ├── registerUser.ts      # Servicio para enviar datos del usuario al backend
-    └── validateUsername.ts  # Servicio para validar nombres de usuario
+    ├── registerUser.ts      # Service to send user data to the backend  
+    └── validateUsername.ts  # Service to validate usernames  
 
 ### types/
-- Contiene definiciones de interfaces y tipos TypeScript específicos del módulo.
-- Esto ayuda a mantener tipado fuerte y centralizado.
-- Ejemplo:
+- Contains TypeScript interface and type definitions specific to the module.
+- This helps maintain strong and centralized typing.
+- Example:
     ```
-    📂 types/
-    ├── User.ts      # Interface para un usuario
-    └── FormTypes.ts # Tipos específicos para el formulario
+    📂 types
+    ├── User.ts      # Interface for a user  
+    └── FormTypes.ts # Specific types for the form  
 
 ### utils/
-- Almacena funciones utilitarias específicas del módulo que no encajan en las otras - categorías.
-- Ejemplo:
+- Stores utility functions specific to the module that don't fit in other categories.
+- Example:
     ```
     📂 utils/
-    ├── formatPhone.ts   # Función para dar formato a números telefónicos
-    └── validateEmail.ts # Validación de correos electrónicos
+    ├── formatPhone.ts   # Function to format phone numbers  
+    └── validateEmail.ts # Email validation function  
 
 ### index.tsx
-- Archivo principal del módulo que puede:
-- Exportar todos los elementos clave del módulo (componentes, hooks, servicios, etc.).
-Actuar como punto de entrada para inicializar cualquier lógica específica del módulo.
+- The module's main file that can:
+- Export all key elements of the module (components, hooks, services, etc.).
+- Act as an entry point to initialize any module-specific logic.
 
-## 🌟 Funcionalidades
+## 🌟 Features
 
-  - Registro de gastos: Añade y categoriza tus transacciones.
-  - Visualización de estadísticas: Ve gráficos interactivos de tus finanzas.
-  - Filtros avanzados: Filtra gastos por categoría, fecha, y más.
-  - Responsivo: Diseñado para funcionar en dispositivos móviles y de escritorio
+  - Expense tracking: Add and categorize your transactions.
+  - Statistics visualization: View interactive charts of your finances.
+  - Advanced filters: Filter expenses by category, date, and more.
+  - Responsive design: Designed to work on both mobile and desktop devices.
 
-## 🔗 Recursos y Enlaces Útiles
+## 🔗 Resources and Useful Links
 
-Esta sección incluye enlaces a herramientas y recursos importantes relacionados con el proyecto.
+This section includes links to important tools and resources related to the project.
 
-### 🌐 **Repositorios**
-- **Frontend (Este proyecto)**: [control_gastos (frontend)](https://github.com/Freddyz5/control_gastos)
+### 🌐 **Repositories**
+- **Frontend (This project)**: [control_gastos (frontend)](https://github.com/Freddyz5/control_gastos)
 - **Backend**: [expsys (backend)](https://github.com/Tebanes/expsys)
 
-### 📋 **Gestión de Tareas y notas**
+### 📋 **Task and Note Management**
 - **GitHub Projects**: [Tareas en GitHub](https://github.com/users/Tebanes/projects/1)
 - **Notion**: [Tablero de tareas](URL_DE_NOTION)
 
-### 🎨 **Diseño y Prototipos**
+### 🎨 **Design and Prototypes**
 - **Figma**: [Prototipo del diseño](https://www.figma.com/design/5cJ2ZnNU2ji40PRuy3bwZn/AppGastos?node-id=0-1&t=McID9MhJ93YPRz4p-1)
 
-### 📊 **Documentación Técnica**
-- **Diagramas de flujo**: [Diagrama de funcionalidades](https://www.figma.com/board/a9JDqY2zPLuE2g61nm7lRH/App-Gastos?node-id=0-1&t=GJW0QYZuDRXoHv3I-1)
+### 📊 **Technical Documentation**
+- **Flowcharts**: [Diagrama de funcionalidades](https://www.figma.com/board/a9JDqY2zPLuE2g61nm7lRH/App-Gastos?node-id=0-1&t=GJW0QYZuDRXoHv3I-1)
 <!-- - **Especificaciones funcionales**: [Documento técnico](URL_DE_ESPECIFICACIONES) -->
 
-### 💬 **Comunicación**
+### 💬 **Communication**
 - **Discord**: [Canal del equipo](https://discord.com/channels/1149165210565886013/1151688796941848637)
-- **Email de contacto**: [hardcode.labs.v1@gmail.com](mailto:hardcode.labs.v1@gmail.com)
+- **Contact email**: [hardcode.labs.v1@gmail.com](mailto:hardcode.labs.v1@gmail.com)

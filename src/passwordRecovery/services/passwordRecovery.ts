@@ -1,13 +1,13 @@
 import { ServiceError } from "@/src/shared/errors/ServiceError";
 
-export const emailConfirm = async (token: string) => {
+export const passwordRecoveryService = async (email: string) => {
   
-  const response = await fetch (process.env.NEXT_PUBLIC_URL_POST_EMAIL_CONFIRM!, {
+  const response = await fetch (process.env.NEXT_PUBLIC_URL_POST_PASSWORD_RECOVERY!, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ "token": token }),
+    body: JSON.stringify(email),
   })
 
   const responseData = await response.json();
