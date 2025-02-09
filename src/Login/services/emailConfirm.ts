@@ -2,7 +2,7 @@ import { ServiceError } from "@/src/shared/errors/ServiceError";
 
 export const emailConfirm = async (token: string) => {
   
-  const response = await fetch (process.env.NEXT_PUBLIC_URL_POST_EMAIL_CONFIRM!, {
+  const response = await fetch ('/xis/v1/register/confirmation', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

@@ -2,7 +2,7 @@ import { ServiceError } from "@/src/shared/errors/ServiceError";
 
 export const getCountries = async () => {
 
-  const response = await fetch (process.env.NEXT_PUBLIC_URL_GET_COUNTRIES!, {
+  const response = await fetch ('xis/countries', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
