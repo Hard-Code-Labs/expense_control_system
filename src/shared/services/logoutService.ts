@@ -5,7 +5,7 @@ type Props = {
   refreshToken: string;
 }
 
-export const getRefreshToken = async ({
+export const logoutService = async ({
   accessToken,
   refreshToken
 } : Props) => {
@@ -13,7 +13,7 @@ export const getRefreshToken = async ({
   myHeaders.append("Content-Type", "application/json");
   myHeaders.append("Authorization", `Bearer ${accessToken}`);
 
-  const response = await fetch ('/xis/v1/auth/refresh', {
+  const response = await fetch ('/xis/v1/auth/logout', {
     method: 'POST',
     headers: myHeaders,
     body: JSON.stringify({
@@ -22,12 +22,9 @@ export const getRefreshToken = async ({
     }),
   })
 
-  const responseData = await response.json();
-
   if (!response.ok) {
-    console.error(`Error ${responseData.code}: ${responseData.customMessage}`);
-    throw new ServiceError(responseData, "es");
+    console.error(`Error ${response.status}: ${response.statusText}`);
   }
 
-  return responseData
+  return { success: true}
 };

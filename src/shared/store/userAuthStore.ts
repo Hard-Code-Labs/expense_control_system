@@ -4,6 +4,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 // import { customSessionStorage } from "./sessionStorage";
 import jwt from "jsonwebtoken";
 import { getRefreshToken } from "../services/getRefreshToken";
+import { logoutService } from "../services/logoutService";
 
 interface User {
   id?: string;
@@ -75,6 +76,11 @@ export const useUserAuthStore = create(
       },
 
       clearTokens: () => {
+        logoutService({
+          accessToken: get().accessToken,
+          refreshToken: get().refreshToken
+        });
+
         get().automaticRenewToken(false);
 
         Cookies.remove("token");

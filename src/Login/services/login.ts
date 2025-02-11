@@ -3,7 +3,7 @@ import { UserLogin } from "@/src/shared/types/Users";
 
 export const login = async (user: UserLogin) => {
   
-  const response = await fetch (process.env.NEXT_PUBLIC_URL_POST_LOGIN!, {
+  const response = await fetch ('/xis/v1/auth/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
