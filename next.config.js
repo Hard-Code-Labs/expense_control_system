@@ -7,8 +7,8 @@ const nextConfig = {
     // }
     return [
       {
-        source: "/xis/:path*", // Rutas en el cliente
-        destination: `${process.env.NEXT_PRIVATE_DOMAIN}/xis/:path*`, // Rutas en el servidor
+        source: "/v1/:path*", // Rutas en el cliente
+        destination: `${process.env.NEXT_PRIVATE_DOMAIN}/v1/:path*`, // Rutas en el servidor
       },
     ];
   },

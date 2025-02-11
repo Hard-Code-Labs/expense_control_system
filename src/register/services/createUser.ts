@@ -3,7 +3,7 @@ import { ServiceError } from "../../shared/errors/ServiceError";
 
 export const createUser = async (newUser: NewUser) => {
 
-  const response = await fetch ('/xis/v1/register', {
+  const response = await fetch ('/v1/register', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
