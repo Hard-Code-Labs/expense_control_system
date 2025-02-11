@@ -2,7 +2,7 @@ import { ServiceError } from "@/src/shared/errors/ServiceError";
 
 export const emailConfirm = async (token: string) => {
   
-  const response = await fetch ('/xis/v1/register/confirmation', {
+  const response = await fetch ('/v1/register/confirmation', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

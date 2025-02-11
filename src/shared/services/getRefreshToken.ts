@@ -13,7 +13,7 @@ export const getRefreshToken = async ({
   myHeaders.append("Content-Type", "application/json");
   myHeaders.append("Authorization", `Bearer ${accessToken}`);
 
-  const response = await fetch ('/xis/v1/auth/refresh', {
+  const response = await fetch ('/v1/auth/refresh', {
     method: 'POST',
     headers: myHeaders,
     body: JSON.stringify({

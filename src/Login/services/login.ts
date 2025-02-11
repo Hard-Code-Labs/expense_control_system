@@ -3,7 +3,7 @@ import { UserLogin } from "@/src/shared/types/Users";
 
 export const login = async (user: UserLogin) => {
   
-  const response = await fetch ('/xis/v1/auth/login', {
+  const response = await fetch ('/v1/auth/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
