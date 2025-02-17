@@ -1,11 +1,11 @@
-import React from 'react';
+import Preferences from '@/src/preferences';
 
-const Preferences = () => {
+const Page = () => {
     return (
-        <div>
-            Preferences
-        </div>
+      <main className='w-screen justify-center'>
+        <Preferences />
+      </main>
     );
-};
-
-export default Preferences;
+  };
+  
+  export default Page;
