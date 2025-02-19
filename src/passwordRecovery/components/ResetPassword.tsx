@@ -1,7 +1,6 @@
 import CustomInput from '@/src/shared/components/form/CustomInput';
-import { useSnack } from '@/src/shared/hooks/useSnack';
 import { encryptWithPublicKey } from '../../register/utils/encoder';
-import { AtSymbolIcon, EyeIcon, EyeSlashIcon, LockClosedIcon, PaperAirplaneIcon } from '@heroicons/react/24/solid';
+import { EyeIcon, EyeSlashIcon, LockClosedIcon, PaperAirplaneIcon } from '@heroicons/react/24/solid';
 import { Button, Image, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from '@nextui-org/react';
 import { Field, FormikProvider, useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
@@ -15,7 +14,6 @@ interface Props {
 
 const ResetPassword = ({token}: Props) => {
   const router = useRouter();
-  const { enqueueSnack } = useSnack();
   const { onOpenChange } = useDisclosure();
   const { changePassword, isSuccess, isPending } = usePasswordRecovery();
 
@@ -35,11 +33,10 @@ const ResetPassword = ({token}: Props) => {
     },
     validationSchema: resetPasswordSchema,
     onSubmit: () => {
-      const valuesToSend = {
-        perPassword: encryptedPassword,
-      };
-      console.log(valuesToSend)
-      changePassword(valuesToSend.perPassword);
+      changePassword({
+        token: token,
+        password: encryptedPassword,
+      });
     }
   })
 
@@ -130,6 +127,7 @@ const ResetPassword = ({token}: Props) => {
                     />
 
                     <Button
+                      isLoading={isPending}
                       size="lg"
                       radius="full"
                       color='success'

@@ -8,6 +8,7 @@ import ResetPassword from './components/ResetPassword';
 import { passwordRecoverySchema } from './utils/schema';
 import { usePasswordRecovery } from './hooks/usePasswordRecovery';
 import { useRouter, useSearchParams } from 'next/navigation';
+import '../shared/styles/paperPlaneAnimation.css';
 
 const PasswordRecovery = () => {
 
@@ -23,7 +24,6 @@ const PasswordRecovery = () => {
     },
     validationSchema: passwordRecoverySchema,
     onSubmit: (values) => {
-      console.log(values)
       passwordRecovery(values.perMail.trim());
     }
   })
@@ -71,15 +71,15 @@ const PasswordRecovery = () => {
             />
 
             <Button
+              isLoading={isPending}
+              spinner={<PaperAirplaneIcon className="animation" />}
+              startContent={<PaperAirplaneIcon className={`${isPending ? "hidden" : "visible"}`}/>}
               size="lg"
               radius="full"
               color='success'
               className="w-full mt-10 font-bold"
               onClick={() => emailSubmit.handleSubmit()}
             >
-              <PaperAirplaneIcon 
-              // className={`${isLoading ? "animation" : ""} send`} 
-              />
               Enviar
             </Button>
           </FormikProvider>

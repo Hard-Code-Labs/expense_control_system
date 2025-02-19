@@ -1,13 +1,24 @@
 import { ServiceError } from "@/src/shared/errors/ServiceError";
 
-export const changePasswordService = async (password: string) => {
+type Props = {
+  password: string;
+  token: string;
+}
+
+export const changePasswordService = async ({
+  password,
+  token
+} : Props) => {
   
-  const response = await fetch (process.env.NEXT_PUBLIC_URL_POST_CHANGE_PASSWORD!, {
+  const response = await fetch ('v1/recovery/resetPassword', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(password),
+    body: JSON.stringify({
+      token: token,
+      newPassword: password
+    }),
   })
 
   const responseData = await response.json();

@@ -2,12 +2,12 @@ import { ServiceError } from "@/src/shared/errors/ServiceError";
 
 export const passwordRecoveryService = async (email: string) => {
   
-  const response = await fetch (process.env.NEXT_PUBLIC_URL_POST_PASSWORD_RECOVERY!, {
+  const response = await fetch ('v1/recovery/password', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(email),
+    body: JSON.stringify({"username": email}),
   })
 
   const responseData = await response.json();
@@ -17,5 +17,5 @@ export const passwordRecoveryService = async (email: string) => {
     throw new ServiceError(responseData, "es");
   }
 
-  return responseData
+  return response
 };
