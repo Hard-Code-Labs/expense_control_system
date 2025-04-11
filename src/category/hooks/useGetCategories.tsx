@@ -1,44 +1,53 @@
-import { useEffect, useState } from "react"
-import { getCategories } from "../services/getCategories"
-import { error } from "console";
+import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query"
+import { useSnack } from "@/src/shared/hooks/useSnack";
+import { getCategories } from "../services/getCategories";
 
-export interface Categories {
-  cat_id?: number;
-  cat_icon: string;
-  cat_name: string;
-  cat_type: string;
-  cat_editable?: boolean;
-  is_delete?: boolean;
+interface Props {
+  offset: number;
+  limit: number;
 }
 
-export const useGetCategories = () => {
+export const useGetCategories = ({ offset, limit }: Props) => {
+  const { enqueueSnack } = useSnack();
 
-  const [income, setIncome] = useState<Categories[] | undefined>();
-  const [expenses, setExpenses] = useState<Categories[] | undefined>();
-  const [isLoading, setLoading] = useState(true)
-
-  const fetchCategories = () => {
-    getCategories()
-      .then(response => response.json())
-      .then((data: any) => {
-        setIncome(data?.filter((type: any) => type.cat_type === "I" && !type.is_delete))
-        setExpenses(data?.filter((type: any) => type.cat_type === "E" && !type.is_delete))
-      })
-      .catch(error => console.error("Error fetching categories:", error))
-  }
+  const { data: categories, error, status, isLoading } = useQuery({
+    queryKey: ['categories'],
+    queryFn: () => getCategories({ userMail: "freddyltacuri@gmail.com", offset, limit }),
+  })
 
   useEffect(() => {
-    income && expenses ? setLoading(false) : setLoading(true)
-  }, [income, expenses])
+    if (status === 'error' && error) {
+      enqueueSnack("Error al cargar las categorías", "error");
+      console.error(error);
+    };
+  }, [status, error]);
 
-  useEffect(() => {
-    fetchCategories()
-  }, [])
+  const expenses = categories?.categories?.filter((type: any) => type.catType === "E" && !type.isDelete)
+  const income = categories?.categories?.filter((type: any) => type.catType === "I" && !type.isDelete)
+
+  //Esta porción de codigo esta puesta hasta corregir el error cuando se pide el id
+  expenses?.map((item, index) => {
+    return {
+      ...item,
+      catId: index + 1,
+    }
+  })
+  income?.map((item, index) => {
+    return {
+      ...item,
+      catId: index + 1,
+    }
+  })
+
+  const hasNextPage = categories?.hasNextPage
+  const totalPages = categories?.totalPages
 
   return {
     expenses,
     income,
     isLoading,
-    fetchCategories
+    hasNextPage,
+    totalPages,
   }
 }

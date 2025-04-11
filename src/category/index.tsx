@@ -7,6 +7,7 @@ import { Pagination, Tab, Tabs, card } from '@nextui-org/react';
 import { usePagination } from './hooks/usePagination';
 import { useMediaQuery } from '@react-hook/media-query';
 import  { useGetCategories }  from './hooks/useGetCategories'
+import { Categories } from './types/Categories';
 
 const Category = () => {
 
@@ -14,22 +15,19 @@ const Category = () => {
   const sm = useMediaQuery('(max-width: 640px)')
   const itemsPerPage = sm ? 4 : lg ? 6 : 10
 
-  const { expenses, income, fetchCategories } = useGetCategories();
+  const { expenses, income } = useGetCategories({offset: itemsPerPage, limit: 16});
+
   const [ searchValue, setSearchValue ] = useState("");
   const [ selectedTab, setSelectedTab ] = useState();
   
-  const expensesFiltered = expenses?.filter(item => item.cat_name.trim().toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()))
-  const incomeFiltered = income?.filter(item => item.cat_name.trim().toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()))
+  const expensesFiltered = expenses?.filter((item: Categories) => item.catName.trim().toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()))
+  const incomeFiltered = income?.filter((item: Categories) => item.catName.trim().toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()))
 
-  const expensesPagination = usePagination({items: expensesFiltered || [], itemsPerPage})
-  const incomePagination = usePagination({items: incomeFiltered || [], itemsPerPage })
+  const expensesPagination = usePagination<Categories>({items: expensesFiltered || [], itemsPerPage})
+  const incomePagination = usePagination<Categories>({items: incomeFiltered || [], itemsPerPage })
 
   const handleSearch = (event: string) => {
     setSearchValue(event)
-  }
-
-  const handleRefresh = () => {
-    fetchCategories()
   }
 
   const handleTab = (value: any) => {
@@ -38,7 +36,7 @@ const Category = () => {
 
   return (
     <main className='w-screen'>
-      <TitleCategory refresh={handleRefresh} search={handleSearch} selectedTab={selectedTab} />
+      <TitleCategory search={handleSearch} selectedTab={selectedTab} />
       <Tabs
         aria-label="Categories"
         radius="full"
@@ -54,11 +52,12 @@ const Category = () => {
           <section className="w-full min-h-[74vh] flex flex-col items-center justify-between">
             <article className="flex flex-wrap justify-center items-center gap-x-[5vw] gap-y-8 mt-10 px-5">
               {expensesPagination.currentItems.map(card => {
-                return <CategoryCard
-                  key={card.cat_id}
-                  data={card}
-                  refresh={handleRefresh}
-                />
+                return (
+                  <CategoryCard
+                    key={card.catId}
+                    data={card}
+                  />
+                )
               })}
             </article>
             <Pagination
@@ -80,11 +79,12 @@ const Category = () => {
           <section className="w-full min-h-[74vh] flex flex-col items-center justify-between">
             <article className="flex flex-wrap justify-center items-center gap-x-[5vw] gap-y-8 mt-10 px-5">
               {incomePagination.currentItems.map(card => {
-                return <CategoryCard
-                  key={card.cat_id}
-                  data={card}
-                  refresh={handleRefresh}
-                />
+                return (
+                  <CategoryCard
+                    key={card.catId}
+                    data={card}
+                  />
+                )
               })}
             </article>
             <Pagination
