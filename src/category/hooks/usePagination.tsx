@@ -1,13 +1,12 @@
-import React from 'react';
-import { Categories } from './useGetCategories';
+import React, { useState } from 'react';
 
-interface Props {
-  items: Categories[];
+interface Props<T> {
+  items: T[];
   itemsPerPage: number;
 }
 
-export const usePagination = ({items, itemsPerPage}:Props) => {
-  const [currentPage, setCurrentPage] = React.useState(1)
+export const usePagination = <T,>({ items, itemsPerPage }: Props<T>) => {
+  const [currentPage, setCurrentPage] = useState(1);
 
   const totalPages = Math.ceil(items.length / itemsPerPage);
 
@@ -15,7 +14,7 @@ export const usePagination = ({items, itemsPerPage}:Props) => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
 
-    return items.slice(startIndex, endIndex)
+    return items.slice(startIndex, endIndex);
   }, [currentPage, items, itemsPerPage]);
 
   return {
@@ -23,5 +22,5 @@ export const usePagination = ({items, itemsPerPage}:Props) => {
     totalPages,
     currentItems,
     setCurrentPage,
-  }
-}
+  };
+};

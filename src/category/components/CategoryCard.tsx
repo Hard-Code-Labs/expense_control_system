@@ -2,16 +2,16 @@ import { Button, Card, CardFooter, Dropdown, DropdownItem, DropdownMenu, Dropdow
 import { EllipsisHorizontalIcon, XCircleIcon, PencilSquareIcon } from '@heroicons/react/24/solid';
 import React from 'react';
 import CategoryModal from './CategoryModal';
-import { Categories } from '../hooks/useGetCategories';
 import { useUpdateCategory } from '../hooks/useUpdateCategories';
+import { Categories } from '../types/Categories';
+import { ICONS } from '../constants/icons';
 
-interface Props {
+export interface CategoryCardProps {
   data: Categories;
   del?: (type: string, value: string) => void;
-  refresh: () => void
 } 
 
-const CategoryCard = ({data, del, refresh}: Props) => {
+const CategoryCard = ({data, del}: CategoryCardProps) => {
 
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
@@ -23,12 +23,9 @@ const CategoryCard = ({data, del, refresh}: Props) => {
     }
 
     useUpdateCategory(deleteCategory)
-
-    setTimeout(() => {
-      refresh();
-    }, 500);
-
   }
+
+  const Icon: React.ElementType | any = ICONS.find(icon => icon[0] === data.catIcon)?.[1];
 
   return (
     <>
@@ -66,18 +63,17 @@ const CategoryCard = ({data, del, refresh}: Props) => {
       <CategoryModal
         data= {data}
         isEdit= {true}
-        refresh= {refresh}
         isOpen={isOpen}
         onOpen={onOpen}
         onOpenChange={onOpenChange}
       />
 
       <div className="flex justify-center content-center">
-        {data.cat_icon && <div dangerouslySetInnerHTML={{ __html: data.cat_icon.replace(/25px/g, 'min(13vw, 70px)') }} />}
+        <Icon className="h-16 w-16" />
       </div>
       <CardFooter className="flex flex-col mt-2 gap-1 text-center">
-        <h1 className="text-[4.2vw] sm:text-2xl font-bold">{data.cat_name}</h1>
-        <p className="text-[3.2vw] sm:text-sm">{data.cat_type === "E" ? "Egresos" : "Ingresos"}</p>
+        <h1 className="text-[4.2vw] sm:text-2xl font-bold">{data.catName}</h1>
+        <p className="text-[3.2vw] sm:text-sm">{data.catType === "E" ? "Egresos" : "Ingresos"}</p>
       </CardFooter>
     </Card>
     </>

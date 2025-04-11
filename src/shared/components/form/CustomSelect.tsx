@@ -27,7 +27,8 @@ const CustomSelect = ({ field, form, options, ...props }: any) => {
           base: [
             "dark:data-[hover=true]:bg-[#cdfeec80]",
             "data-[selectable=true]:focus:bg-[#cdfeec30]",
-            "text-[#cdfeec]"
+            "text-[#cdfeec]",
+            ...(props.listboxProps ? (props.listboxProps.itemClasses.base ? [...props.listboxProps.itemClasses.base] : []) : []),
           ]
         }
       }}
@@ -35,15 +36,18 @@ const CustomSelect = ({ field, form, options, ...props }: any) => {
         value: [
           "text-[#cdfeec90]",
           "group-data-[has-value=true]:text-[#cdfeec] ",
+          ...(props.classNames ? (props.classNames.value ? [...props.classNames.value] : []) : []),
         ],
         trigger: [
           "bg-[#040F10EE]",
           "border",
           "border-[#cdfeec]",
+          ...(props.classNames ? (props.classNames.trigger ? [...props.classNames.trigger] : []) : []),
         ],
         helperWrapper: [
           "absolute",
-          "top-[90%]"
+          "top-[90%]",
+          ...(props.classNames ? (props.classNames.helperWrapper ? [...props.classNames.helperWrapper] : []) : []),
         ]
       }}
     >

@@ -5,12 +5,11 @@ import { Input, Button, Avatar, useDisclosure } from '@nextui-org/react';
 import CategoryModal from './CategoryModal';
 
 interface Props {
-    refresh: () => void;
     search: (value: string) => void;
     selectedTab?: string;
 }
 
-const TitleCategory = ( { refresh, search, selectedTab }: Props ) => {
+const TitleCategory = ( { search, selectedTab }: Props ) => {
 
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     
@@ -30,7 +29,6 @@ const TitleCategory = ( { refresh, search, selectedTab }: Props ) => {
             </Button> 
             <CategoryModal
                 selectedTab={selectedTab}
-                refresh= {refresh}
                 isOpen={isOpen}
                 onOpen={onOpen}
                 onOpenChange={onOpenChange}

@@ -1,0 +1,1 @@
+export const ICONS = Object.entries(require('lucide-react')).filter(([key]) => key !== 'default');
