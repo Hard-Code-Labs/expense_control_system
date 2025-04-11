@@ -1,0 +1,120 @@
+.gradientAnimation {
+	width: 100vw;
+	height: 100vh;
+	background: linear-gradient(to left bottom, #00be99, #00aa8b, #04977d, #08846f, #0d7161, #0b6257, #0c544d, #0e4642, #0f3938, #102c2d, #101f21, #0c1314); 
+}
+
+.gradientAnimation::after {
+	content: "";
+	position: absolute;
+	top: 0%;
+	left: -25%;
+	width: 12%;
+	height: 25%;
+  border-radius: 50%;
+  box-shadow: 0px 0px 120px 150px #00be98;
+	background: #00be98;
+  animation: particles-animation 50s ease infinite;
+}
+
+.gradientAnimation::before {
+	content: "";
+	position: absolute;
+	top: 0%;
+	left: 150%;
+	width: 12%;
+	height: 25%;
+  border-radius: 50%;
+  box-shadow: 0px 0px 120px 250px #000000;
+	background: #000000;
+  animation: particles-animation-alt 100s ease infinite;
+	scale: 2;
+	opacity: 0.5;
+}
+
+@keyframes gradient-animation {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+@keyframes particles-animation {
+	0% {
+		top: -25%;
+		left: -25%;
+	}
+	25% {
+		opacity: 0.1;
+		scale: 4;
+	}
+	50% {
+		top: 100%;
+		left: 100%;
+		scale: 1;
+	}
+	75% {
+		opacity: 0.1;
+		scale: 4;
+	}
+	100% {
+		top: -25%;
+		left: -25%;
+	}
+}
+
+@keyframes particles-animation-alt {
+	10% {
+		top: 100%;
+		left: 0%;
+	}
+	20% {
+		top: 50%;
+		left: 100%;
+		opacity: 0.1;
+		scale: 4;
+	}
+	30% {
+		top: 0%;
+		left: 0%;
+		scale: 1;
+	}
+	40% {
+		top: 50%;
+		left: 100%;
+	}
+	50% {
+		top: 100%;
+		left: 0%;
+		opacity: 0.1;
+		scale: 4;
+	}
+	60% {
+		top: 0%;
+		left: 100%;
+	}
+	70% {
+		top: 50%;
+		left: 0%;
+	}
+	80% {
+		top: 100%;
+		left: 100%;
+		opacity: 0.1;
+		scale: 4;
+	}
+	90% {
+		top: 50%;
+		left: 0%;
+	}
+	100% {
+		top: 0%;
+		left: 100%;
+	}
+}
+
