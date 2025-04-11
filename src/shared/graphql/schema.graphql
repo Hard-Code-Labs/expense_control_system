@@ -1,0 +1,56 @@
+"""An arbitrary precision signed decimal"""
+scalar BigDecimal
+
+input CategoryInput {
+  perUUID: ID!
+  catName: String!
+  catType: TypeCategory!
+  catIcon: String!
+}
+
+type CategoryPageable {
+  categories: [PersonCategory!]!
+  totalPages: Int!
+  hasNextPage: Boolean!
+}
+
+"""A Java LocalDateTime type"""
+scalar LocalDateTime
+
+type Mutation {
+  addCategory(category: CategoryInput!): PersonCategory!
+}
+
+type Person {
+  perUUID: ID!
+  perMail: String!
+  perName: String!
+  perLastname: String!
+  isEnabled: Boolean!
+  categories(offset: Int = 0, limit: Int = 2): CategoryPageable!
+}
+
+type PersonCategory {
+  catId: ID!
+  catName: String!
+  catType: TypeCategory!
+  catIcon: String!
+  isDeleted: Boolean!
+}
+
+type Query {
+  personData(perMail: String!): Person
+}
+
+type Transaction {
+  uuid: ID!
+  date: LocalDateTime!
+  monthReference: Int!
+  description: String!
+  amount: BigDecimal!
+}
+
+enum TypeCategory {
+  E
+  I
+}
