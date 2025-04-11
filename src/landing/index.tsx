@@ -9,7 +9,12 @@ import NavBar from './components/NavBar';
 const Landing = () => {
   return (
     <>
-      <h1>Landing page</h1>
+      <NavBar />
+      <Hero />
+      <Features />
+      <Examples />
+      <CallToAction />
+      <Footer />
     </>
   );
 };
