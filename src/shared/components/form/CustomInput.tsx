@@ -8,7 +8,6 @@ const CustomInput = ({ field, form, onPasswordChange, ...props }: any) => {
       onPasswordChange(e.target.value);
     }
   };
-
   return (
     <Input
       {...field}
@@ -17,7 +16,7 @@ const CustomInput = ({ field, form, onPasswordChange, ...props }: any) => {
       onBlur={(e) => {
         form.setFieldTouched(field.name, true);
       }}
-      variant="faded"
+      variant={props.variant ?? "faded"}
       isRequired
       radius="full"
       labelPlacement="outside"
@@ -25,14 +24,17 @@ const CustomInput = ({ field, form, onPasswordChange, ...props }: any) => {
         input: [
           "text-[#cdfeec]",
           "placeholder:text-[#cdfeec90]",
+          ...(props.classNames ? (props.classNames.input ? [...props.classNames.input] : []) : []),
         ],
         inputWrapper: [
           "bg-[#040F10EE]",
           "border",
           "border-[#cdfeec]",
+          ...(props.classNames ? (props.classNames.inputWrapper ? [...props.classNames.inputWrapper] : []) : []),
         ],
         helperWrapper: [
           "mb-[-20px]",
+          ...(props.classNames ? (props.classNames.helperWrapper ? [...props.classNames.helperWrapper] : []) : []),
         ]
       }}
     />

@@ -1,168 +1,165 @@
-import React, { useEffect } from 'react';
-import { Button, Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
+import React, { useState, useEffect } from 'react';
+import { Button, Modal, ModalBody, ModalContent, ModalHeader, Card, ModalFooter, CardBody } from '@nextui-org/react';
 import { Field, useFormik, FormikProvider } from 'formik';
-import { PencilSquareIcon, PlusCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { useAddCategory } from '../hooks/useAddCategories';
 import CustomInput from '../../shared/components/form/CustomInput';
 import CustomSelect from '../../shared/components/form/CustomSelect';
-import IconsSelect from './IconsSelect';
-import { Categories } from '../hooks/useGetCategories';
+import IconsPicker from './IconsPicker';
 import { useUpdateCategory } from '../hooks/useUpdateCategories';
 import { categoriesSchema } from '../schema';
+import { CirclePlus, CircleX, Pencil } from 'lucide-react';
+import { Categories } from '../types/Categories';
 
 interface Props {
   data?: Categories;
   isEdit?: boolean;
   selectedTab?: string;
-  refresh: () => void;
   isOpen: boolean;
   onOpen: () => void;
   onOpenChange: () => void;
 }
 
-const CategoryModal = ({ data, isEdit = false, selectedTab, refresh, isOpen, onOpen, onOpenChange }: Props) => {
+const CategoryModal = ({
+  data,
+  isEdit = false,
+  selectedTab,
+  isOpen,
+  onOpen,
+  onOpenChange,
+}: Props) => {
+  
   const { result, loading, error, addCategory } = useAddCategory();
 
   const initialData = {
-    cat_name: '',
-    cat_icon: '',
-    cat_type: selectedTab,
-    cat_editable: true,
+    catName: isEdit ? data?.catName : '',
+    catIcon: isEdit ? data?.catIcon : '',
+    catType: selectedTab,
+    catEditable: true,
   };
 
   const categoriesSubmit = useFormik({
     initialValues: data || initialData,
-    validationSchema: categoriesSchema,
+    // validationSchema: categoriesSchema,
     onSubmit: (values: any) => {
       if (isEdit) {
         handleEdit(values);
       } else {
-        handleAdd(values);
+        // handleAdd(values);
+        console.log(values);
       }
     },
   });
 
-  useEffect(() => {
-    if (isOpen) {
-      categoriesSubmit.resetForm({ values: data || initialData });
-    }
-  }, [isOpen, data]);
-
   const handleAdd = (values: any) => {
     addCategory(values);
-
-    setTimeout(() => {
-      refresh();
-    }, 1000);
-
     onOpenChange();
   };
-
-  if (!loading && result) {
-    console.log('Categoría que se agrego correctamente', result);
-  }
 
   const handleEdit = (values: any) => {
     useUpdateCategory(values);
-
-    setTimeout(() => {
-      refresh();
-    }, 1000);
-
     onOpenChange();
   };
 
+  console.log(categoriesSubmit.values.catIcon)
+
   return (
-    <>
-      <Modal
-        backdrop="blur"
-        isOpen={isOpen}
-        placement="auto"
-        onOpenChange={onOpenChange}
-        className="z-50"
-      >
-        <ModalContent className="flex w-fit flex-col items-center justify-center py-4">
-          {(onClose) => (
-            <>
-              <ModalHeader className="text-4xl font-bold">
-                Categorías
-              </ModalHeader>
-              <ModalBody>
-                <form className="flex flex-col items-center justify-center gap-0">
-                  <FormikProvider value={categoriesSubmit}>
-                    <Field
-                      type="text"
-                      name="cat_name"
-                      label="Categoría"
-                      placeholder="Ingresa el nombre de la categoría"
-                      component={CustomInput}
-                      isRequired
-                      isInvalid={
-                        categoriesSubmit.errors.cat_name &&
-                        categoriesSubmit.touched.cat_name
+    <Modal
+      hideCloseButton
+      backdrop="blur"
+      isOpen={isOpen}
+      placement="auto"
+      onOpenChange={onOpenChange}
+    >
+      <ModalContent className="flex w-fit flex-col items-center justify-center p-4 rounded-3xl bg-[#040F10] border">
+        <ModalHeader className="text-xl font-bold">
+          {isEdit ? 'Editar esta' : 'Añadir una'} categoría
+        </ModalHeader>
+        
+        <ModalBody>
+          <form>
+            <FormikProvider value={categoriesSubmit}>
+              <Card className="w-52 max-w-[40vw] h-56 max-h-[50vw] flex items-center justify-center rounded-[40px] border border-[#00BE99] bg-black">
+                <CardBody className="flex flex-col gap-2 text-center items-center justify-center">
+                  <IconsPicker formik={categoriesSubmit} isEdit={isEdit} />
+                
+                  <Field
+                    type="text"
+                    name="catName"
+                    placeholder="Categoría"
+                    component={CustomInput}
+                    variant="underlined"
+                    classNames={{
+                      input: [
+                        "text-center",
+                        "text-[4.2vw]",
+                        "sm:text-2xl",
+                        "font-bold" 
+                      ],
+                      inputWrapper: [
+                        "bg-transparent",
+                        "border-0",
+                      ],
+                    }}
+                  />
+
+                  <Field
+                    name="catType"
+                    placeholder="Tipo"
+                    defaultSelectedKeys={data?.catType || selectedTab}
+                    component={CustomSelect}
+                    options={[
+                      { label: 'Egresos', value: 'E' },
+                      { label: 'Ingresos', value: 'I' },
+                    ]}
+                    classNames={{
+                      value: [
+                        "text-center",
+                        "text-[3.2vw]",
+                        "sm:text-sm",
+                        "group-data-[has-value=true]:text-white",
+                      ],
+                      trigger: [
+                        "pl-10",
+                        "bg-transparent",
+                        "border-0",
+                      ]
+                    }}
+                    listboxProps={{
+                      itemClasses: {
+                        base: [
+                          "text-center",
+                        ]
                       }
-                      errorMessage={categoriesSubmit.errors.cat_name}
-                      color={categoriesSubmit.errors.cat_name ? 'danger' : ''}
-                    />
-                    <Field
-                      type="text"
-                      name="cat_icon"
-                      label="Icon"
-                      placeholder="Choose your icon"
-                      component={IconsSelect}
-                      isRequired
-                      errorMessage={categoriesSubmit.errors.cat_icon}
-                    />
-                    <Field
-                      name="cat_type"
-                      label="Tipo de categoría"
-                      placeholder="Selecciona el tipo"
-                      defaultSelectedKeys={data?.cat_type || selectedTab}
-                      component={CustomSelect}
-                      options={[
-                        { label: 'Egresos', value: 'E' },
-                        { label: 'Ingresos', value: 'I' },
-                      ]}
-                      isRequired
-                      isInvalid={
-                        categoriesSubmit.errors.cat_type &&
-                        categoriesSubmit.touched.cat_type
-                      }
-                      errorMessage={categoriesSubmit.errors.cat_type}
-                    />
-                  </FormikProvider>
-                </form>
-                <div className="flex w-full justify-center gap-6">
-                  <Button
-                    className="flex h-9 justify-center rounded-3xl bg-[#15313B] pl-3 pr-5 font-bold text-[#EEFAF8] 
-                          hover:scale-105 hover:shadow-[0_0_10px_1px_#EEFAF8]"
-                    type="submit"
-                    onClick={() => categoriesSubmit.handleSubmit()}
-                    startContent={
-                      isEdit ? (
-                        <PencilSquareIcon className="w-6" />
-                      ) : (
-                        <PlusCircleIcon className="w-6" />
-                      )
-                    }
-                  >
-                    {isEdit ? 'Editar' : 'Añadir'}
-                  </Button>
-                  <Button
-                    onClick={onClose}
-                    className="flex h-9 justify-center rounded-3xl bg-[#15313B] pl-3 pr-5 font-bold text-[#EEFAF8] 
-                          hover:scale-105 hover:shadow-[0_0_10px_1px_#EEFAF8]"
-                    startContent={<XCircleIcon className="w-6" />}
-                  >
-                    Cancelar
-                  </Button>
-                </div>
-              </ModalBody>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
-    </>
+                    }}
+                  />
+                </CardBody>
+              </Card>
+            </FormikProvider>
+          </form>
+        </ModalBody>
+
+        <ModalFooter className="flex flex-col w-full justify-center gap-3 ">
+          <Button
+            className="py-6 rounded-3xl font-bold text-lg hover:scale-105"
+            variant="shadow"
+            color="success"
+            onClick={() => categoriesSubmit.handleSubmit()}
+            startContent={ isEdit  ? <Pencil className="w-6" /> : <CirclePlus className="w-6" /> }
+          >
+            {isEdit ? 'Editar' : 'Añadir'}
+          </Button>
+          <Button
+            className="py-6 rounded-3xl font-bold text-lg hover:scale-105"
+            variant="ghost"
+            color="danger"
+            startContent={<CircleX className="w-6" />}
+            onClick={onOpenChange}
+          >
+            Cancelar
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 };
 
