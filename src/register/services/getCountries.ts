@@ -2,7 +2,7 @@ import { ServiceError } from "@/src/shared/errors/ServiceError";
 
 export const getCountries = async () => {
 
-  const response = await fetch ('xis/countries', {
+  const response = await fetch ('v1/countries', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
